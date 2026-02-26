@@ -1,0 +1,124 @@
+"use client";
+
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { BubblesIcon } from "lucide-react";
+import Link from "next/link";
+import  { useRef, useEffect } from "react";
+
+import {
+  useBubbleStore,
+  useMenuStore,
+
+} from "@/store/useZuStore";
+
+const Header = () => {
+  const togglePlay = useBubbleStore((state) => state.togglePlay);
+  const isMenuOpen = useMenuStore((state) => state.isMenuOpen);
+  const openMenu = useMenuStore((state) => state.openMenu);
+  const setAnimating = useMenuStore((s) => s.setAnimating);
+
+ 
+  const navbarRef = useRef<HTMLElement>(null);
+  const lastScrollTop = useRef(0);
+
+
+  // Scroll hide/show logic
+  useEffect(() => {
+    const handleScroll = () => {
+      const st = window.scrollY;
+      if (!navbarRef.current) return;
+
+      if (st > lastScrollTop.current && st > 100) {
+        // scroll down → hide
+        gsap.to(navbarRef.current, {
+          y: -100,
+          duration: 0.5,
+          ease: "power2.out",
+        });
+      } else {
+        // scroll up → show
+        gsap.to(navbarRef.current, {
+          y: 0,
+          duration: 0.5,
+          ease: "power2.out",
+        });
+      }
+      lastScrollTop.current = st <= 0 ? 0 : st;
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <nav
+      ref={navbarRef}
+      className={`bg-primary text-secondary font-poppins fixed top-0 left-0 z-50 flex h-20 w-full justify-between p-3 md:p-4`}
+    >
+      {/* LEFT: Menu */}
+      <div className="flex items-center font-bold uppercase sm:text-xl">
+        {/* Mobile Hamburger */}
+        <div
+          className="relative flex h-6 w-6 cursor-pointer flex-col items-center justify-center lg:hidden"
+          onClick={() => openMenu()}
+        >
+          <span
+            className={`bg-secondary absolute h-0.5 w-6 transition-all duration-300 ${
+              isMenuOpen ? "rotate-45" : "-translate-y-2"
+            }`}
+          />
+          <span
+            className={`bg-secondary absolute h-0.5 w-6 transition-opacity duration-300 ${
+              isMenuOpen ? "opacity-0" : "opacity-100"
+            }`}
+          />
+          <span
+            className={`bg-secondary absolute h-0.5 w-6 transition-all duration-300 ${
+              isMenuOpen ? "-rotate-45" : "translate-y-2"
+            }`}
+          />
+        </div>
+
+        {/* Desktop Nav */}
+        <ul className="ml-6 hidden gap-3 text-xl font-bold uppercase lg:flex">
+          <li
+            className="underline-effect cursor-pointer"
+            onClick={() => {
+              if (!isMenuOpen) {
+                openMenu();
+                setAnimating(false);
+              }
+            }}
+          >
+            produits
+          </li>
+        </ul>
+      </div>
+
+      {/* CENTER: Title */}
+      <div className="font-cream-cake absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center text-5xl capitalize md:text-6xl">
+        <Link href={"/"}>Breizh Cola</Link>
+      </div>
+
+      {/* RIGHT: Bubble Toggle */}
+      <div className="flex items-center justify-end">
+        <div className="flex cursor-pointer items-center text-xl font-bold uppercase">
+          <BubblesIcon
+            size={28}
+            onClick={togglePlay}
+            className="text-secondary lg:hidden"
+          />
+          <div
+            className="ml-2 hidden cursor-pointer transition-transform duration-150 active:scale-95 lg:inline-block"
+            onClick={togglePlay}
+          >
+            bulles
+          </div>
+        </div>
+      </div>
+    </nav>
+  );
+};
+
+export default Header;
