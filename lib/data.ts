@@ -389,7 +389,7 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
     },
     intro: {
       can1: {
-        from: { position: { y: 5, x: 1 }, rotation: { z: 3 } },
+        from: { position: { y: 3, x: 1 }, rotation: { z: 3 } },
         to: { position: { y: -0.2, x: 1.2 }, rotation: { z: -0.1 } },
       },
       can3: {

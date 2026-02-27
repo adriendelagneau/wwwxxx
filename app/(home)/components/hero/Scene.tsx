@@ -1,7 +1,11 @@
 "use client";
 
 import FloatingCan from "@/components/cans/FloatingCan";
-import { useAnimationStore, useMeshStore, useResponsiveStore } from "@/store/useZuStore";
+import {
+  useAnimationStore,
+  useMeshStore,
+  useResponsiveStore,
+} from "@/store/useZuStore";
 
 import { useGSAP } from "@gsap/react";
 import { Environment } from "@react-three/drei";
@@ -68,7 +72,11 @@ const HERO_CONFIG: Record<Breakpoint, HeroResponsiveConfig> = {
     can4: { position: { x: 2, y: -4.5, z: 2 } },
     can1Group: { introFrom: { y: 5, x: 1 }, introRotationFrom: { z: 3 } },
     scrollAnimations: {
-      group: { rotation: { y: Math.PI * 2 }, position: { x: 1, duration: 3, ease: "sine.inOut" }, positionDelay: 1.3 },
+      group: {
+        rotation: { y: Math.PI * 2 },
+        position: { x: 1, duration: 3, ease: "sine.inOut" },
+        positionDelay: 1.3,
+      },
       can1: { position: { x: 0.1 }, rotation: { z: 0 } },
     },
   },
@@ -97,19 +105,28 @@ function Scene() {
   const FLOAT_SPEED = 4;
 
   useGSAP(() => {
-    if (!can1Ref.current || !can1GroupRef.current || !groupRef.current || !isReady) return;
+    if (
+      !can1Ref.current ||
+      !can1GroupRef.current ||
+      !groupRef.current ||
+      !isReady
+    )
+      return;
 
     meshReady();
 
     const config = HERO_CONFIG[breakpoint];
     if (!config) return;
 
-    const introPlayed = typeof window !== "undefined" && sessionStorage.getItem("introPlayed") === "true";
+    const introPlayed =
+      typeof window !== "undefined" &&
+      sessionStorage.getItem("introPlayed") === "true";
     const isMobile = breakpoint === "isMobile" || breakpoint === "sm";
 
     /* ================= SET INITIAL STATE ================= */
     gsap.set(can1Ref.current.position, config.can1.position);
-    if (config.can1.rotation) gsap.set(can1Ref.current.rotation, config.can1.rotation);
+    if (config.can1.rotation)
+      gsap.set(can1Ref.current.rotation, config.can1.rotation);
     if (config.can1.scale) gsap.set(can1Ref.current.scale, config.can1.scale);
 
     /* ================= INTRO TIMELINE INJECTION ================= */
@@ -125,10 +142,26 @@ function Scene() {
         );
       } else {
         if (config.can1Group?.introFrom)
-          tl.from(can1GroupRef.current.position, config.can1Group.introFrom, 1.6);
+          tl.from(
+            can1GroupRef.current.position,
+            {
+              ...config.can1Group.introFrom,
+              duration: 1.2,
+              ease: "back.out(0.7)",
+            },
+            1.6
+          );
 
         if (config.can1Group?.introRotationFrom)
-          tl.from(can1GroupRef.current.rotation, config.can1Group.introRotationFrom, 1.6);
+          tl.from(
+            can1GroupRef.current.rotation,
+            {
+              ...config.can1Group.introRotationFrom,
+              duration: 1.2,
+              ease: "back.out(0.7)",
+            },
+            1.6
+          );
       }
     }
 
@@ -161,12 +194,31 @@ function Scene() {
       scrollTL.to(can1Ref.current.rotation, { y: Math.PI * 2 }, 0);
     } else {
       const { scrollAnimations } = config;
-      if (scrollAnimations.group?.rotation) scrollTL.to(groupRef.current.rotation, scrollAnimations.group.rotation, 0);
-      if (scrollAnimations.can1?.position) scrollTL.to(can1Ref.current.position, scrollAnimations.can1.position, 0);
-      if (scrollAnimations.can1?.rotation) scrollTL.to(can1Ref.current.rotation, scrollAnimations.can1.rotation, 0);
+      if (scrollAnimations.group?.rotation)
+        scrollTL.to(
+          groupRef.current.rotation,
+          scrollAnimations.group.rotation,
+          0
+        );
+      if (scrollAnimations.can1?.position)
+        scrollTL.to(
+          can1Ref.current.position,
+          scrollAnimations.can1.position,
+          0
+        );
+      if (scrollAnimations.can1?.rotation)
+        scrollTL.to(
+          can1Ref.current.rotation,
+          scrollAnimations.can1.rotation,
+          0
+        );
       if (scrollAnimations.group?.position) {
         const { duration, ease, ...position } = scrollAnimations.group.position;
-        scrollTL.to(groupRef.current.position, { ...position, duration: duration || 3, ease: ease || "sine.inOut" }, scrollAnimations.group.positionDelay || 1.3);
+        scrollTL.to(
+          groupRef.current.position,
+          { ...position, duration: duration || 3, ease: ease || "sine.inOut" },
+          scrollAnimations.group.positionDelay || 1.3
+        );
       }
     }
   }, [breakpoint, isReady]);

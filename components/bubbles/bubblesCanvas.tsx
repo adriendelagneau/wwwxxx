@@ -24,7 +24,7 @@ export const BubblesCanvas = () => {
       dpr={[1, 1.25]}
       // Optimized WebGL context
       gl={{
-        antialias: false, // Disabled - bubbles are small and transparent
+        antialias: true, // Disabled - bubbles are small and transparent
         alpha: true,
         powerPreference: "high-performance",
       }}
