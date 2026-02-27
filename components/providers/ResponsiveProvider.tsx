@@ -1,6 +1,5 @@
 "use client";
 
-
 import { useResponsiveStore } from "@/store/useResponsiveStore";
 import gsap from "gsap";
 import { useLayoutEffect } from "react";
@@ -17,6 +16,7 @@ const BREAKPOINTS = {
 export function ResponsiveProvider() {
   const setBreakpoint = useResponsiveStore((s) => s.setBreakpoint);
   const setReady = useResponsiveStore((s) => s.setReady);
+  const isReady = useResponsiveStore((s) => s.isReady);
 
   useLayoutEffect(() => {
     if (typeof window === "undefined") return;
@@ -26,20 +26,27 @@ export function ResponsiveProvider() {
     mm.add(BREAKPOINTS, (context) => {
       const { sm, md, lg, xl, xxl } = context.conditions!;
 
-      const current =
-        xxl ? "xxl" :
-        xl ? "xl" :
-        lg ? "lg" :
-        md ? "md" :
-        sm ? "sm" :
-        "isMobile";
+      const current = xxl
+        ? "xxl"
+        : xl
+          ? "xl"
+          : lg
+            ? "lg"
+            : md
+              ? "md"
+              : sm
+                ? "sm"
+                : "isMobile";
 
       setBreakpoint(current);
-      setReady(true);
+      // Only set ready on first call, not on every breakpoint change
+      if (!isReady) {
+        setReady(true);
+      }
     });
 
     return () => mm.revert();
-  }, [setBreakpoint, setReady]);
+  }, [setBreakpoint, setReady, isReady]);
 
   return null;
 }
