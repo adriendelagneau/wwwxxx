@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-type Breakpoint = "isMobile" | "sm" | "md" | "lg" | "xl" | "xxl";
+type Breakpoint =  "sm" | "md" | "lg" | "xl" | "xxl";
 
 interface ResponsiveState {
   isReady: boolean;
@@ -11,7 +11,7 @@ interface ResponsiveState {
 
 export const useResponsiveStore = create<ResponsiveState>((set) => ({
   isReady: false,
-  breakpoint: "isMobile",
+  breakpoint: "sm",
   setBreakpoint: (val) => set({ breakpoint: val }),
   setReady: (val) => set({ isReady: val }),
 }));
