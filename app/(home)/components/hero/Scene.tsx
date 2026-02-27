@@ -4,6 +4,7 @@ import FloatingCan from "@/components/cans/FloatingCan";
 import { useAnimationStore } from "@/store/useAnimationStore";
 import { useMeshStore } from "@/store/useMeshStore";
 import { useResponsiveStore } from "@/store/useResponsiveStore";
+import { CONFIG } from "@/lib/data";
 
 import { useGSAP } from "@gsap/react";
 import { Environment } from "@react-three/drei";
@@ -16,130 +17,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 /* ================= TYPES ================= */
 
-type Breakpoint = "sm" | "md" | "lg" | "xl" | "xxl";
-
-type CanConfig = {
-  position: { x: number; y: number; z?: number };
-  rotation?: { z: number };
-  scale?: { x: number; y: number; z: number };
-};
-
-type HeroResponsiveConfig = {
-  can1: CanConfig;
-  can1Group?: {
-    introFrom?: { y: number; x: number };
-    introRotationFrom?: { z: number };
-  };
-  scrollAnimations: {
-    can1?: {
-      position?: { x: number };
-      rotation?: { z: number };
-    };
-
-    group?: {
-      rotation?: { y: number };
-      position?: { x: number; duration?: number; ease?: string };
-      positionDelay?: number;
-    };
-  };
-};
-
-/* ================= RESPONSIVE CONFIG ================= */
-
-const HERO_CONFIG: Record<Breakpoint, HeroResponsiveConfig> = {
-  sm: {
-    can1: { position: { x: 0, y: -0.6 }, scale: { x: 0, y: 0, z: 0 } },
-
-    scrollAnimations: { group: { rotation: { y: Math.PI * 2 } } },
-  },
-  md: {
-    can1: {
-      position: { x: 1.7, y: -0.1 },
-      rotation: { z: -0.1 },
-      scale: { x: 1, y: 1, z: 1 },
-    },
-
-    can1Group: { introFrom: { y: 5, x: 1 }, introRotationFrom: { z: 3 } },
-    scrollAnimations: {
-      group: {
-        rotation: { y: Math.PI * 2 },
-        position: { x: 1, duration: 3, ease: "sine.inOut" },
-        positionDelay: 1.3,
-      },
-      can1: { position: { x: 0.1 }, rotation: { z: 0 } },
-    },
-  },
-  lg: {
-    can1: {
-      position: { x: 1.7, y: -0.1 },
-      rotation: { z: -0.1 },
-    },
-
-    can1Group: {
-      introFrom: { y: 5, x: 1 },
-      introRotationFrom: { z: 3 },
-    },
-    scrollAnimations: {
-      group: {
-        rotation: { y: Math.PI * 2 },
-        position: { x: 1, duration: 3, ease: "sine.inOut" },
-        positionDelay: 1.3,
-      },
-      can1: {
-        position: { x: 0.1 },
-        rotation: { z: 0 },
-      },
-    },
-  },
-  xl: {
-    can1: {
-      position: { x: 1.7, y: -0.1 },
-      rotation: { z: -0.1 },
-    },
-
-    can1Group: {
-      introFrom: { y: 5, x: 1 },
-      introRotationFrom: { z: 3 },
-    },
-    scrollAnimations: {
-      group: {
-        rotation: { y: Math.PI * 2 },
-        position: { x: 1, duration: 3, ease: "sine.inOut" },
-        positionDelay: 1.3,
-      },
-      can1: {
-        position: { x: 0.1 },
-        rotation: { z: 0 },
-      },
-    },
-  },
-  xxl: {
-    can1: {
-      position: { x: 1.7, y: -0.1 },
-      rotation: { z: -0.1 },
-    },
-
-    can1Group: {
-      introFrom: { y: 5, x: 1 },
-      introRotationFrom: { z: 3 },
-    },
-    scrollAnimations: {
-      group: {
-        rotation: { y: Math.PI * 2 },
-        position: { x: 1, duration: 3, ease: "sine.inOut" },
-        positionDelay: 1.3,
-      },
-      can1: {
-        position: { x: 0.1 },
-        rotation: { z: 0 },
-      },
-    },
-  },
-};
-
-HERO_CONFIG.lg = HERO_CONFIG.md;
-HERO_CONFIG.xl = HERO_CONFIG.md;
-HERO_CONFIG.xxl = HERO_CONFIG.md;
+type Breakpoint = "sm" | "md" | "lg" | "xl" | "xxl" | "xxxl";
 
 /* ================= COMPONENT ================= */
 
@@ -156,6 +34,10 @@ function Scene() {
   const can4Ref = useRef<Group>(null);
   const groupRef = useRef<Group>(null);
 
+  // Map lowercase breakpoint to uppercase for CONFIG lookup
+  const configKey = breakpoint.toUpperCase() as keyof typeof CONFIG;
+  const config = CONFIG[configKey];
+
   const FLOAT_SPEED = 4;
 
   useGSAP(() => {
@@ -163,14 +45,12 @@ function Scene() {
       !can1Ref.current ||
       !can1GroupRef.current ||
       !groupRef.current ||
-      !isReady
+      !isReady ||
+      !config
     )
       return;
 
     setMeshReady();
-
-    const config = HERO_CONFIG[breakpoint];
-    if (!config) return;
 
     const introPlayed =
       typeof window !== "undefined" &&
@@ -178,24 +58,26 @@ function Scene() {
     const isMobile = breakpoint === "sm";
 
     /* ================= SET INITIAL STATE ================= */
-    gsap.to(can1Ref.current.position, {
-      x: config.can1.position.x,
-      y: config.can1.position.y,
-      z: config.can1.position.z ?? 0,
-      duration: 0.5,
-      ease: "power2.out",
-    });
-    if (config.can1.rotation)
-      gsap.to(can1Ref.current.rotation, {
-        z: config.can1.rotation.z,
+    if (config.initial.can1.position) {
+      gsap.to(can1Ref.current.position, {
+        x: config.initial.can1.position.x ?? 0,
+        y: config.initial.can1.position.y ?? 0,
+        z: config.initial.can1.position.z ?? 0,
         duration: 0.5,
         ease: "power2.out",
       });
-    if (config.can1.scale)
+    }
+    if (config.initial.can1.rotation)
+      gsap.to(can1Ref.current.rotation, {
+        z: config.initial.can1.rotation.z ?? 0,
+        duration: 0.5,
+        ease: "power2.out",
+      });
+    if (config.initial.can1.scale)
       gsap.to(can1Ref.current.scale, {
-        x: config.can1.scale.x,
-        y: config.can1.scale.y,
-        z: config.can1.scale.z,
+        x: config.initial.can1.scale.x ?? 1,
+        y: config.initial.can1.scale.y ?? 1,
+        z: config.initial.can1.scale.z ?? 1,
         duration: 0.5,
         ease: "power2.out",
       });
@@ -214,27 +96,35 @@ function Scene() {
           1.7 // after header
         );
       } else {
-        if (config.can1Group?.introFrom)
+        if (config.intro.can1.from?.position) {
+          const fromPos = config.intro.can1.from.position;
           tl.from(
             can1GroupRef.current.position,
             {
-              ...config.can1Group.introFrom,
+              x: fromPos.x ?? 0,
+              y: fromPos.y ?? 0,
+              z: fromPos.z ?? 0,
               duration: 1.2,
               ease: "back.out(0.7)",
             },
             1.6
           );
+        }
 
-        if (config.can1Group?.introRotationFrom)
+        if (config.intro.can1.from?.rotation) {
+          const fromRot = config.intro.can1.from.rotation;
           tl.from(
             can1GroupRef.current.rotation,
             {
-              ...config.can1Group.introRotationFrom,
+              x: fromRot.x ?? 0,
+              y: fromRot.y ?? 0,
+              z: fromRot.z ?? 0,
               duration: 1.2,
               ease: "back.out(0.7)",
             },
             1.6
           );
+        }
       }
     }
 
@@ -282,32 +172,39 @@ function Scene() {
     if (isMobile) {
       scrollTL.to(can1Ref.current.rotation, { y: Math.PI * 2 }, 0);
     } else {
-      const { scrollAnimations } = config;
-      if (scrollAnimations.group?.rotation)
+      if (config.scroll.groupRotation)
         scrollTL.to(
           groupRef.current.rotation,
-          scrollAnimations.group.rotation,
+          { y: config.scroll.groupRotation.y ?? 0 },
           0
         );
-      if (scrollAnimations.can1?.position)
+      if (config.scroll.can1?.position)
         scrollTL.to(
           can1Ref.current.position,
-          scrollAnimations.can1.position,
+          {
+            x: config.scroll.can1.position.x ?? 0,
+            y: config.scroll.can1.position.y ?? 0,
+            z: config.scroll.can1.position.z ?? 0,
+          },
           0
         );
-      if (scrollAnimations.can1?.rotation)
+      if (config.scroll.can1?.rotation)
         scrollTL.to(
           can1Ref.current.rotation,
-          scrollAnimations.can1.rotation,
+          {
+            x: config.scroll.can1.rotation.x ?? 0,
+            y: config.scroll.can1.rotation.y ?? 0,
+            z: config.scroll.can1.rotation.z ?? 0,
+          },
           0
         );
 
-      if (scrollAnimations.group?.position) {
-        const { duration, ease, ...position } = scrollAnimations.group.position;
+      if (config.scroll.groupPosition) {
+        const { duration, ease, ...position } = config.scroll.groupPosition;
         scrollTL.to(
           groupRef.current.position,
-          { ...position, duration: duration || 3, ease: ease || "sine.inOut" },
-          scrollAnimations.group.positionDelay || 1.3
+          { ...position, duration: duration || 2, ease: ease || "sine.inOut" },
+          1.3
         );
       }
     }

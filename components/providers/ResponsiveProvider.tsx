@@ -10,6 +10,7 @@ const BREAKPOINTS = {
   lg: "(min-width: 768px)",
   xl: "(min-width: 1024px)",
   xxl: "(min-width: 1280px)",
+  xxxl: "(min-width: 1536px)",
 };
 
 export function ResponsiveProvider() {

@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-type Breakpoint =  "sm" | "md" | "lg" | "xl" | "xxl";
+type Breakpoint = "sm" | "md" | "lg" | "xl" | "xxl" | "xxxl";
 
 interface ResponsiveState {
   isReady: boolean;
