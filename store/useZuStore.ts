@@ -1,6 +1,8 @@
 import { create } from "zustand";
 
+//
 // 🍔 Sidebar / Menu Store
+//
 
 interface MenuState {
   isMenuOpen: boolean;
@@ -32,10 +34,10 @@ export const useMenuStore = create<MenuState>((set) => ({
 }));
 
 
-
 //
 // 🫧 Optional: Bubble Store (unchanged)
 //
+
 interface BubbleState {
   isPlaying: boolean;
   togglePlay: () => void;
@@ -55,6 +57,7 @@ export const useBubbleStore = create<BubbleState>((set) => ({
 //
 // 🥫 Sidebar Can Store
 //
+
 interface SidebarCanState {
   activeCan: number;
   setActiveCan: (index: number) => void;
@@ -76,3 +79,95 @@ interface MeshState {
   ready: boolean;
   isReady: () => void;
 }
+
+
+//
+// 🎬 Animation Orchestration Store (unchanged)
+//
+
+interface AnimationState {
+  introStarted: boolean;
+  introCompleted: boolean;
+
+  textReady: boolean;
+  canReady: boolean;
+  headerReady: boolean;
+  bubblesReady: boolean;
+
+  startIntro: () => void;
+  completeIntro: () => void;
+
+  setTextReady: (value: boolean) => void;
+  setCanReady: (value: boolean) => void;
+  setHeaderReady: (value: boolean) => void;
+  setBubblesReady: (value: boolean) => void;
+
+  resetIntro: () => void;
+}
+
+export const useAnimationStore = create<AnimationState>((set) => ({
+  introStarted: false,
+  introCompleted: false,
+
+  textReady: false,
+  canReady: false,
+  headerReady: false,
+  bubblesReady: false,
+
+  startIntro: () => set({ introStarted: true }),
+
+  completeIntro: () => {
+    set({
+      introCompleted: true,
+      textReady: true,
+      canReady: true,
+      headerReady: true,
+      bubblesReady: true,
+    });
+    sessionStorage.setItem("introPlayed", "true");
+  },
+
+  setTextReady: (value) => set({ textReady: value }),
+  setCanReady: (value) => set({ canReady: value }),
+  setHeaderReady: (value) => set({ headerReady: value }),
+  setBubblesReady: (value) => set({ bubblesReady: value }),
+
+  resetIntro: () =>
+    set({
+      introStarted: false,
+      introCompleted: false,
+      textReady: false,
+      canReady: false,
+      headerReady: false,
+      bubblesReady: false,
+    }),
+}));
+
+
+type Breakpoint = "isMobile" | "sm" | "md" | "lg" | "xl" | "xxl";
+
+interface ResponsiveState {
+  isReady: boolean;
+  breakpoint: Breakpoint;
+  setBreakpoint: (val: Breakpoint) => void;
+  setReady: (val: boolean) => void;
+}
+
+export const useResponsiveStore = create<ResponsiveState>((set) => ({
+  isReady: false,
+  breakpoint: "isMobile",
+  setBreakpoint: (val) => set({ breakpoint: val }),
+  setReady: (val) => set({ isReady: val }),
+}));
+
+// Store for mesh readiness
+interface MeshState {
+  ready: boolean;
+  isReady: () => void;
+}
+
+
+export const useMeshStore = create<MeshState>((set) => ({
+  ready: false,
+  isReady: () => set({ ready: true }),
+}));

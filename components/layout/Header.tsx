@@ -4,12 +4,12 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { BubblesIcon } from "lucide-react";
 import Link from "next/link";
-import  { useRef, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 
 import {
   useBubbleStore,
   useMenuStore,
-
+  useAnimationStore,
 } from "@/store/useZuStore";
 
 const Header = () => {
@@ -18,10 +18,29 @@ const Header = () => {
   const openMenu = useMenuStore((state) => state.openMenu);
   const setAnimating = useMenuStore((s) => s.setAnimating);
 
- 
+  const introCompleted = useAnimationStore((s) => s.introCompleted);
+
   const navbarRef = useRef<HTMLElement>(null);
   const lastScrollTop = useRef(0);
-
+  const [visible, setVisible] = useState(false);
+  const startBubbles = useBubbleStore((state) => state.setPlaying); // optional to directly start
+  // Header appear after intro
+  useEffect(() => {
+    if (!introCompleted) return;
+    gsap.set(navbarRef.current, { y: -100, opacity: 0 });
+    setVisible(true);
+    if (navbarRef.current) {
+      gsap.fromTo(
+        navbarRef.current,
+        { y: -100, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" }
+      );
+    }
+    // start bubble animation
+  gsap.delayedCall(0.6, () => {
+    startBubbles(true);
+  });
+  }, [introCompleted]);
 
   // Scroll hide/show logic
   useEffect(() => {
@@ -54,7 +73,7 @@ const Header = () => {
   return (
     <nav
       ref={navbarRef}
-      className={`bg-primary text-secondary font-poppins fixed top-0 left-0 z-50 flex h-20 w-full justify-between p-3 md:p-4`}
+      className={`bg-primary text-secondary font-poppins fixed top-0 left-0 z-50 flex h-20 w-full -translate-y-full justify-between p-3 md:p-4`}
     >
       {/* LEFT: Menu */}
       <div className="flex items-center font-bold uppercase sm:text-xl">

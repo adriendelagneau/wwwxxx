@@ -22,6 +22,7 @@
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "simplex-noise": "^4.0.3",
+    "tailwind-merge": "^3.5.0",
     "three": "^0.182.0",
     "zustand": "^5.0.11"
   },

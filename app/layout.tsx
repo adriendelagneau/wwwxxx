@@ -7,7 +7,8 @@ import { BubblesCanvas } from "@/components/bubbles/bubblesCanvas";
 import Header from "@/components/layout/Header";
 import Sidebar from "@/components/layout/sidebarMenu/Sidebar";
 import Footer from "@/components/layout/Footer";
-
+import { ResponsiveProvider } from "@/components/providers/ResponsiveProvider";
+import ViewCanvas from "@/components/cans/ViewCanvas";
 
 const creamCake = localFont({
   variable: "--font-cream-cake",
@@ -36,8 +37,11 @@ export default function RootLayout({
       >
         <BackgroundCanvas />
         <BubblesCanvas />
+        <ViewCanvas />
+        
         <Header />
         <Sidebar />
+        <ResponsiveProvider />
         <SmoothScrollProvider>
           <main className="bg-primary">{children}</main>
         </SmoothScrollProvider>
