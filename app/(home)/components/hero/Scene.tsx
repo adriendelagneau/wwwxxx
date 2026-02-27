@@ -37,6 +37,14 @@ type HeroResponsiveConfig = {
       position?: { x: number };
       rotation?: { z: number };
     };
+    can3?: {
+      position?: { x: number; y: number; z: number };
+      rotation?: { z: number };
+    };
+    can4?: {
+      position?: { x: number; y: number; z: number };
+      rotation?: { z: number };
+    };
     group?: {
       rotation?: { y: number };
       position?: { x: number; duration?: number; ease?: string };
@@ -78,9 +86,111 @@ const HERO_CONFIG: Record<Breakpoint, HeroResponsiveConfig> = {
       can1: { position: { x: 0.1 }, rotation: { z: 0 } },
     },
   },
-  lg: {} as any,
-  xl: {} as any,
-  xxl: {} as any,
+  lg: {
+    can1: {
+      position: { x: 1.7, y: -0.1 },
+      rotation: { z: -0.1 },
+    },
+    can3: {
+      position: { x: 0, y: 5, z: -1 },
+    },
+    can4: {
+      position: { x: 2, y: -4.5, z: 2 },
+    },
+    can1Group: {
+      introFrom: { y: 5, x: 1 },
+      introRotationFrom: { z: 3 },
+    },
+    scrollAnimations: {
+      group: {
+        rotation: { y: Math.PI * 2 },
+        position: { x: 1, duration: 3, ease: "sine.inOut" },
+        positionDelay: 1.3,
+      },
+      can1: {
+        position: { x: 0.1 },
+        rotation: { z: 0 },
+      },
+      can3: {
+        position: { x: 0.8, y: 0, z: -0.8 },
+        rotation: { z: -0.3 },
+      },
+      can4: {
+        position: { x: -0.5, y: 0, z: -0.5 },
+        rotation: { z: 0.3 },
+      },
+    },
+  },
+  xl: {
+    can1: {
+      position: { x: 1.7, y: -0.1 },
+      rotation: { z: -0.1 },
+    },
+    can3: {
+      position: { x: 0, y: 5, z: -1 },
+    },
+    can4: {
+      position: { x: 2, y: -4.5, z: 2 },
+    },
+    can1Group: {
+      introFrom: { y: 5, x: 1 },
+      introRotationFrom: { z: 3 },
+    },
+    scrollAnimations: {
+      group: {
+        rotation: { y: Math.PI * 2 },
+        position: { x: 1, duration: 3, ease: "sine.inOut" },
+        positionDelay: 1.3,
+      },
+      can1: {
+        position: { x: 0.1 },
+        rotation: { z: 0 },
+      },
+      can3: {
+        position: { x: 0.8, y: 0, z: -0.8 },
+        rotation: { z: -0.3 },
+      },
+      can4: {
+        position: { x: -0.5, y: 0, z: -0.5 },
+        rotation: { z: 0.3 },
+      },
+    },
+  },
+  xxl: {
+    can1: {
+      position: { x: 1.7, y: -0.1 },
+      rotation: { z: -0.1 },
+    },
+    can3: {
+      position: { x: 0, y: 5, z: -1 },
+    },
+    can4: {
+      position: { x: 2, y: -4.5, z: 2 },
+    },
+    can1Group: {
+      introFrom: { y: 5, x: 1 },
+      introRotationFrom: { z: 3 },
+    },
+    scrollAnimations: {
+      group: {
+        rotation: { y: Math.PI * 2 },
+        position: { x: 1, duration: 3, ease: "sine.inOut" },
+        positionDelay: 1.3,
+      },
+      can1: {
+        position: { x: 0.1 },
+        rotation: { z: 0 },
+      },
+      can3: {
+        position: { x: 0.8, y: 0, z: -0.8 },
+        rotation: { z: -0.3 },
+      },
+      can4: {
+        position: { x: -0.5, y: 0, z: -0.5 },
+        rotation: { z: 0.3 },
+      },
+    },
+  },
 };
 
 HERO_CONFIG.lg = HERO_CONFIG.md;
@@ -98,6 +208,8 @@ function Scene() {
 
   const can1Ref = useRef<Group>(null);
   const can1GroupRef = useRef<Group>(null);
+  const can3Ref = useRef<Group>(null);
+  const can4Ref = useRef<Group>(null);
   const groupRef = useRef<Group>(null);
 
   const FLOAT_SPEED = 4;
@@ -143,6 +255,26 @@ function Scene() {
         duration: 0.5,
         ease: "power2.out",
       });
+
+    // Set initial positions for can3 and can4
+    if (can3Ref.current && config.can3?.position) {
+      gsap.to(can3Ref.current.position, {
+        x: config.can3.position.x,
+        y: config.can3.position.y,
+        z: config.can3.position.z ?? 0,
+        duration: 0.5,
+        ease: "power2.out",
+      });
+    }
+    if (can4Ref.current && config.can4?.position) {
+      gsap.to(can4Ref.current.position, {
+        x: config.can4.position.x,
+        y: config.can4.position.y,
+        z: config.can4.position.z ?? 0,
+        duration: 0.5,
+        ease: "power2.out",
+      });
+    }
 
     /* ================= INTRO TIMELINE INJECTION ================= */
     if (!introPlayed) {
@@ -243,6 +375,30 @@ function Scene() {
           scrollAnimations.can1.rotation,
           0
         );
+      if (scrollAnimations.can3?.position && can3Ref.current)
+        scrollTL.to(
+          can3Ref.current.position,
+          scrollAnimations.can3.position,
+          0
+        );
+      if (scrollAnimations.can3?.rotation && can3Ref.current)
+        scrollTL.to(
+          can3Ref.current.rotation,
+          scrollAnimations.can3.rotation,
+          0
+        );
+      if (scrollAnimations.can4?.position && can4Ref.current)
+        scrollTL.to(
+          can4Ref.current.position,
+          scrollAnimations.can4.position,
+          0
+        );
+      if (scrollAnimations.can4?.rotation && can4Ref.current)
+        scrollTL.to(
+          can4Ref.current.rotation,
+          scrollAnimations.can4.rotation,
+          0
+        );
       if (scrollAnimations.group?.position) {
         const { duration, ease, ...position } = scrollAnimations.group.position;
         scrollTL.to(
@@ -259,6 +415,9 @@ function Scene() {
       <group ref={can1GroupRef}>
         <FloatingCan ref={can1Ref} flavor="original" floatSpeed={FLOAT_SPEED} />
       </group>
+
+      <FloatingCan ref={can3Ref} flavor="cherry" floatSpeed={FLOAT_SPEED} />
+      <FloatingCan ref={can4Ref} flavor="zero" floatSpeed={FLOAT_SPEED} />
 
       <directionalLight position={[0, 0, 5]} intensity={0.7} castShadow />
       <ambientLight intensity={12} />
