@@ -61,8 +61,8 @@ export function SodaCan({
         geometry={(nodes.cylinder_1 as THREE.Mesh).geometry}
       >
         <meshStandardMaterial
-          roughness={0.28}
-          metalness={0.85}
+          roughness={0.2}
+          metalness={0.9}
           map={label}
 
         />

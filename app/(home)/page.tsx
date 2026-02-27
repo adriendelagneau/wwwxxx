@@ -3,8 +3,7 @@ import Hero from "./components/hero/Hero";
 import Marquee from "./components/Marquee";
 import ProductZero from "./components/productZero/ProductZero";
 import ProductCherry from "./components/productCherry/ProductCherry";
-import Chronos from "./components/chronos/Chronos";
-import MatterMarquee from "./components/MatterMarquee";
+
 
 export default function Home() {
   return (
