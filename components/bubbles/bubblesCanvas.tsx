@@ -20,24 +20,15 @@ export const BubblesCanvas = () => {
         height: "100vh",
         zIndex: 10,
       }}
-      shadows
       dpr={[1, 1.5]}
-      gl={{ antialias: true, alpha: true }}
+      gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
       camera={{
         fov: 30,
       }}
     >
       <Suspense fallback={null}>
-        <directionalLight
-          position={[0, 0, 5]}
-          intensity={0.5}
-          castShadow
-          shadow-mapSize-width={2048}
-          shadow-mapSize-height={2048}
-        />
-        <ambientLight intensity={8} />
-        <pointLight position={[-0, 1, 3]} intensity={3.4} />
-        <Environment files={"/hdr/studio.hdr"} environmentIntensity={0.3} />
+        <ambientLight intensity={0.5} />
+        <Environment files="/hdr/studio.hdr" environmentIntensity={0.3} />
         <Bubbles />
       </Suspense>
     </Canvas>

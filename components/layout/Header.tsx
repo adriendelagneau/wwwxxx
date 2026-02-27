@@ -4,65 +4,80 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { BubblesIcon } from "lucide-react";
 import Link from "next/link";
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 
 import {
+  useAnimationStore,
   useBubbleStore,
   useMenuStore,
-  useAnimationStore,
 } from "@/store/useZuStore";
 
 const Header = () => {
   const togglePlay = useBubbleStore((state) => state.togglePlay);
+  const startBubbles = useBubbleStore((state) => state.setPlaying);
+
   const isMenuOpen = useMenuStore((state) => state.isMenuOpen);
   const openMenu = useMenuStore((state) => state.openMenu);
   const setAnimating = useMenuStore((s) => s.setAnimating);
 
-  const introCompleted = useAnimationStore((s) => s.introCompleted);
+  const createIntroTimeline = useAnimationStore(
+    (state) => state.createIntroTimeline
+  );
+  const getIntroTimeline = useAnimationStore((state) => state.getIntroTimeline);
+  const introPlayed = useAnimationStore((state) => state.introPlayed);
 
   const navbarRef = useRef<HTMLElement>(null);
   const lastScrollTop = useRef(0);
-  const [visible, setVisible] = useState(false);
-  const startBubbles = useBubbleStore((state) => state.setPlaying); // optional to directly start
-  // Header appear after intro
-  useEffect(() => {
-    if (!introCompleted) return;
-    gsap.set(navbarRef.current, { y: -100, opacity: 0 });
-    setVisible(true);
-    if (navbarRef.current) {
-      gsap.fromTo(
-        navbarRef.current,
-        { y: -100, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" }
-      );
-    }
-    // start bubble animation
-  gsap.delayedCall(0.6, () => {
-    startBubbles(true);
-  });
-  }, [introCompleted]);
 
-  // Scroll hide/show logic
+  /* ================= INTRO TIMELINE ================= */
+  useGSAP(() => {
+    if (!navbarRef.current) return;
+
+    const tl = getIntroTimeline() ?? createIntroTimeline();
+
+    if (introPlayed) {
+      // If already played, show navbar immediately
+      gsap.set(navbarRef.current, { y: 0, opacity: 1 });
+      startBubbles(true);
+      return;
+    }
+
+    // Add navbar animation to the master timeline
+    tl.fromTo(
+      navbarRef.current,
+      { y: -100, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" },
+      1.7 // start after text animation
+    );
+
+    // Add bubbles start at the end of navbar animation
+    tl.add(() => {
+      startBubbles(true);
+    }, 2.0); // adjust to sync with navbar
+  }, [introPlayed]);
+
+  /* ================= SCROLL SHOW / HIDE ================= */
   useEffect(() => {
     const handleScroll = () => {
       const st = window.scrollY;
       if (!navbarRef.current) return;
 
       if (st > lastScrollTop.current && st > 100) {
-        // scroll down → hide
+        // scrolling down → hide
         gsap.to(navbarRef.current, {
           y: -100,
           duration: 0.5,
           ease: "power2.out",
         });
       } else {
-        // scroll up → show
+        // scrolling up → show
         gsap.to(navbarRef.current, {
           y: 0,
           duration: 0.5,
           ease: "power2.out",
         });
       }
+
       lastScrollTop.current = st <= 0 ? 0 : st;
     };
 
@@ -73,9 +88,9 @@ const Header = () => {
   return (
     <nav
       ref={navbarRef}
-      className={`bg-primary text-secondary font-poppins fixed top-0 left-0 z-50 flex h-20 w-full -translate-y-full justify-between p-3 md:p-4`}
+      className="bg-primary text-secondary font-poppins fixed top-0 left-0 z-50 flex h-20 w-full -translate-y-full justify-between p-3 md:p-4"
     >
-      {/* LEFT: Menu */}
+      {/* LEFT */}
       <div className="flex items-center font-bold uppercase sm:text-xl">
         {/* Mobile Hamburger */}
         <div
@@ -115,12 +130,12 @@ const Header = () => {
         </ul>
       </div>
 
-      {/* CENTER: Title */}
+      {/* CENTER */}
       <div className="font-cream-cake absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center text-5xl capitalize md:text-6xl">
         <Link href={"/"}>Breizh Cola</Link>
       </div>
 
-      {/* RIGHT: Bubble Toggle */}
+      {/* RIGHT */}
       <div className="flex items-center justify-end">
         <div className="flex cursor-pointer items-center text-xl font-bold uppercase">
           <BubblesIcon

@@ -1,3 +1,4 @@
+import gsap from "gsap";
 import { create } from "zustand";
 
 //
@@ -82,66 +83,8 @@ interface MeshState {
 
 
 //
-// 🎬 Animation Orchestration Store (unchanged)
+// 🎬 Animation Orchestration Store
 //
-
-interface AnimationState {
-  introStarted: boolean;
-  introCompleted: boolean;
-
-  textReady: boolean;
-  canReady: boolean;
-  headerReady: boolean;
-  bubblesReady: boolean;
-
-  startIntro: () => void;
-  completeIntro: () => void;
-
-  setTextReady: (value: boolean) => void;
-  setCanReady: (value: boolean) => void;
-  setHeaderReady: (value: boolean) => void;
-  setBubblesReady: (value: boolean) => void;
-
-  resetIntro: () => void;
-}
-
-export const useAnimationStore = create<AnimationState>((set) => ({
-  introStarted: false,
-  introCompleted: false,
-
-  textReady: false,
-  canReady: false,
-  headerReady: false,
-  bubblesReady: false,
-
-  startIntro: () => set({ introStarted: true }),
-
-  completeIntro: () => {
-    set({
-      introCompleted: true,
-      textReady: true,
-      canReady: true,
-      headerReady: true,
-      bubblesReady: true,
-    });
-    sessionStorage.setItem("introPlayed", "true");
-  },
-
-  setTextReady: (value) => set({ textReady: value }),
-  setCanReady: (value) => set({ canReady: value }),
-  setHeaderReady: (value) => set({ headerReady: value }),
-  setBubblesReady: (value) => set({ bubblesReady: value }),
-
-  resetIntro: () =>
-    set({
-      introStarted: false,
-      introCompleted: false,
-      textReady: false,
-      canReady: false,
-      headerReady: false,
-      bubblesReady: false,
-    }),
-}));
 
 
 type Breakpoint = "isMobile" | "sm" | "md" | "lg" | "xl" | "xxl";
@@ -170,4 +113,41 @@ interface MeshState {
 export const useMeshStore = create<MeshState>((set) => ({
   ready: false,
   isReady: () => set({ ready: true }),
+}));
+
+
+/* ================= TYPES ================= */
+
+interface AnimationState {
+  introPlayed: boolean;
+  masterTimeline: gsap.core.Timeline | null;
+  createIntroTimeline: () => gsap.core.Timeline;
+  getIntroTimeline: () => gsap.core.Timeline | null;
+  playIntro: () => void;
+  completeIntro: () => void;
+}
+
+export const useAnimationStore = create<AnimationState>((set, get) => ({
+  introPlayed: typeof window !== "undefined" ? sessionStorage.getItem("introPlayed") === "true" : false,
+  masterTimeline: null,
+
+  createIntroTimeline: () => {
+    const tl = gsap.timeline({
+      onComplete: get().completeIntro
+    });
+    set({ masterTimeline: tl });
+    return tl;
+  },
+
+  getIntroTimeline: () => get().masterTimeline,
+
+  playIntro: () => {
+    const tl = get().masterTimeline;
+    if (tl && !get().introPlayed) tl.play();
+  },
+
+  completeIntro: () => {
+    set({ introPlayed: true });
+    sessionStorage.setItem("introPlayed", "true");
+  },
 }));

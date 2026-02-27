@@ -1,7 +1,11 @@
 "use client";
 
 import FloatingCan from "@/components/cans/FloatingCan";
-import { useMeshStore, useResponsiveStore } from "@/store/useZuStore";
+import {
+  useMeshStore,
+  useResponsiveStore,
+  useIntroAnimationStore,
+} from "@/store/useZuStore";
 import { useGSAP } from "@gsap/react";
 import { Environment } from "@react-three/drei";
 import gsap from "gsap";
@@ -130,6 +134,7 @@ function Scene() {
   const meshReady = useMeshStore((state) => state.isReady);
   const breakpoint = useResponsiveStore((state) => state.breakpoint);
   const isReady = useResponsiveStore((state) => state.isReady);
+  const setIntroConfig = useIntroAnimationStore((state) => state.setConfig);
 
   const can1Ref = useRef<Group>(null);
 
@@ -153,6 +158,16 @@ function Scene() {
       const config = HERO_CONFIG[breakpoint];
       if (!config) return;
 
+      const isMobile = breakpoint === "isMobile" || breakpoint === "sm";
+
+      // Share intro animation config with other components
+      setIntroConfig({
+        introFrom: config.can1Group?.introFrom,
+        introRotationFrom: config.can1Group?.introRotationFrom,
+        scaleFrom: isMobile ? { x: 0, y: 0, z: 0 } : undefined,
+        scaleTo: isMobile ? { x: 0.6, y: 0.6, z: 0.6 } : undefined,
+      });
+
       const introPlayed =
         typeof window !== "undefined" &&
         sessionStorage.getItem("introPlayed") === "true";
@@ -160,8 +175,6 @@ function Scene() {
       ScrollTrigger.getAll().forEach((t) => {
         if (t.vars.trigger === ".hero") t.kill();
       });
-
-      const isMobile = breakpoint === "isMobile" || breakpoint === "sm";
 
       /* ================= INITIAL STATE ================= */
 
@@ -298,3 +311,4 @@ function Scene() {
 }
 
 export default Scene;
+
