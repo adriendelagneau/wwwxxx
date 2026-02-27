@@ -1,5 +1,6 @@
 "use client";
 
+import { useAnimationStore } from "@/store/useAnimationStore";
 import { useBubbleStore } from "@/store/useBubbleStore";
 import { useMenuStore } from "@/store/useMenuStore";
 import { useGSAP } from "@gsap/react";
@@ -18,11 +19,41 @@ const Header = () => {
   const openMenu = useMenuStore((state) => state.openMenu);
   const setAnimating = useMenuStore((s) => s.setAnimating);
 
+  const createIntroTimeline = useAnimationStore(
+    (state) => state.createIntroTimeline
+  );
+  const getIntroTimeline = useAnimationStore((state) => state.getIntroTimeline);
+  const introPlayed = useAnimationStore((state) => state.introPlayed);
 
   const navbarRef = useRef<HTMLElement>(null);
   const lastScrollTop = useRef(0);
 
- 
+  /* ================= INTRO TIMELINE ================= */
+  useGSAP(() => {
+    if (!navbarRef.current) return;
+
+    const tl = getIntroTimeline() ?? createIntroTimeline();
+
+    if (introPlayed) {
+      // If already played, show navbar immediately
+      gsap.set(navbarRef.current, { y: 0, opacity: 1 });
+      startBubbles(true);
+      return;
+    }
+
+    // Add navbar animation to the master timeline
+    tl.fromTo(
+      navbarRef.current,
+      { y: -100, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" },
+      2 // start after text animation
+    );
+
+    // Add bubbles start at the end of navbar animation
+    tl.add(() => {
+      startBubbles(true);
+    }, 3); // adjust to sync with navbar
+  }, [introPlayed]);
 
   /* ================= SCROLL SHOW / HIDE ================= */
   useEffect(() => {

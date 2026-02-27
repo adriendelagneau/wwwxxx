@@ -7,6 +7,8 @@ import Header from "@/components/layout/Header";
 import Sidebar from "@/components/layout/sidebarMenu/Sidebar";
 import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
 import Footer from "@/components/layout/Footer";
+import ViewCanvas from "@/components/cans/ViewCanvas";
+import { ResponsiveProvider } from "@/components/providers/ResponsiveProvider";
 
 const creamCake = localFont({
   variable: "--font-cream-cake",
@@ -108,9 +110,12 @@ export default function RootLayout({
       >
         <BackgroundCanvas />
         <BubblesCanvas />
+        <ViewCanvas />
+
         <Header />
         <Sidebar />
-
+        
+        <ResponsiveProvider />
         <SmoothScrollProvider>
           <main className="bg-primary">{children}</main>
         </SmoothScrollProvider>

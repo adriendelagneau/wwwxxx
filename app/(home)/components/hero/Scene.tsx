@@ -1,11 +1,9 @@
 "use client";
 
 import FloatingCan from "@/components/cans/FloatingCan";
-import {
-  useAnimationStore,
-  useMeshStore,
-  useResponsiveStore,
-} from "@/store/useZuStore";
+import { useAnimationStore } from "@/store/useAnimationStore";
+import { useMeshStore } from "@/store/useMeshStore";
+import { useResponsiveStore } from "@/store/useResponsiveStore";
 
 import { useGSAP } from "@gsap/react";
 import { Environment } from "@react-three/drei";

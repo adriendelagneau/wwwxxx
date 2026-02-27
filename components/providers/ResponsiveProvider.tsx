@@ -1,6 +1,7 @@
 "use client";
 
-import { useResponsiveStore } from "@/store/useZuStore";
+
+import { useResponsiveStore } from "@/store/useResponsiveStore";
 import gsap from "gsap";
 import { useLayoutEffect } from "react";
 

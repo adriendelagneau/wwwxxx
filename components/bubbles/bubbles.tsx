@@ -2,14 +2,16 @@
 
 import { useBubbleStore } from "@/store/useBubbleStore";
 import { useFrame } from "@react-three/fiber";
-import gsap from "gsap";
 import { useRef, useEffect, useMemo } from "react";
 import { createNoise3D } from "simplex-noise";
 import * as THREE from "three";
 
-// Initialize simplex noise
+// Initialize simplex noise - created once at module level
 const noise3D = createNoise3D();
-const o = new THREE.Object3D();
+
+// Reusable temp objects to avoid garbage collection in animation loop
+const _position = new THREE.Vector3();
+const _matrix = new THREE.Matrix4();
 
 export const Bubbles = ({
   count = 400,
@@ -23,15 +25,25 @@ export const Bubbles = ({
   const bubbleSpeed = useRef(new Float32Array(count));
   const isPlaying = useBubbleStore((state) => state.isPlaying);
 
-  const minSpeed = speed * 0.0015;
-  const maxSpeed = speed * 0.0075;
+  // Memoize speed bounds - avoid recalculating on every render
+  const { minSpeed, maxSpeed } = useMemo(
+    () => ({
+      minSpeed: speed * 0.0015,
+      maxSpeed: speed * 0.0075,
+    }),
+    [speed]
+  );
 
-  // Precompute geometry and material
-  const geometry = useMemo(() => new THREE.SphereGeometry(bubbleSize, 12, 12), [bubbleSize]);
+  // Memoize geometry - only recreate when bubbleSize changes
+  const geometry = useMemo(
+    () => new THREE.SphereGeometry(bubbleSize, 12, 12),
+    [bubbleSize]
+  );
 
+  // Memoize material - only recreate when opacity or color changes
   const material = useMemo(
     () =>
-      new THREE.MeshBasicMaterial({
+      new THREE.MeshStandardMaterial({
         transparent: true,
         opacity,
         depthWrite: false,
@@ -40,19 +52,25 @@ export const Bubbles = ({
     [opacity, color]
   );
 
-  // Precompute initial positions
-  const bubblePositions = useMemo(() => {
+  // Precompute all initial positions using native Math.random (faster than gsap.utils.random)
+  const positions = useMemo(() => {
     const arr = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
-      arr[i * 3] = gsap.utils.random(-4, 4);
-      arr[i * 3 + 1] = gsap.utils.random(-2, 2);
-      arr[i * 3 + 2] = gsap.utils.random(-4, 4);
-      bubbleSpeed.current[i] = gsap.utils.random(minSpeed, maxSpeed);
+      arr[i * 3] = Math.random() * 8 - 4;
+      arr[i * 3 + 1] = Math.random() * 4 - 2;
+      arr[i * 3 + 2] = Math.random() * 8 - 4;
     }
     return arr;
+  }, [count]);
+
+  // Initialize bubble speeds in useEffect to avoid initialization issues
+  useEffect(() => {
+    for (let i = 0; i < count; i++) {
+      bubbleSpeed.current[i] = Math.random() * (maxSpeed - minSpeed) + minSpeed;
+    }
   }, [count, minSpeed, maxSpeed]);
 
-  // Cleanup
+  // Cleanup on unmount
   useEffect(() => {
     return () => {
       geometry.dispose();
@@ -60,60 +78,56 @@ export const Bubbles = ({
     };
   }, [geometry, material]);
 
-  // Initialize instanced mesh on mount
+  // Initialize instanced mesh on mount - only runs once (empty deps)
   useEffect(() => {
     const mesh = meshRef.current;
     if (!mesh) return;
 
     for (let i = 0; i < count; i++) {
-      o.position.set(
-        bubblePositions[i * 3],
-        bubblePositions[i * 3 + 1],
-        bubblePositions[i * 3 + 2]
+      _position.set(
+        positions[i * 3],
+        positions[i * 3 + 1],
+        positions[i * 3 + 2]
       );
-      o.updateMatrix();
-      mesh.setMatrixAt(i, o.matrix);
+      _matrix.setPosition(_position);
+      mesh.setMatrixAt(i, _matrix);
     }
 
     mesh.instanceMatrix.needsUpdate = true;
-  }, [count, bubblePositions]);
+  }, []); // Empty deps - only run once on mount
 
-  // Animate bubbles per frame
+  // Animate bubbles per frame - optimized with minimal allocations
   useFrame(({ clock }) => {
     const mesh = meshRef.current;
     if (!mesh || !isPlaying) return;
 
     const time = clock.getElapsedTime();
+    const boundaryY = 4;
+    const resetY = -2;
 
     for (let i = 0; i < count; i++) {
-      o.position.set(
-        bubblePositions[i * 3],
-        bubblePositions[i * 3 + 1],
-        bubblePositions[i * 3 + 2]
-      );
+      const idx = i * 3;
+      const currentY = positions[idx + 1];
 
-      // Move upward
-      o.position.y += bubbleSpeed.current[i];
+      // Update Y position (move upward)
+      positions[idx + 1] = currentY + bubbleSpeed.current[i];
 
-      // Drift using simplex noise
-      o.position.x += noise3D(i * 0.1, o.position.y * 0.2, time * 0.2) * 0.002;
-      o.position.z += noise3D(i * 0.2 + 100, o.position.y * 0.2, time * 0.2) * 0.002;
+      // Apply noise-based drift
+      positions[idx] += noise3D(i * 0.1, currentY * 0.2, time * 0.2) * 0.002;
+      positions[idx + 2] +=
+        noise3D(i * 0.2 + 100, currentY * 0.2, time * 0.2) * 0.002;
 
       // Reset bubbles that go off top
-      if (o.position.y > 4 && repeat) {
-        o.position.y = -2;
-        o.position.x = gsap.utils.random(-4, 4);
-        o.position.z = gsap.utils.random(-4, 4);
+      if (positions[idx + 1] > boundaryY && repeat) {
+        positions[idx + 1] = resetY;
+        positions[idx] = Math.random() * 8 - 4;
+        positions[idx + 2] = Math.random() * 8 - 4;
       }
 
-      // Store updated positions
-      bubblePositions[i * 3] = o.position.x;
-      bubblePositions[i * 3 + 1] = o.position.y;
-      bubblePositions[i * 3 + 2] = o.position.z;
-
-      // Update instance matrix
-      o.updateMatrix();
-      mesh.setMatrixAt(i, o.matrix);
+      // Update matrix directly without Object3D overhead
+      _position.set(positions[idx], positions[idx + 1], positions[idx + 2]);
+      _matrix.setPosition(_position);
+      mesh.setMatrixAt(i, _matrix);
     }
 
     mesh.instanceMatrix.needsUpdate = true;
@@ -124,7 +138,7 @@ export const Bubbles = ({
       ref={meshRef}
       args={[geometry, material, count]}
       position={[0, 0, 0]}
-      visible={isPlaying} // hide when paused
+      visible={isPlaying}
     />
   );
 };

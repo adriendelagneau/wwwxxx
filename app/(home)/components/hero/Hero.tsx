@@ -7,7 +7,8 @@ import React, { useRef } from "react";
 
 import PinnedReveal from "./pin-reveal";
 import Scene from "./Scene";
-import { useAnimationStore, useMeshStore } from "@/store/useZuStore";
+import { useAnimationStore } from "@/store/useAnimationStore";
+import { useMeshStore } from "@/store/useMeshStore";
 
 const Hero = () => {
   const createIntroTimeline = useAnimationStore((s) => s.createIntroTimeline);
