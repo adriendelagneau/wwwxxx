@@ -1,6 +1,6 @@
 "use client";
 
-import { useMeshStore } from "@/store/useZuStore";
+import { useMeshStore } from "@/store/useMeshStore";
 import { View } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 // import { Bloom, EffectComposer } from "@react-three/postprocessing";

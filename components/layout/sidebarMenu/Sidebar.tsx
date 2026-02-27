@@ -9,7 +9,7 @@ import SidebarCanvas from "./SidebarCanvas";
 
 import { XIcon } from "lucide-react";
 import Link from "next/link";
-import { useMenuStore, useSidebarCanStore } from "@/store/useZuStore";
+import { useMenuStore, useSidebarCanStore } from "@/store/useMenuStore";
 
 export default function Sidebar() {
   const sidebarRef = useRef<HTMLDivElement>(null);

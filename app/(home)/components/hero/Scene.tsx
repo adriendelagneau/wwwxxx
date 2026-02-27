@@ -92,7 +92,7 @@ HERO_CONFIG.xxl = HERO_CONFIG.md;
 /* ================= COMPONENT ================= */
 
 function Scene() {
-  const meshReady = useMeshStore((state) => state.isReady);
+  const setMeshReady = useMeshStore((state) => state.isReady);
   const breakpoint = useResponsiveStore((state) => state.breakpoint);
   const isReady = useResponsiveStore((state) => state.isReady);
 
@@ -113,7 +113,7 @@ function Scene() {
     )
       return;
 
-    meshReady();
+    setMeshReady();
 
     const config = HERO_CONFIG[breakpoint];
     if (!config) return;
@@ -138,7 +138,7 @@ function Scene() {
         tl.to(
           can1Ref.current.scale,
           { x: 0.6, y: 0.6, z: 0.6, duration: 0.45, ease: "back.out(2)" },
-          1.8 // after header
+          1.7 // after header
         );
       } else {
         if (config.can1Group?.introFrom)

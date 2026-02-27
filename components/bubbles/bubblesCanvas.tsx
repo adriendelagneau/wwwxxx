@@ -20,31 +20,24 @@ export const BubblesCanvas = () => {
         height: "100vh",
         zIndex: 10,
       }}
-      // Disabled shadows - bubbles don't cast/receive shadows
-      dpr={[1, 1.25]}
-      // Optimized WebGL context
-      gl={{
-        antialias: true, // Disabled - bubbles are small and transparent
-        alpha: true,
-        powerPreference: "high-performance",
-      }}
+      shadows
+      dpr={[1, 1.5]}
+      gl={{ antialias: true, alpha: true }}
       camera={{
         fov: 30,
-        near: 0.1,
-        far: 100,
       }}
     >
       <Suspense fallback={null}>
-        {/* Simplified lighting - just ambient for transparent bubbles */}
-        <ambientLight intensity={1} />
-        {/* Single point light for basic depth perception */}
-        <pointLight position={[0, 2, 5]} intensity={2} />
-        {/* Preload environment to avoid pop-in */}
-        <Environment
-          files="/hdr/studio.hdr"
-          environmentIntensity={0.3}
-          background={false}
+        <directionalLight
+          position={[0, 0, 5]}
+          intensity={0.5}
+          castShadow
+          shadow-mapSize-width={2048}
+          shadow-mapSize-height={2048}
         />
+        <ambientLight intensity={8} />
+        <pointLight position={[-0, 1, 3]} intensity={3.4} />
+        <Environment files={"/hdr/studio.hdr"} environmentIntensity={0.3} />
         <Bubbles />
       </Suspense>
     </Canvas>

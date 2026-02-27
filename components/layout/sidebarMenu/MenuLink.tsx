@@ -1,7 +1,8 @@
 "use client";
 
 
-import { useMenuStore } from "@/store/useZuStore";
+
+import { useMenuStore } from "@/store/useMenuStore";
 import { useRouter } from "next/navigation";
 import React from "react";
 

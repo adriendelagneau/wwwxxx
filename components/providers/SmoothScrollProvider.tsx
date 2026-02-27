@@ -1,9 +1,10 @@
 "use client";
 
+import { useMenuStore } from "@/store/useMenuStore";
 import { ReactLenis, useLenis } from "lenis/react";
 import { useEffect, ReactNode } from "react";
 
-import { useMenuStore } from "@/store/useZuStore";
+
 
 export function SmoothScrollProvider({ children }: { children: ReactNode }) {
   const lenis = useLenis();

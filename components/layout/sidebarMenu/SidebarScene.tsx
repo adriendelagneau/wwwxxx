@@ -6,8 +6,8 @@ import gsap from "gsap";
 
 
 import { Environment } from "@react-three/drei";
-import { useSidebarCanStore } from "@/store/useZuStore";
 import FloatingCan from "@/components/cans/FloatingCan";
+import { useSidebarCanStore } from "@/store/useMenuStore";
 
 const SPACING = 4; // distance between cans in world units
 
