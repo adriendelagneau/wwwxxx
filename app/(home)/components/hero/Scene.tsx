@@ -52,27 +52,28 @@ function Scene() {
         typeof window !== "undefined" &&
         sessionStorage.getItem("introPlayed") === "true";
 
+      /* ================= SET INITIAL POSITIONS FOR CAN3 & CAN4 ================= */
+
+      // Always set initial positions from config (works on both first visit and refresh)
+      if (can3Ref.current && config.initial?.can3?.position) {
+        gsap.set(can3Ref.current.position, {
+          x: config.initial.can3.position.x ?? 0,
+          y: config.initial.can3.position.y ?? 0,
+          z: config.initial.can3.position.z ?? 0,
+        });
+      }
+
+      if (can4Ref.current && config.initial?.can4?.position) {
+        gsap.set(can4Ref.current.position, {
+          x: config.initial.can4.position.x ?? 0,
+          y: config.initial.can4.position.y ?? 0,
+          z: config.initial.can4.position.z ?? 0,
+        });
+      }
+
       /* ================= FIRST VISIT ================= */
 
       if (!hasPlayedBefore) {
-        // Set initial positions for can3 and can4 from config
-        if (can3Ref.current && config.initial?.can3?.position) {
-          gsap.set(can3Ref.current.position, {
-            x: config.initial.can3.position.x ?? 0,
-            y: config.initial.can3.position.y ?? 0,
-            z: config.initial.can3.position.z ?? 0,
-          });
-        }
-
-        if (can4Ref.current && config.initial?.can4?.position) {
-          gsap.set(can4Ref.current.position, {
-            x: config.initial.can4.position.x ?? 0,
-            y: config.initial.can4.position.y ?? 0,
-            z: config.initial.can4.position.z ?? 0,
-          });
-        }
-
-        // initial position
         if (intro?.from?.position) {
           gsap.set(can1Ref.current.position, {
             x: intro.from.position.x ?? 0,
