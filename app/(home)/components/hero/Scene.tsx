@@ -55,19 +55,19 @@ function Scene() {
       /* ================= SET INITIAL POSITIONS FOR CAN3 & CAN4 ================= */
 
       // Always set initial positions from config (works on both first visit and refresh)
-      if (can3Ref.current && config.initial?.can3?.position) {
+      if (can3Ref.current && config.scroll?.can3?.from.position) {
         gsap.set(can3Ref.current.position, {
-          x: config.initial.can3.position.x ?? 0,
-          y: config.initial.can3.position.y ?? 0,
-          z: config.initial.can3.position.z ?? 0,
+          x: config.scroll.can3.from.position.x ?? 0,
+          y: config.scroll.can3.from.position.y ?? 0,
+          z: config.scroll.can3.from.position.z ?? 0,
         });
       }
 
-      if (can4Ref.current && config.initial?.can4?.position) {
+      if (can4Ref.current && config.scroll?.can4?.from.position) {
         gsap.set(can4Ref.current.position, {
-          x: config.initial.can4.position.x ?? 0,
-          y: config.initial.can4.position.y ?? 0,
-          z: config.initial.can4.position.z ?? 0,
+          x: config.scroll.can4.from.position.x ?? 0,
+          y: config.scroll.can4.from.position.y ?? 0,
+          z: config.scroll.can4.from.position.z ?? 0,
         });
       }
 
@@ -212,32 +212,62 @@ function Scene() {
           );
         }
 
-        if (scrollAnimations.can3?.position) {
+        if (scrollAnimations.can3?.from?.position) {
+          gsap.set(can3Ref.current.position, {
+            x: scrollAnimations.can3.from.position.x ?? 0,
+            y: scrollAnimations.can3.from.position.y ?? 0,
+            z: scrollAnimations.can3.from.position.z ?? 0,
+          });
+        }
+        if (scrollAnimations.can3?.to?.position) {
           scrollTL.to(
             can3Ref.current.position,
-            scrollAnimations.can3.position,
+            {
+              x: scrollAnimations.can3.to.position.x ?? 0,
+              y: scrollAnimations.can3.to.position.y ?? 0,
+              z: scrollAnimations.can3.to.position.z ?? 0,
+            },
             0
           );
         }
-        if (scrollAnimations.can3?.rotation) {
+        if (scrollAnimations.can3?.to?.rotation) {
           scrollTL.to(
             can3Ref.current.rotation,
-            scrollAnimations.can3.rotation,
+            {
+              x: scrollAnimations.can3.to.rotation.x ?? 0,
+              y: scrollAnimations.can3.to.rotation.y ?? 0,
+              z: scrollAnimations.can3.to.rotation.z ?? 0,
+            },
             0
           );
         }
 
-        if (scrollAnimations.can4?.position) {
+        if (scrollAnimations.can4?.from?.position) {
+          gsap.set(can4Ref.current.position, {
+            x: scrollAnimations.can4.from.position.x ?? 0,
+            y: scrollAnimations.can4.from.position.y ?? 0,
+            z: scrollAnimations.can4.from.position.z ?? 0,
+          });
+        }
+        if (scrollAnimations.can4?.to?.position) {
           scrollTL.to(
             can4Ref.current.position,
-            scrollAnimations.can4.position,
+            {
+              x: scrollAnimations.can4.to.position.x ?? 0,
+              y: scrollAnimations.can4.to.position.y ?? 0,
+              z: scrollAnimations.can4.to.position.z ?? 0,
+            },
             0
           );
         }
-        if (scrollAnimations.can4?.rotation) {
+        if (scrollAnimations.can4?.to?.rotation) {
           scrollTL.to(
             can4Ref.current.rotation,
-            scrollAnimations.can4.rotation,
+            {
+              x: scrollAnimations.can4.to.rotation.x ?? 0,
+              y: scrollAnimations.can4.to.rotation.y ?? 0,
+              z: scrollAnimations.can4.to.rotation.z ?? 0,
+            },
             0
           );
         }

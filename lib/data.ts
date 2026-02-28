@@ -162,10 +162,6 @@ export type Transform = {
 };
 
 export type BreakpointConfig = {
-  initial: {
-    can3: Transform;
-    can4: Transform;
-  };
   intro: {
     can1: { from: Transform; to: Transform };
   };
@@ -175,8 +171,8 @@ export type BreakpointConfig = {
   scroll: {
     groupRotation: Vec3;
     can1: Transform;
-    can3: Transform;
-    can4: Transform;
+    can3: { from: Transform; to: Transform };
+    can4: { from: Transform; to: Transform };
     groupPosition: {
       x?: number;
       y?: number;
@@ -195,10 +191,7 @@ export type BreakpointConfig = {
 export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", BreakpointConfig> = {
 
   SM: {
-    initial: {
-      can3: { position: { x: 0, y: -0.4, z: -0.5 } },
-      can4: { position: { x: -0.25, y: -0.38, z: -0.4 } }
-    },
+
     intro: {
       can1: { from: { position: { x: 5 }, rotation: { z: 1 } }, to: { position: { x: 0 }, rotation: { z: 0 } } },
     },
@@ -208,17 +201,14 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
     scroll: {
       groupRotation: { y: Math.PI * 2 },
       can1: { position: { x: 0 }, rotation: { z: 0 } },
-      can3: { position: { x: 0.25, y: -0.4, z: -0.5 }, rotation: { z: -0.3 } },
-      can4: { position: { x: -0.25, y: -0.38, z: -0.4 }, rotation: { z: 0.3 } },
+      can3: { from: { position: { x: 0, y: -0.4, z: -0.5 } }, to: { position: { x: 0.25, y: -0.4, z: -0.5 }, rotation: { z: -0.3 } } },
+      can4: { from: { position: { x: -0.25, y: -0.38, z: -0.4 } }, to: { position: { x: -0.25, y: -0.38, z: -0.4 }, rotation: { z: 0.3 } } },
       groupPosition: { x: 0, y: 0, duration: 2, ease: "sine.inOut" },
     },
   },
 
   MD: {
-    initial: {
-      can3: { position: { x: 0, y: -0.4, z: -0.5 } },
-      can4: { position: { x: -0.25, y: -0.38, z: -0.4 } }
-    },
+
     intro: {
       can1: { from: { position: { x: 5 }, rotation: { z: 1 } }, to: { position: { x: 0 }, rotation: { z: 0 } } },
     },
@@ -228,17 +218,14 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
     scroll: {
       groupRotation: { y: Math.PI * 2 },
       can1: { position: { x: 0, y: -0.3 }, rotation: { z: 0 } },
-      can3: { position: { x: 0.25, y: -0.4, z: -0.5 }, rotation: { z: -0.3 } },
-      can4: { position: { x: -0.25, y: -0.38, z: -0.4 }, rotation: { z: 0.3 } },
+      can3: { from: { position: { x: 0, y: -0.4, z: -0.5 } }, to: { position: { x: 0.25, y: -0.4, z: -0.5 }, rotation: { z: -0.3 } } },
+      can4: { from: { position: { x: -0.25, y: -0.38, z: -0.4 } }, to: { position: { x: -0.25, y: -0.38, z: -0.4 }, rotation: { z: 0.3 } } },
       groupPosition: { x: 0, y: -0.3, duration: 2, ease: "sine.inOut" },
     },
   },
 
   LG: {
-    initial: {
-      can3: { position: { x: 0, y: -0.4, z: -0.5 } },
-      can4: { position: { x: -0.25, y: -0.38, z: -0.4 } }
-    },
+
     intro: {
       can1: { from: { position: { x: 5 }, rotation: { z: 1 } }, to: { position: { x: 0 }, rotation: { z: 0 } } },
     },
@@ -248,17 +235,14 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
     scroll: {
       groupRotation: { y: Math.PI * 2 },
       can1: { position: { x: 0, y: -0.3 }, rotation: { z: 0 } },
-      can3: { position: { x: 0.25, y: -0.4, z: -0.5 }, rotation: { z: -0.3 } },
-      can4: { position: { x: -0.25, y: -0.38, z: -0.4 }, rotation: { z: 0.3 } },
+      can3: { from: { position: { x: 0, y: -0.4, z: -0.5 } }, to: { position: { x: 0.25, y: -0.4, z: -0.5 }, rotation: { z: -0.3 } } },
+      can4: { from: { position: { x: -0.25, y: -0.38, z: -0.4 } }, to: { position: { x: -0.25, y: -0.38, z: -0.4 }, rotation: { z: 0.3 } } },
       groupPosition: { x: 0, y: -0.35, duration: 2, ease: "sine.inOut" },
     },
   },
 
   XL: {
-    initial: {
-      can3: { position: { x: 0, y: -0.4, z: -0.5 } },
-      can4: { position: { x: -0.25, y: -0.38, z: -0.4 } }
-    },
+
     intro: {
       can1: { from: { position: { y: 5, x: 1 }, rotation: { z: 3 } }, to: { position: { y: -0.1, x: 1 }, rotation: { z: -0.1 } } },
     },
@@ -268,17 +252,14 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
     scroll: {
       groupRotation: { y: Math.PI * 2 },
       can1: { position: { x: 0.1 }, rotation: { z: 0 } },
-      can3: { position: { x: 0.8, y: 0, z: -0.8 }, rotation: { z: -0.3 } },
-      can4: { position: { x: -0.5, y: 0, z: -0.5 }, rotation: { z: 0.3 } },
+      can3: { from: { position: { x: 0, y: -0.4, z: -0.5 } }, to: { position: { x: 0.8, y: 0, z: -0.8 }, rotation: { z: -0.3 } } },
+      can4: { from: { position: { x: -0.25, y: -0.38, z: -0.4 } }, to: { position: { x: -0.5, y: 0, z: -0.5 }, rotation: { z: 0.3 } } },
       groupPosition: { x: 0, y: -0.4, duration: 3, ease: "sine.inOut" },
     },
   },
 
   XXL: {
-    initial: {
-      can3: { position: { x: 0, y: -0.4, z: -0.5 } },
-      can4: { position: { x: -0.25, y: -0.38, z: -0.4 } }
-    },
+
     intro: {
       can1: { from: { position: { y: 0, x: 2 }, rotation: { y: -Math.PI * 2 } }, to: { position: { y: -0.2, x: 1.2 }, rotation: { y: -0.1 } } },
     },
@@ -288,17 +269,14 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
     scroll: {
       groupRotation: { y: Math.PI * 2 },
       can1: { position: { x: 0.1 }, rotation: { z: 0 } },
-      can3: { position: { x: 0.8, y: 0, z: -0.8 }, rotation: { z: -0.3 } },
-      can4: { position: { x: -0.5, y: 0, z: -0.5 }, rotation: { z: 0.3 } },
+      can3: { from: { position: { x: 0, y: -0.4, z: -0.5 } }, to: { position: { x: 0.8, y: 0, z: -0.8 }, rotation: { z: -0.3 } } },
+      can4: { from: { position: { x: -0.25, y: -0.38, z: -0.4 } }, to: { position: { x: -0.5, y: 0, z: -0.5 }, rotation: { z: 0.3 } } },
       groupPosition: { x: 1, duration: 3, ease: "sine.inOut" },
     },
   },
 
   XXXL: {
-    initial: {
-      can3: { position: { x: 0, y: -4, z: -0.5 } },
-      can4: { position: { x: -1.5, y: 4, z: -0.4 } }
-    },
+
     intro: {
       can1: { from: { position: { y: 0, x: 3.2 }, rotation: { z: 3 } }, to: { position: { y: -0.1, x: 1.7 }, rotation: { z: -0.1 } } },
     },
@@ -308,8 +286,8 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
     scroll: {
       groupRotation: { y: Math.PI * 2 },
       can1: { position: { x: 1 }, rotation: { z: 0 } },
-      can3: { position: { x: 1.8, y: 0, z: -0.8 }, rotation: { z: -0.3 } },
-      can4: { position: { x: 0.5, y: 0, z: -0.5 }, rotation: { z: 0.3 } },
+      can3: { from: { position: { x: 0, y: -4, z: -0.5 } }, to: { position: { x: 1.8, y: 0, z: -0.8 }, rotation: { z: -0.3 } } },
+      can4: { from: { position: { x: -1.5, y: 4, z: -0.4 } }, to: { position: { x: 0.5, y: 0, z: -0.5 }, rotation: { z: 0.3 } } },
       groupPosition: { x: 1.5, duration: 3, ease: "sine.inOut" },
     },
   },
