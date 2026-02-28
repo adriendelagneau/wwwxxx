@@ -20,9 +20,6 @@ function Scene() {
 
   const groupRef = useRef<Group>(null);
   const can1Ref = useRef<Group>(null);
-  const can3Ref = useRef<Group>(null);
-  const can4Ref = useRef<Group>(null);
-  const can1GroupRef = useRef<Group>(null);
 
   const configKey = breakpoint.toUpperCase() as keyof typeof CONFIG;
   const config = CONFIG[configKey];
@@ -30,26 +27,26 @@ function Scene() {
   const FLOAT_SPEED = 4;
 
   /* ================= GSAP INTRO ================= */
+
   useGSAP(
     () => {
-      if (!isReady || !config || !can1Ref.current || !can1GroupRef.current)
-        return;
+      if (!isReady || !config || !can1Ref.current) return;
 
       setMeshReady();
 
       const intro = config.intro?.can1;
       const final = config.final?.can1;
 
-      // Check sessionStorage - do this fresh each render
       const hasPlayedBefore =
         typeof window !== "undefined" &&
         sessionStorage.getItem("introPlayed") === "true";
 
-      // FIRST VISIT - play intro animation
+      /* ================= FIRST VISIT ================= */
+
       if (!hasPlayedBefore) {
-        // Set initial position
+        // initial position
         if (intro?.from?.position) {
-          gsap.set(can1GroupRef.current.position, {
+          gsap.set(can1Ref.current.position, {
             x: intro.from.position.x ?? 0,
             y: intro.from.position.y ?? 0,
             z: intro.from.position.z ?? 0,
@@ -72,9 +69,9 @@ function Scene() {
           });
         }
 
-        // Animate to final position
+        // animate to intro target
         if (intro?.to?.position) {
-          gsap.to(can1GroupRef.current.position, {
+          gsap.to(can1Ref.current.position, {
             x: intro.to.position.x ?? 0,
             y: intro.to.position.y ?? 0,
             z: intro.to.position.z ?? 0,
@@ -109,57 +106,42 @@ function Scene() {
           });
         }
       }
-      // RETURNING VISITOR - go directly to final
+
+      /* ================= RETURN VISIT ================= */
+
       else if (final) {
         gsap.set(can1Ref.current.position, {
           x: final.position?.x ?? 0,
           y: final.position?.y ?? 0,
           z: final.position?.z ?? 0,
         });
+
         gsap.set(can1Ref.current.rotation, {
           x: final.rotation?.x ?? 0,
           y: final.rotation?.y ?? 0,
           z: final.rotation?.z ?? 0,
         });
+
         gsap.set(can1Ref.current.scale, {
           x: final.scale?.x ?? 1,
           y: final.scale?.y ?? 1,
           z: final.scale?.z ?? 1,
         });
-        gsap.set(can1GroupRef.current.position, { x: 0, y: 0, z: 0 });
-        gsap.set(can1GroupRef.current.rotation, { x: 0, y: 0, z: 0 });
       }
-
-
-      // ✅ Scroll animations
-      const scrollTL = gsap.timeline({
-        defaults: {
-          duration: 2,
-        },
-        scrollTrigger: {
-          trigger: ".hero",
-          start: "top top",
-          end: "bottom bottom",
-          scrub: 1.5,
-        },
-      });
-      const { scroll } = config;
-      
-      
-      
     },
     { dependencies: [breakpoint, isReady], scope: groupRef }
   );
 
   /* ================= JSX ================= */
+
   return (
     <group ref={groupRef}>
-      <group ref={can1GroupRef}>
-        <FloatingCan ref={can1Ref} flavor="original" floatSpeed={FLOAT_SPEED} />
-      </group>
+      <FloatingCan
+        ref={can1Ref}
+        flavor="original"
+        floatSpeed={FLOAT_SPEED}
+      />
 
-      <FloatingCan ref={can3Ref} flavor="zero" floatSpeed={FLOAT_SPEED} />
-      <FloatingCan ref={can4Ref} flavor="cherry" floatSpeed={FLOAT_SPEED} />
       <directionalLight position={[0, 0, 5]} intensity={0.7} castShadow />
       <ambientLight intensity={12} />
       <pointLight position={[0, 1, 3]} intensity={6} />
@@ -170,4 +152,3 @@ function Scene() {
 }
 
 export default Scene;
-//fixed
