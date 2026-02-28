@@ -9,12 +9,8 @@ import { CONFIG } from "@/lib/data";
 import { useGSAP } from "@gsap/react";
 import { Environment } from "@react-three/drei";
 import gsap from "gsap";
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useLayoutEffect } from "react";
 import { Group } from "three";
-
-/* ================= TYPES ================= */
-
-type Breakpoint = "sm" | "md" | "lg" | "xl" | "xxl" | "xxxl";
 
 /* ================= COMPONENT ================= */
 
@@ -23,217 +19,201 @@ function Scene() {
   const breakpoint = useResponsiveStore((state) => state.breakpoint);
   const isReady = useResponsiveStore((state) => state.isReady);
 
-  console.log(breakpoint);
   const getIntroTimeline = useAnimationStore((state) => state.getIntroTimeline);
 
+  const groupRef = useRef<Group>(null);
   const can1Ref = useRef<Group>(null);
   const can1GroupRef = useRef<Group>(null);
-  const groupRef = useRef<Group>(null);
 
-  // Map lowercase breakpoint to uppercase for CONFIG lookup
+  const introPlayedRef = useRef(false);
+
   const configKey = breakpoint.toUpperCase() as keyof typeof CONFIG;
   const config = CONFIG[configKey];
 
   const FLOAT_SPEED = 4;
 
-  // Check session storage once on mount
-  const introPlayed = useRef(
-    typeof window !== "undefined" &&
-      sessionStorage.getItem("introPlayed") === "true"
-  );
+  /* ================= APPLY FINAL STATE ON RESIZE ================= */
 
-  useEffect(() => {
-    // When breakpoint changes or coming from another page, immediately set to final position
+  useLayoutEffect(() => {
     if (!config || !can1Ref.current || !can1GroupRef.current) return;
 
-    const isMobile = breakpoint === "sm";
+    if (!introPlayedRef.current) return;
 
-    if (introPlayed.current || !config.final) {
-      // Already played or no config - go directly to final position
-      if (config.final.can1) {
-        const { position, rotation, scale } = config.final.can1;
+    const final = config.final?.can1;
+    if (!final) return;
 
-        if (position) {
-          gsap.to(can1Ref.current.position, {
-            x: position.x ?? 0,
-            y: position.y ?? 0,
-            z: position.z ?? 0,
-            duration: 0.2,
-            ease: "power1.out",
-          });
-        }
+    gsap.set(can1Ref.current.position, {
+      x: final.position?.x ?? 0,
+      y: final.position?.y ?? 0,
+      z: final.position?.z ?? 0,
+    });
 
-        if (rotation) {
-          gsap.to(can1Ref.current.rotation, {
-            x: rotation.x ?? 0,
-            y: rotation.y ?? 0,
-            z: rotation.z ?? 0,
-            duration: 0.2,
-            ease: "power1.out",
-          });
-        }
+    gsap.set(can1Ref.current.rotation, {
+      x: final.rotation?.x ?? 0,
+      y: final.rotation?.y ?? 0,
+      z: final.rotation?.z ?? 0,
+    });
 
-        if (scale) {
-          gsap.to(can1Ref.current.scale, {
-            x: scale.x ?? 1,
-            y: scale.y ?? 1,
-            z: scale.z ?? 1,
-            duration: 0.2,
-            ease: "power1.out",
-          });
-        }
-      }
+    gsap.set(can1Ref.current.scale, {
+      x: final.scale?.x ?? 1,
+      y: final.scale?.y ?? 1,
+      z: final.scale?.z ?? 1,
+    });
 
-      // Also reset group position/rotation
-      gsap.to(can1GroupRef.current.position, {
-        x: 0,
-        y: 0,
-        z: 0,
-        duration: 0.2,
-      });
-      gsap.to(can1GroupRef.current.rotation, {
-        x: 0,
-        y: 0,
-        z: 0,
-        duration: 0.2,
-      });
-    }
+    gsap.set(can1GroupRef.current.position, { x: 0, y: 0, z: 0 });
+    gsap.set(can1GroupRef.current.rotation, { x: 0, y: 0, z: 0 });
+
   }, [breakpoint, config]);
 
-  useGSAP(() => {
-    if (
-      !can1Ref.current ||
-      !can1GroupRef.current ||
-      !groupRef.current ||
-      !isReady ||
-      !config
-    )
-      return;
+  /* ================= INTRO ================= */
 
-    setMeshReady();
+  useGSAP(
+    () => {
+      if (!isReady) return;
+      if (!config) return;
+      if (!can1Ref.current) return;
+      if (!can1GroupRef.current) return;
 
-    const isMobile = breakpoint === "sm";
+      setMeshReady();
 
-    /* ================= SET INITIAL STATE ================= */
-    // Set initial position based on config
-    if (config.initial.can1) {
-      const { position, rotation, scale } = config.initial.can1;
+      const introTimeline = getIntroTimeline();
+      if (!introTimeline) return;
 
-      if (position) {
+      const initial = config.initial?.can1;
+      const intro = config.intro?.can1;
+      const final = config.final?.can1;
+
+      /* ================= INITIAL STATE ================= */
+
+      if (!introPlayedRef.current) {
         gsap.set(can1Ref.current.position, {
-          x: position.x ?? 0,
-          y: position.y ?? 0,
-          z: position.z ?? 0,
+          x: initial?.position?.x ?? 0,
+          y: initial?.position?.y ?? 0,
+          z: initial?.position?.z ?? 0,
         });
-      }
-      if (rotation) {
+
         gsap.set(can1Ref.current.rotation, {
-          x: rotation.x ?? 0,
-          y: rotation.y ?? 0,
-          z: rotation.z ?? 0,
+          x: initial?.rotation?.x ?? 0,
+          y: initial?.rotation?.y ?? 0,
+          z: initial?.rotation?.z ?? 0,
         });
-      }
-      if (scale) {
+
         gsap.set(can1Ref.current.scale, {
-          x: scale.x ?? 1,
-          y: scale.y ?? 1,
-          z: scale.z ?? 1,
+          x: initial?.scale?.x ?? 1,
+          y: initial?.scale?.y ?? 1,
+          z: initial?.scale?.z ?? 1,
         });
+
+        gsap.set(can1GroupRef.current.position, { x: 0, y: 0, z: 0 });
+        gsap.set(can1GroupRef.current.rotation, { x: 0, y: 0, z: 0 });
       }
-    }
 
-    /* ================= INTRO TIMELINE ================= */
-    if (!introPlayed.current) {
-      const tl = getIntroTimeline();
-      if (!tl) return;
+      /* ================= INTRO PLAY ================= */
 
-      if (isMobile) {
-        // Mobile: simple scale animation
-        tl.to(
-          can1Ref.current.scale,
-          { x: 0.55, y: 0.55, z: 0.55, duration: 0.45, ease: "back.out(2)" },
-          1.7
-        );
-      } else {
-        // Desktop: animate from intro position to final
-        if (config.intro.can1?.from?.position) {
-          const fromPos = config.intro.can1.from.position;
-          tl.from(
+      if (!introPlayedRef.current) {
+        introPlayedRef.current = true;
+
+        if (intro?.from?.position) {
+          introTimeline.fromTo(
             can1GroupRef.current.position,
             {
-              x: fromPos.x ?? 0,
-              y: fromPos.y ?? 0,
-              z: fromPos.z ?? 0,
+              x: intro.from.position.x ?? 0,
+              y: intro.from.position.y ?? 0,
+              z: intro.from.position.z ?? 0,
+            },
+            {
+              x: 0,
+              y: 0,
+              z: 0,
               duration: 1.2,
-              ease: "back.out(0.7)",
+              ease: "back.out(1.4)",
             },
             1.6
           );
         }
 
-        if (config.intro.can1?.from?.rotation) {
-          const fromRot = config.intro.can1.from.rotation;
-          const toRot = config.intro.can1.to?.rotation;
-
-          // Animate the CAN itself (not the group) to spin on its own axis
-          tl.fromTo(
+        if (intro?.from?.rotation || intro?.to?.rotation) {
+          introTimeline.fromTo(
             can1Ref.current.rotation,
             {
-              x: fromRot.x ?? 0,
-              y: fromRot.y ?? 0,
-              z: fromRot.z ?? 0,
+              x: intro.from?.rotation?.x ?? 0,
+              y: intro.from?.rotation?.y ?? 0,
+              z: intro.from?.rotation?.z ?? 0,
             },
             {
-              x: toRot?.x ?? 0,
-              y: toRot?.y ?? 0,
-              z: toRot?.z ?? 0,
+              x: intro.to?.rotation?.x ?? final?.rotation?.x ?? 0,
+              y: intro.to?.rotation?.y ?? final?.rotation?.y ?? 0,
+              z: intro.to?.rotation?.z ?? final?.rotation?.z ?? 0,
               duration: 1.2,
-              ease: "back.out(0.7)",
+              ease: "back.out(1.4)",
             },
             1.6
           );
         }
+
+        if (intro?.to?.scale) {
+          introTimeline.to(
+            can1Ref.current.scale,
+            {
+              x: intro.to.scale.x,
+              y: intro.to.scale.y,
+              z: intro.to.scale.z,
+              duration: 0.8,
+              ease: "back.out(2)",
+            },
+            1.7
+          );
+        }
       }
-    } else {
-      // Already played - go directly to final state
-      if (isMobile) {
-        gsap.to(can1Ref.current.scale, {
-          x: 0.55,
-          y: 0.55,
-          z: 0.55,
-          duration: 0.5,
-          ease: "power2.out",
+
+      /* ================= FINAL STATE IF INTRO ALREADY PLAYED ================= */
+
+      else {
+        gsap.set(can1Ref.current.position, {
+          x: final?.position?.x ?? 0,
+          y: final?.position?.y ?? 0,
+          z: final?.position?.z ?? 0,
         });
-      } else {
-        gsap.to(can1GroupRef.current.position, {
-          x: 0,
-          y: 0,
-          z: 0,
-          duration: 0.5,
-          ease: "power2.out",
+
+        gsap.set(can1Ref.current.rotation, {
+          x: final?.rotation?.x ?? 0,
+          y: final?.rotation?.y ?? 0,
+          z: final?.rotation?.z ?? 0,
         });
-        gsap.to(can1GroupRef.current.rotation, {
-          x: 0,
-          y: 0,
-          z: 0,
-          duration: 0.5,
-          ease: "power2.out",
+
+        gsap.set(can1Ref.current.scale, {
+          x: final?.scale?.x ?? 1,
+          y: final?.scale?.y ?? 1,
+          z: final?.scale?.z ?? 1,
         });
+
+        gsap.set(can1GroupRef.current.position, { x: 0, y: 0, z: 0 });
+        gsap.set(can1GroupRef.current.rotation, { x: 0, y: 0, z: 0 });
       }
-    }
-  }, [breakpoint, isReady]);
+    },
+    { dependencies: [breakpoint, isReady], scope: groupRef }
+  );
+
+  /* ================= JSX ================= */
 
   return (
     <group ref={groupRef}>
       <group ref={can1GroupRef}>
-        <FloatingCan ref={can1Ref} flavor="original" floatSpeed={FLOAT_SPEED} />
+        <FloatingCan
+          ref={can1Ref}
+          flavor="original"
+          floatSpeed={FLOAT_SPEED}
+        />
       </group>
 
       <directionalLight position={[0, 0, 5]} intensity={0.7} castShadow />
       <ambientLight intensity={12} />
       <pointLight position={[0, 1, 3]} intensity={6} />
 
-      <Environment files={"/hdr/pursky.hdr"} environmentIntensity={0.6} />
+      <Environment
+        files={"/hdr/pursky.hdr"}
+        environmentIntensity={0.6}
+      />
     </group>
   );
 }
