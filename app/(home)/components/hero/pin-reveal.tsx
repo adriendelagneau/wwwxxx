@@ -40,7 +40,7 @@ const PinnedReveal: React.FC<PinnedRevealProps> = ({ text, className }) => {
   return (
     <section
       ref={pinSectionRef}
-      className="font-poppins relative z-5 capitalize flex h-screen w-full  justify-start pt-36 p-8  text-[28px] sm:text-4xl   xl:text-5xl 2xl:text-6xl"
+      className="font-poppins relative z-5 capitalize flex h-screen w-full  justify-start pt-36 p-8  text-[24px] sm:text-4xl   xl:text-5xl 2xl:text-6xl"
     >
       <div className="max-w-2xl leading-snug text-secondary">
         {splitWords(text, letterRefs)}
