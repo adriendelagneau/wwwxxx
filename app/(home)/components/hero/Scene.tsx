@@ -45,8 +45,10 @@ function Scene() {
           t.kill();
         }
       });
-      const intro = config.intro?.can1;
-      const final = config.final?.can1;
+      const intro = config.hero.intro?.can1;
+      const final = config.hero.final?.can1;
+
+      const scrollAnimations = config.hero.scroll;
 
       const hasPlayedBefore =
         typeof window !== "undefined" &&
@@ -55,19 +57,19 @@ function Scene() {
       /* ================= SET INITIAL POSITIONS FOR CAN3 & CAN4 ================= */
 
       // Always set initial positions from config (works on both first visit and refresh)
-      if (can3Ref.current && config.scroll?.can3?.from.position) {
+      if (can3Ref.current && scrollAnimations?.can3?.from.position) {
         gsap.set(can3Ref.current.position, {
-          x: config.scroll.can3.from.position.x ?? 0,
-          y: config.scroll.can3.from.position.y ?? 0,
-          z: config.scroll.can3.from.position.z ?? 0,
+          x: scrollAnimations.can3.from.position.x ?? 0,
+          y: scrollAnimations.can3.from.position.y ?? 0,
+          z: scrollAnimations.can3.from.position.z ?? 0,
         });
       }
 
-      if (can4Ref.current && config.scroll?.can4?.from.position) {
+      if (can4Ref.current && scrollAnimations?.can4?.from.position) {
         gsap.set(can4Ref.current.position, {
-          x: config.scroll.can4.from.position.x ?? 0,
-          y: config.scroll.can4.from.position.y ?? 0,
-          z: config.scroll.can4.from.position.z ?? 0,
+          x: scrollAnimations.can4.from.position.x ?? 0,
+          y: scrollAnimations.can4.from.position.y ?? 0,
+          z: scrollAnimations.can4.from.position.z ?? 0,
         });
       }
 
@@ -157,7 +159,6 @@ function Scene() {
 
       /* ================= SCROLL ANIMATIONS ================= */
 
-      const scrollAnimations = config.scroll;
       const heroElement = document.querySelector(".hero");
 
       if (

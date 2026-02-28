@@ -162,23 +162,25 @@ export type Transform = {
 };
 
 export type BreakpointConfig = {
-  intro: {
-    can1: { from: Transform; to: Transform };
-  };
-  final: {
-    can1: Transform;
-  };
-  scroll: {
-    groupRotation: Vec3;
-    can1: Transform;
-    can3: { from: Transform; to: Transform };
-    can4: { from: Transform; to: Transform };
-    groupPosition: {
-      x?: number;
-      y?: number;
-      z?: number;
-      duration?: number;
-      ease?: string;
+  hero: {
+    intro: {
+      can1: { from: Transform; to: Transform };
+    };
+    final: {
+      can1: Transform;
+    };
+    scroll: {
+      groupRotation: Vec3;
+      can1: Transform;
+      can3: { from: Transform; to: Transform };
+      can4: { from: Transform; to: Transform };
+      groupPosition: {
+        x?: number;
+        y?: number;
+        z?: number;
+        duration?: number;
+        ease?: string;
+      };
     };
   };
 };
@@ -191,61 +193,66 @@ export type BreakpointConfig = {
 export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", BreakpointConfig> = {
 
   SM: {
-
-    intro: {
-      can1: { from: { position: { x: 5 }, rotation: { z: 1 } }, to: { position: { x: 0 }, rotation: { z: 0 } } },
-    },
-    final: {
-      can1: { position: { x: 0, y: -0.5 }, rotation: { z: 0 }, scale: { x: 0.55, y: 0.55, z: 0.55 } },
-    },
-    scroll: {
-      groupRotation: { y: Math.PI * 2 },
-      can1: { position: { x: 0 }, rotation: { z: 0 } },
-      can3: { from: { position: { x: 0, y: -0.4, z: -0.5 } }, to: { position: { x: 0.25, y: -0.4, z: -0.5 }, rotation: { z: -0.3 } } },
-      can4: { from: { position: { x: -0.25, y: -0.38, z: -0.4 } }, to: { position: { x: -0.25, y: -0.38, z: -0.4 }, rotation: { z: 0.3 } } },
-      groupPosition: { x: 0, y: 0, duration: 2, ease: "sine.inOut" },
+    hero: {
+      intro: {
+        can1: { from: { position: { x: 5 }, rotation: { z: 1 } }, to: { position: { x: 0 }, rotation: { z: 0 } } },
+      },
+      final: {
+        can1: { position: { x: 0, y: -0.5 }, rotation: { z: 0 }, scale: { x: 0.55, y: 0.55, z: 0.55 } },
+      },
+      scroll: {
+        groupRotation: { y: Math.PI * 2 },
+        can1: { position: { x: 0 }, rotation: { z: 0 } },
+        can3: { from: { position: { x: 0, y: -0.4, z: -0.5 } }, to: { position: { x: 0.25, y: -0.4, z: -0.5 }, rotation: { z: -0.3 } } },
+        can4: { from: { position: { x: -0.25, y: -0.38, z: -0.4 } }, to: { position: { x: -0.25, y: -0.38, z: -0.4 }, rotation: { z: 0.3 } } },
+        groupPosition: { x: 0, y: 0, duration: 2, ease: "sine.inOut" },
+      },
     },
   },
 
   MD: {
-
-    intro: {
-      can1: { from: { position: { x: 5 }, rotation: { z: 1 } }, to: { position: { x: 0 }, rotation: { z: 0 } } },
-    },
-    final: {
-      can1: { position: { x: 0, y: -0.7 }, rotation: { z: 0 }, scale: { x: 0.65, y: 0.65, z: 0.65 } },
-    },
-    scroll: {
-      groupRotation: { y: Math.PI * 2 },
-      can1: { position: { x: 0, y: -0.3 }, rotation: { z: 0 } },
-      can3: { from: { position: { x: 0, y: -0.4, z: -0.5 } }, to: { position: { x: 0.25, y: -0.4, z: -0.5 }, rotation: { z: -0.3 } } },
-      can4: { from: { position: { x: -0.25, y: -0.38, z: -0.4 } }, to: { position: { x: -0.25, y: -0.38, z: -0.4 }, rotation: { z: 0.3 } } },
-      groupPosition: { x: 0, y: -0.3, duration: 2, ease: "sine.inOut" },
+    hero: {
+      intro: {
+        can1: { from: { position: { x: 5 }, rotation: { z: 1 } }, to: { position: { x: 0 }, rotation: { z: 0 } } },
+      },
+      final: {
+        can1: { position: { x: 0, y: -0.7 }, rotation: { z: 0 }, scale: { x: 0.65, y: 0.65, z: 0.65 } },
+      },
+      scroll: {
+        groupRotation: { y: Math.PI * 2 },
+        can1: { position: { x: 0, y: -0.3 }, rotation: { z: 0 } },
+        can3: { from: { position: { x: 0, y: -0.4, z: -0.5 } }, to: { position: { x: 0.25, y: -0.4, z: -0.5 }, rotation: { z: -0.3 } } },
+        can4: { from: { position: { x: -0.25, y: -0.38, z: -0.4 } }, to: { position: { x: -0.25, y: -0.38, z: -0.4 }, rotation: { z: 0.3 } } },
+        groupPosition: { x: 0, y: -0.3, duration: 2, ease: "sine.inOut" },
+      },
     },
   },
 
   LG: {
+    hero: {
 
-    intro: {
-      can1: { from: { position: { x: 5 }, rotation: { z: 1 } }, to: { position: { x: 0 }, rotation: { z: 0 } } },
-    },
-    final: {
-      can1: { position: { x: 0, y: -0.65 }, rotation: { z: 0 }, scale: { x: 0.68, y: 0.68, z: 0.68 } },
-    },
-    scroll: {
-      groupRotation: { y: Math.PI * 2 },
-      can1: { position: { x: 0, y: -0.3 }, rotation: { z: 0 } },
-      can3: { from: { position: { x: 0, y: -0.4, z: -0.5 } }, to: { position: { x: 0.25, y: -0.4, z: -0.5 }, rotation: { z: -0.3 } } },
-      can4: { from: { position: { x: -0.25, y: -0.38, z: -0.4 } }, to: { position: { x: -0.25, y: -0.38, z: -0.4 }, rotation: { z: 0.3 } } },
-      groupPosition: { x: 0, y: -0.35, duration: 2, ease: "sine.inOut" },
+      intro: {
+        can1: { from: { position: { x: 5 }, rotation: { z: 1 } }, to: { position: { x: 0 }, rotation: { z: 0 } } },
+      },
+      final: {
+        can1: { position: { x: 0, y: -0.65 }, rotation: { z: 0 }, scale: { x: 0.68, y: 0.68, z: 0.68 } },
+      },
+      scroll: {
+        groupRotation: { y: Math.PI * 2 },
+        can1: { position: { x: 0, y: -0.3 }, rotation: { z: 0 } },
+        can3: { from: { position: { x: 0, y: -0.4, z: -0.5 } }, to: { position: { x: 0.25, y: -0.4, z: -0.5 }, rotation: { z: -0.3 } } },
+        can4: { from: { position: { x: -0.25, y: -0.38, z: -0.4 } }, to: { position: { x: -0.25, y: -0.38, z: -0.4 }, rotation: { z: 0.3 } } },
+        groupPosition: { x: 0, y: -0.35, duration: 2, ease: "sine.inOut" },
+      },
     },
   },
 
   XL: {
-
-    intro: {
-      can1: { from: { position: { y: 5, x: 1 }, rotation: { z: 3 } }, to: { position: { y: -0.1, x: 1 }, rotation: { z: -0.1 } } },
-    },
+    hero: {
+  
+      intro: {
+        can1: { from: { position: { y: 5, x: 1 }, rotation: { z: 3 } }, to: { position: { y: -0.1, x: 1 }, rotation: { z: -0.1 } } },
+      },
     final: {
       can1: { position: { x: 1.7, y: -0.1 }, rotation: { z: -0.1 }, scale: { x: 0.82, y: 0.82, z: 0.82 } },
     },
@@ -257,41 +264,43 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
       groupPosition: { x: 0, y: -0.4, duration: 3, ease: "sine.inOut" },
     },
   },
-
+},
+  
   XXL: {
-
-    intro: {
-      can1: { from: { position: { y: 0, x: 2 }, rotation: { y: -Math.PI * 2 } }, to: { position: { y: -0.2, x: 1.2 }, rotation: { y: -0.1 } } },
-    },
-    final: {
-      can1: { position: { y: -0.2, x: 1.2 }, rotation: { z: -0.1 }, scale: { x: 0.9, y: 0.9, z: 0.9 } },
-    },
-    scroll: {
-      groupRotation: { y: Math.PI * 2 },
-      can1: { position: { x: 0.1 }, rotation: { z: 0 } },
-      can3: { from: { position: { x: 0, y: -0.4, z: -0.5 } }, to: { position: { x: 0.8, y: 0, z: -0.8 }, rotation: { z: -0.3 } } },
-      can4: { from: { position: { x: -0.25, y: -0.38, z: -0.4 } }, to: { position: { x: -0.5, y: 0, z: -0.5 }, rotation: { z: 0.3 } } },
-      groupPosition: { x: 1, duration: 3, ease: "sine.inOut" },
+    hero: {
+      intro: {
+        can1: { from: { position: { y: 0, x: 2 }, rotation: { y: -Math.PI * 2 } }, to: { position: { y: -0.2, x: 1.2 }, rotation: { y: -0.1 } } },
+      },
+      final: {
+        can1: { position: { y: -0.2, x: 1.2 }, rotation: { z: -0.1 }, scale: { x: 0.9, y: 0.9, z: 0.9 } },
+      },
+      scroll: {
+        groupRotation: { y: Math.PI * 2 },
+        can1: { position: { x: 0.1 }, rotation: { z: 0 } },
+        can3: { from: { position: { x: 0, y: -0.4, z: -0.5 } }, to: { position: { x: 0.8, y: 0, z: -0.8 }, rotation: { z: -0.3 } } },
+        can4: { from: { position: { x: -0.25, y: -0.38, z: -0.4 } }, to: { position: { x: -0.5, y: 0, z: -0.5 }, rotation: { z: 0.3 } } },
+        groupPosition: { x: 1, duration: 3, ease: "sine.inOut" },
+      },
     },
   },
 
   XXXL: {
-
-    intro: {
-      can1: { from: { position: { y: 0, x: 3.2 }, rotation: { z: 3 } }, to: { position: { y: -0.1, x: 1.7 }, rotation: { z: -0.1 } } },
+    hero: {
+      intro: {
+        can1: { from: { position: { y: 0, x: 3.2 }, rotation: { z: 3 } }, to: { position: { y: -0.1, x: 1.7 }, rotation: { z: -0.1 } } },
+      },
+      final: {
+        can1: { position: { y: -0.1, x: 1.7 }, scale: { x: 1, y: 1, z: 1 } },
+      },
+      scroll: {
+        groupRotation: { y: Math.PI * 2 },
+        can1: { position: { x: 1 }, rotation: { z: 0 } },
+        can3: { from: { position: { x: 0, y: -4, z: -0.5 } }, to: { position: { x: 1.8, y: 0, z: -0.8 }, rotation: { z: -0.3 } } },
+        can4: { from: { position: { x: -1.5, y: 4, z: -0.4 } }, to: { position: { x: 0.5, y: 0, z: -0.5 }, rotation: { z: 0.3 } } },
+        groupPosition: { x: 1.5, duration: 3, ease: "sine.inOut" },
+      },
     },
-    final: {
-      can1: { position: { y: -0.1, x: 1.7 }, scale: { x: 1, y: 1, z: 1 } },
-    },
-    scroll: {
-      groupRotation: { y: Math.PI * 2 },
-      can1: { position: { x: 1 }, rotation: { z: 0 } },
-      can3: { from: { position: { x: 0, y: -4, z: -0.5 } }, to: { position: { x: 1.8, y: 0, z: -0.8 }, rotation: { z: -0.3 } } },
-      can4: { from: { position: { x: -1.5, y: 4, z: -0.4 } }, to: { position: { x: 0.5, y: 0, z: -0.5 }, rotation: { z: 0.3 } } },
-      groupPosition: { x: 1.5, duration: 3, ease: "sine.inOut" },
-    },
-  },
-
+  }
 };
 
 /* ================= HERO DATA ================= */
