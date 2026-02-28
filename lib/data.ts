@@ -170,6 +170,19 @@ export type BreakpointConfig = {
   final: {
     can1: Transform;
   };
+  scroll: {
+    groupRotation: Vec3;
+    can1: Transform;
+    can3: Transform;
+    can4: Transform;
+    groupPosition: {
+      x?: number;
+      y?: number;
+      z?: number;
+      duration?: number;
+      ease?: string;
+    };
+  };
 };
 
 /* ================= CONFIG ================= */
@@ -196,6 +209,18 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
         scale: { x: 0.55, y: 0.55, z: 0.55 },
       },
     },
+    scroll: {
+      groupRotation: { y: Math.PI * 2 },
+      can1: { position: { x: 0, y: -0.3 }, rotation: { z: 0 } },
+      can3: { position: { x: 0.25, y: -0.4, z: -0.5 }, rotation: { z: -0.3 } },
+      can4: { position: { x: -0.25, y: -0.38, z: -0.4 }, rotation: { z: 0.3 } },
+      groupPosition: {
+        x: 0,
+        y: -0.3,
+        duration: 2,
+        ease: "sine.inOut",
+      },
+    },
   },
 
   MD: {
@@ -218,6 +243,18 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
         scale: { x: 0.65, y: 0.65, z: 0.65 },
       },
     },
+    scroll: {
+      groupRotation: { y: Math.PI * 2 },
+      can1: { position: { x: 0, y: -0.3 }, rotation: { z: 0 } },
+      can3: { position: { x: 0.25, y: -0.4, z: -0.5 }, rotation: { z: -0.3 } },
+      can4: { position: { x: -0.25, y: -0.38, z: -0.4 }, rotation: { z: 0.3 } },
+      groupPosition: {
+        x: 0,
+        y: -0.3,
+        duration: 2,
+        ease: "sine.inOut",
+      },
+    },
   },
 
   LG: {
@@ -238,6 +275,18 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
         position: { x: 0, y: -0.65 },
         rotation: { z: 0 },
         scale: { x: 0.68, y: 0.68, z: 0.68 },
+      },
+    },
+    scroll: {
+      groupRotation: { y: Math.PI * 2 },
+      can1: { position: { x: 0, y: -0.3 }, rotation: { z: 0 } },
+      can3: { position: { x: 0.25, y: -0.4, z: -0.5 }, rotation: { z: -0.3 } },
+      can4: { position: { x: -0.25, y: -0.38, z: -0.4 }, rotation: { z: 0.3 } },
+      groupPosition: {
+        x: 0,
+        y: -0.35,
+        duration: 2,
+        ease: "sine.inOut",
       },
     },
   },
@@ -263,6 +312,27 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
         scale: { x: 0.82, y: 0.82, z: 0.82 },
       },
     },
+    scroll: {
+      groupRotation: { y: Math.PI * 2 },
+      can1: {
+        position: { x: 0.1 },
+        rotation: { z: 0 },
+      },
+      can3: {
+        position: { x: 0.8, y: 0, z: -0.8 },
+        rotation: { z: -0.3 },
+      },
+      can4: {
+        position: { x: -0.5, y: 0, z: -0.5 },
+        rotation: { z: 0.3 },
+      },
+      groupPosition: {
+        x: 0,
+        y: -0.4,
+        duration: 3,
+        ease: "sine.inOut",
+      },
+    },
   },
 
   XXL: {
@@ -284,6 +354,26 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
         scale: { x: 0.9, y: 0.9, z: 0.9 },
       },
     },
+    scroll: {
+      groupRotation: { y: Math.PI * 2 },
+      can1: {
+        position: { x: 0.1 },
+        rotation: { z: 0 },
+      },
+      can3: {
+        position: { x: 0.8, y: 0, z: -0.8 },
+        rotation: { z: -0.3 },
+      },
+      can4: {
+        position: { x: -0.5, y: 0, z: -0.5 },
+        rotation: { z: 0.3 },
+      },
+      groupPosition: {
+        x: 1,
+        duration: 3,
+        ease: "sine.inOut",
+      },
+    },
   },
 
   XXXL: {
@@ -303,6 +393,26 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
       can1: {
         position: { y: -0.1, x: 1.7 },
         scale: { x: 1, y: 1, z: 1 },
+      },
+    },
+    scroll: {
+      groupRotation: { y: Math.PI * 2 },
+      can1: {
+        position: { x: 0.1 },
+        rotation: { z: 0 },
+      },
+      can3: {
+        position: { x: 0.8, y: 0, z: -0.8 },
+        rotation: { z: -0.3 },
+      },
+      can4: {
+        position: { x: -0.5, y: 0, z: -0.5 },
+        rotation: { z: 0.3 },
+      },
+      groupPosition: {
+        x: 1,
+        duration: 3,
+        ease: "sine.inOut",
       },
     },
   },

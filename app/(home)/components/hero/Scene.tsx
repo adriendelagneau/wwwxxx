@@ -131,6 +131,12 @@ function Scene() {
     { dependencies: [breakpoint, isReady], scope: groupRef }
   );
 
+
+
+
+
+  
+
   /* ================= JSX ================= */
   return (
     <group ref={groupRef}>
@@ -138,6 +144,7 @@ function Scene() {
         <FloatingCan ref={can1Ref} flavor="original" floatSpeed={FLOAT_SPEED} />
       </group>
 
+      
       <directionalLight position={[0, 0, 5]} intensity={0.7} castShadow />
       <ambientLight intensity={12} />
       <pointLight position={[0, 1, 3]} intensity={6} />
