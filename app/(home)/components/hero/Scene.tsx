@@ -23,7 +23,7 @@ function Scene() {
   const breakpoint = useResponsiveStore((state) => state.breakpoint);
   const isReady = useResponsiveStore((state) => state.isReady);
 
-  console.log(breakpoint)
+  console.log(breakpoint);
   const getIntroTimeline = useAnimationStore((state) => state.getIntroTimeline);
 
   const can1Ref = useRef<Group>(null);
@@ -58,8 +58,8 @@ function Scene() {
             x: position.x ?? 0,
             y: position.y ?? 0,
             z: position.z ?? 0,
-            duration: 0.3,
-            ease: "power2.out",
+            duration: 0.2,
+            ease: "power1.out",
           });
         }
 
@@ -68,8 +68,8 @@ function Scene() {
             x: rotation.x ?? 0,
             y: rotation.y ?? 0,
             z: rotation.z ?? 0,
-            duration: 0.3,
-            ease: "power2.out",
+            duration: 0.2,
+            ease: "power1.out",
           });
         }
 
@@ -78,8 +78,8 @@ function Scene() {
             x: scale.x ?? 1,
             y: scale.y ?? 1,
             z: scale.z ?? 1,
-            duration: 0.3,
-            ease: "power2.out",
+            duration: 0.2,
+            ease: "power1.out",
           });
         }
       }
@@ -89,13 +89,13 @@ function Scene() {
         x: 0,
         y: 0,
         z: 0,
-        duration: 0.3,
+        duration: 0.2,
       });
       gsap.to(can1GroupRef.current.rotation, {
         x: 0,
         y: 0,
         z: 0,
-        duration: 0.3,
+        duration: 0.2,
       });
     }
   }, [breakpoint, config]);
@@ -173,12 +173,20 @@ function Scene() {
 
         if (config.intro.can1?.from?.rotation) {
           const fromRot = config.intro.can1.from.rotation;
-          tl.from(
-            can1GroupRef.current.rotation,
+          const toRot = config.intro.can1.to?.rotation;
+
+          // Animate the CAN itself (not the group) to spin on its own axis
+          tl.fromTo(
+            can1Ref.current.rotation,
             {
               x: fromRot.x ?? 0,
               y: fromRot.y ?? 0,
               z: fromRot.z ?? 0,
+            },
+            {
+              x: toRot?.x ?? 0,
+              y: toRot?.y ?? 0,
+              z: toRot?.z ?? 0,
               duration: 1.2,
               ease: "back.out(0.7)",
             },
