@@ -234,7 +234,7 @@ function Scene() {
     <group ref={groupRef}>
       <FloatingCan ref={can1Ref} flavor="original" floatSpeed={FLOAT_SPEED} />
       <FloatingCan ref={can3Ref} flavor="zero" floatSpeed={FLOAT_SPEED} />
-      <FloatingCan ref={can4Ref}  flavor="cherry" floatSpeed={FLOAT_SPEED} />
+      <FloatingCan ref={can4Ref}  flavor="coffee" floatSpeed={FLOAT_SPEED} />
       <directionalLight position={[0, 0, 5]} intensity={0.7} castShadow />
       <ambientLight intensity={12} />
       <pointLight position={[0, 1, 3]} intensity={6} />
