@@ -11,6 +11,8 @@ import gsap from "gsap";
 import React, { useRef } from "react";
 import { Group } from "three";
 
+gsap.registerPlugin(ScrollTrigger);
+
 /* ================= COMPONENT ================= */
 
 function Scene() {
@@ -33,7 +35,12 @@ function Scene() {
       if (!isReady || !config || !can1Ref.current) return;
 
       setMeshReady();
-
+      // Kill existing ScrollTriggers for this section
+      ScrollTrigger.getAll().forEach((t) => {
+        if (t.vars.trigger === ".hero") {
+          t.kill();
+        }
+      });
       const intro = config.intro?.can1;
       const final = config.final?.can1;
 
@@ -128,6 +135,30 @@ function Scene() {
           z: final.scale?.z ?? 1,
         });
       }
+
+      
+
+        if (scrollAnimations.group?.rotation) {
+          scrollTL.to(
+            groupRef.current.rotation,
+            scrollAnimations.group.rotation
+          );
+        }
+
+        if (scrollAnimations.can1?.position) {
+          scrollTL.to(
+            can1Ref.current.position,
+            scrollAnimations.can1.position,
+            0
+          );
+        }
+        if (scrollAnimations.can1?.rotation) {
+          scrollTL.to(
+            can1Ref.current.rotation,
+            scrollAnimations.can1.rotation,
+            0
+          );
+        }
     },
     { dependencies: [breakpoint, isReady], scope: groupRef }
   );
