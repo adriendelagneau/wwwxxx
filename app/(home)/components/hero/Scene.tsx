@@ -20,6 +20,8 @@ function Scene() {
 
   const groupRef = useRef<Group>(null);
   const can1Ref = useRef<Group>(null);
+  const can3Ref = useRef<Group>(null);
+  const can4Ref = useRef<Group>(null);
   const can1GroupRef = useRef<Group>(null);
 
   const configKey = breakpoint.toUpperCase() as keyof typeof CONFIG;
@@ -131,12 +133,6 @@ function Scene() {
     { dependencies: [breakpoint, isReady], scope: groupRef }
   );
 
-
-
-
-
-  
-
   /* ================= JSX ================= */
   return (
     <group ref={groupRef}>
@@ -144,7 +140,8 @@ function Scene() {
         <FloatingCan ref={can1Ref} flavor="original" floatSpeed={FLOAT_SPEED} />
       </group>
 
-      
+      <FloatingCan ref={can3Ref} flavor="zero" floatSpeed={FLOAT_SPEED} />
+      <FloatingCan ref={can4Ref} flavor="cherry" floatSpeed={FLOAT_SPEED} />
       <directionalLight position={[0, 0, 5]} intensity={0.7} castShadow />
       <ambientLight intensity={12} />
       <pointLight position={[0, 1, 3]} intensity={6} />
