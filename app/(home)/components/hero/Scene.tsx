@@ -150,8 +150,9 @@ function Scene() {
           scrollTrigger: {
             trigger: ".hero",
             start: "top top",
-            end: "bottom top",
+            end: "bottom 10%",
             scrub: 1,
+            markers: true
           },
         });
 

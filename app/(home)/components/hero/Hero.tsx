@@ -109,8 +109,8 @@ const Hero = () => {
         </div>
 
         {/* DESCRIPTION */}
-        <PinnedReveal className="text-xl" text={HERO.description} />
       </div>
+        <PinnedReveal className="text-xl" text={HERO.description} />
     </div>
   );
 };

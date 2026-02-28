@@ -300,10 +300,10 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
     },
     scroll: {
       groupRotation: { y: Math.PI * 2 },
-      can1: { position: { x: 0.1 }, rotation: { z: 0 } },
+      can1: { position: { x: 1 }, rotation: { z: 0 } },
       can3: { position: { x: 0.8, y: 0, z: -0.8 }, rotation: { z: -0.3 } },
       can4: { position: { x: -0.5, y: 0, z: -0.5 }, rotation: { z: 0.3 } },
-      groupPosition: { x: 1, duration: 3, ease: "sine.inOut" },
+      groupPosition: { x: 1.5, duration: 3, ease: "sine.inOut" },
     },
   },
 
