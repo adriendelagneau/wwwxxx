@@ -129,6 +129,11 @@ function Scene() {
         gsap.set(can1GroupRef.current.position, { x: 0, y: 0, z: 0 });
         gsap.set(can1GroupRef.current.rotation, { x: 0, y: 0, z: 0 });
       }
+
+
+
+
+      
     },
     { dependencies: [breakpoint, isReady], scope: groupRef }
   );

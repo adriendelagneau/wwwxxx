@@ -173,8 +173,6 @@ export type BreakpointConfig = {
   scroll: {
     groupRotation: Vec3;
     can1: Transform;
-    can3: Transform;
-    can4: Transform;
     groupPosition: {
       x?: number;
       y?: number;
@@ -211,12 +209,10 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
     },
     scroll: {
       groupRotation: { y: Math.PI * 2 },
-      can1: { position: { x: 0, y: -0.3 }, rotation: { z: 0 } },
-      can3: { position: { x: 0.25, y: -0.4, z: -0.5 }, rotation: { z: -0.3 } },
-      can4: { position: { x: -0.25, y: -0.38, z: -0.4 }, rotation: { z: 0.3 } },
+      can1: { position: { x: 0 }, rotation: { z: 0 } },
       groupPosition: {
         x: 0,
-        y: -0.3,
+        y: 0,
         duration: 2,
         ease: "sine.inOut",
       },
@@ -246,8 +242,6 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
     scroll: {
       groupRotation: { y: Math.PI * 2 },
       can1: { position: { x: 0, y: -0.3 }, rotation: { z: 0 } },
-      can3: { position: { x: 0.25, y: -0.4, z: -0.5 }, rotation: { z: -0.3 } },
-      can4: { position: { x: -0.25, y: -0.38, z: -0.4 }, rotation: { z: 0.3 } },
       groupPosition: {
         x: 0,
         y: -0.3,
@@ -280,8 +274,6 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
     scroll: {
       groupRotation: { y: Math.PI * 2 },
       can1: { position: { x: 0, y: -0.3 }, rotation: { z: 0 } },
-      can3: { position: { x: 0.25, y: -0.4, z: -0.5 }, rotation: { z: -0.3 } },
-      can4: { position: { x: -0.25, y: -0.38, z: -0.4 }, rotation: { z: 0.3 } },
       groupPosition: {
         x: 0,
         y: -0.35,
@@ -318,14 +310,6 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
         position: { x: 0.1 },
         rotation: { z: 0 },
       },
-      can3: {
-        position: { x: 0.8, y: 0, z: -0.8 },
-        rotation: { z: -0.3 },
-      },
-      can4: {
-        position: { x: -0.5, y: 0, z: -0.5 },
-        rotation: { z: 0.3 },
-      },
       groupPosition: {
         x: 0,
         y: -0.4,
@@ -360,14 +344,6 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
         position: { x: 0.1 },
         rotation: { z: 0 },
       },
-      can3: {
-        position: { x: 0.8, y: 0, z: -0.8 },
-        rotation: { z: -0.3 },
-      },
-      can4: {
-        position: { x: -0.5, y: 0, z: -0.5 },
-        rotation: { z: 0.3 },
-      },
       groupPosition: {
         x: 1,
         duration: 3,
@@ -400,14 +376,6 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
       can1: {
         position: { x: 0.1 },
         rotation: { z: 0 },
-      },
-      can3: {
-        position: { x: 0.8, y: 0, z: -0.8 },
-        rotation: { z: -0.3 },
-      },
-      can4: {
-        position: { x: -0.5, y: 0, z: -0.5 },
-        rotation: { z: 0.3 },
       },
       groupPosition: {
         x: 1,
