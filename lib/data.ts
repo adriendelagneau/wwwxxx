@@ -308,3 +308,26 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
   },
 
 };
+
+/* ================= HERO DATA ================= */
+
+export type HeroLine = {
+  words: string[];
+};
+
+export type HeroData = {
+  tagline: string;
+  lines: HeroLine[];
+  description: string;
+};
+
+export const HERO: HeroData = {
+  tagline: "Le cola breton",
+  lines: [
+    { words: ["breizh", "cola"] },
+    { words: ["le", "cola", "du"] },
+    { words: ["phare", "ouest"] },
+  ],
+  description:
+    "Breizh Cola incarne un esprit libre et breton, une boisson de caractère née à l'Ouest, pour ceux qui recherchent authenticité, fraîcheur et goût.",
+};

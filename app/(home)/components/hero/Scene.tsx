@@ -8,6 +8,7 @@ import { CONFIG } from "@/lib/data";
 import { useGSAP } from "@gsap/react";
 import { Environment } from "@react-three/drei";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import React, { useRef } from "react";
 import { Group } from "three";
 
@@ -32,6 +33,7 @@ function Scene() {
 
   useGSAP(
     () => {
+      if (typeof window === "undefined") return;
       if (!isReady || !config || !can1Ref.current) return;
 
       setMeshReady();
@@ -112,11 +114,8 @@ function Scene() {
             },
           });
         }
-      }
-
-      /* ================= RETURN VISIT ================= */
-
-      else if (final) {
+      } else if (final) {
+        /* ================= RETURN VISIT ================= */
         gsap.set(can1Ref.current.position, {
           x: final.position?.x ?? 0,
           y: final.position?.y ?? 0,
@@ -136,42 +135,69 @@ function Scene() {
         });
       }
 
-      
+      /* ================= SCROLL ANIMATIONS ================= */
 
-        if (scrollAnimations.group?.rotation) {
+      const scrollAnimations = config.scroll;
+      const heroElement = document.querySelector(".hero");
+
+      if (
+        scrollAnimations &&
+        groupRef.current &&
+        can1Ref.current &&
+        heroElement
+      ) {
+        const scrollTL = gsap.timeline({
+          scrollTrigger: {
+            trigger: ".hero",
+            start: "top top",
+            end: "bottom top",
+            scrub: 1,
+          },
+        });
+
+        if (scrollAnimations.groupRotation) {
           scrollTL.to(
             groupRef.current.rotation,
-            scrollAnimations.group.rotation
+            {
+              y: scrollAnimations.groupRotation.y ?? 0,
+            },
+            0
           );
         }
 
         if (scrollAnimations.can1?.position) {
           scrollTL.to(
             can1Ref.current.position,
-            scrollAnimations.can1.position,
+            {
+              x: scrollAnimations.can1.position.x ?? 0,
+              y: scrollAnimations.can1.position.y ?? 0,
+              z: scrollAnimations.can1.position.z ?? 0,
+            },
             0
           );
         }
+
         if (scrollAnimations.can1?.rotation) {
           scrollTL.to(
             can1Ref.current.rotation,
-            scrollAnimations.can1.rotation,
+            {
+              x: scrollAnimations.can1.rotation.x ?? 0,
+              y: scrollAnimations.can1.rotation.y ?? 0,
+              z: scrollAnimations.can1.rotation.z ?? 0,
+            },
             0
           );
         }
+      }
     },
-    { dependencies: [breakpoint, isReady], scope: groupRef }
+    { dependencies: [breakpoint, isReady] }
   );
 
   /* ================= JSX ================= */
 
   return (
     <group ref={groupRef}>
-      <FloatingCan
-        ref={can1Ref}
-        flavor="original"
-        floatSpeed={FLOAT_SPEED}
-      />
+      <FloatingCan ref={can1Ref} flavor="original" floatSpeed={FLOAT_SPEED} />
 
       <directionalLight position={[0, 0, 5]} intensity={0.7} castShadow />
       <ambientLight intensity={12} />

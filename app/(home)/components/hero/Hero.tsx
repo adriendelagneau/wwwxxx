@@ -9,6 +9,7 @@ import PinnedReveal from "./pin-reveal";
 import Scene from "./Scene";
 import { useAnimationStore } from "@/store/useAnimationStore";
 import { useMeshStore } from "@/store/useMeshStore";
+import { HERO } from "@/lib/data";
 
 const Hero = () => {
   const createIntroTimeline = useAnimationStore((s) => s.createIntroTimeline);
@@ -63,68 +64,52 @@ const Hero = () => {
         >
           {/* LINE 1 */}
           <div className="flex -skew-y-3 overflow-hidden">
-            <div
-              ref={addTitleRef}
-              className="inline translate-y-full pr-4 text-5xl sm:text-6xl md:text-7xl lg:text-8xl 2xl:text-[170px]"
-            >
-              breizh
-            </div>
-
-            <div
-              ref={addTitleRef}
-              className="flex translate-y-full text-5xl sm:text-6xl md:text-7xl lg:text-8xl 2xl:text-[170px]"
-            >
-              cola
-            </div>
+            {HERO.lines[0].words.map((word, index) => (
+              <div
+                key={`line1-${index}`}
+                ref={addTitleRef}
+                className={`inline translate-y-full pr-4 text-5xl sm:text-6xl md:text-7xl lg:text-8xl 2xl:text-[170px] ${
+                  index === 1 ? "text-stroke-secondary text-primary" : ""
+                }`}
+              >
+                {word}
+              </div>
+            ))}
           </div>
 
           {/* LINE 2 */}
           <div className="flex -skew-y-3 overflow-hidden pt-12">
-            <div
-              ref={addTitleRef}
-              className="mr-4 flex translate-y-full items-center text-5xl sm:text-6xl md:text-7xl lg:text-8xl 2xl:text-[170px]"
-            >
-              le
-            </div>
-
-            <div
-              ref={addTitleRef}
-              className="text-stroke-secondary text-primary inline translate-y-full text-5xl sm:text-6xl md:text-7xl lg:text-8xl 2xl:text-[170px]"
-            >
-              cola
-            </div>
-
-            <div
-              ref={addTitleRef}
-              className="flex translate-y-full items-center pl-4 text-5xl sm:text-6xl md:text-7xl lg:text-8xl 2xl:text-[170px]"
-            >
-              du
-            </div>
+            {HERO.lines[1].words.map((word, index) => (
+              <div
+                key={`line2-${index}`}
+                ref={addTitleRef}
+                className={`flex translate-y-full items-center text-5xl sm:text-6xl md:text-7xl lg:text-8xl 2xl:text-[170px] ${
+                  word === "cola" ? "text-stroke-secondary text-primary" : ""
+                } ${index === 0 ? "mr-4" : index === 2 ? "pl-4" : ""}`}
+              >
+                {word}
+              </div>
+            ))}
           </div>
 
           {/* LINE 3 */}
           <div className="flex -skew-y-3 overflow-hidden pt-6">
-            <div
-              ref={addTitleRef}
-              className="inline translate-y-full pr-4 text-5xl sm:text-6xl md:text-7xl lg:text-8xl 2xl:text-[170px]"
-            >
-              phare
-            </div>
-
-            <div
-              ref={addTitleRef}
-              className="text-stroke-secondary text-primary inline translate-y-full text-5xl sm:text-6xl md:text-7xl lg:text-8xl 2xl:text-[170px]"
-            >
-              ouest
-            </div>
+            {HERO.lines[2].words.map((word, index) => (
+              <div
+                key={`line3-${index}`}
+                ref={addTitleRef}
+                className={`inline translate-y-full pr-4 text-5xl sm:text-6xl md:text-7xl lg:text-8xl 2xl:text-[170px] ${
+                  index === 1 ? "text-stroke-secondary text-primary" : ""
+                }`}
+              >
+                {word}
+              </div>
+            ))}
           </div>
         </div>
 
         {/* DESCRIPTION */}
-        <PinnedReveal
-          className="text-xl"
-          text="Breizh Cola incarne un esprit libre et breton, une boisson de caractère née à l’Ouest, pour ceux qui recherchent authenticité, fraîcheur et goût."
-        />
+        <PinnedReveal className="text-xl" text={HERO.description} />
       </div>
     </div>
   );
