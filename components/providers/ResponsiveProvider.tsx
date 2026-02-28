@@ -24,9 +24,19 @@ export function ResponsiveProvider() {
     const mm = gsap.matchMedia();
 
     mm.add(BREAKPOINTS, (context) => {
-      const { sm, md, lg, xl, xxl } = context.conditions!;
+      const { sm, md, lg, xl, xxl, xxxl } = context.conditions!;
 
-      const current = xxl ? "xxl" : xl ? "xl" : lg ? "lg" : md ? "md" : "sm";
+      const current = xxxl
+        ? "xxxl"
+        : xxl
+          ? "xxl"
+          : xl
+            ? "xl"
+            : lg
+              ? "lg"
+              : md
+                ? "md"
+                : "sm";
 
       setBreakpoint(current);
       // Only set ready on first call, not on every breakpoint change
