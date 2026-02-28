@@ -55,6 +55,23 @@ function Scene() {
       /* ================= FIRST VISIT ================= */
 
       if (!hasPlayedBefore) {
+        // Set initial positions for can3 and can4 from config
+        if (can3Ref.current && config.initial?.can3?.position) {
+          gsap.set(can3Ref.current.position, {
+            x: config.initial.can3.position.x ?? 0,
+            y: config.initial.can3.position.y ?? 0,
+            z: config.initial.can3.position.z ?? 0,
+          });
+        }
+
+        if (can4Ref.current && config.initial?.can4?.position) {
+          gsap.set(can4Ref.current.position, {
+            x: config.initial.can4.position.x ?? 0,
+            y: config.initial.can4.position.y ?? 0,
+            z: config.initial.can4.position.z ?? 0,
+          });
+        }
+
         // initial position
         if (intro?.from?.position) {
           gsap.set(can1Ref.current.position, {
@@ -235,7 +252,7 @@ function Scene() {
       <FloatingCan ref={can1Ref} flavor="original" floatSpeed={FLOAT_SPEED} />
       <FloatingCan ref={can3Ref} flavor="zero" floatSpeed={FLOAT_SPEED} />
 
-      <FloatingCan ref={can4Ref}  flavor="coffee" floatSpeed={FLOAT_SPEED} />
+      <FloatingCan ref={can4Ref} flavor="coffee" floatSpeed={FLOAT_SPEED} />
 
       <directionalLight position={[0, 0, 5]} intensity={0.7} castShadow />
       <ambientLight intensity={12} />

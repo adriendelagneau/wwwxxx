@@ -296,8 +296,8 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
 
   XXXL: {
     initial: {
-      can3: { position: { x: 0, y: -0.4, z: -0.5 } },
-      can4: { position: { x: -0.25, y: -0.38, z: -0.4 } }
+      can3: { position: { x: 0, y: -4, z: -0.5 } },
+      can4: { position: { x: -1.5, y: 4, z: -0.4 } }
     },
     intro: {
       can1: { from: { position: { y: 0, x: 3.2 }, rotation: { z: 3 } }, to: { position: { y: -0.1, x: 1.7 }, rotation: { z: -0.1 } } },
