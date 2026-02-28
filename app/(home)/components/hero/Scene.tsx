@@ -23,6 +23,8 @@ function Scene() {
 
   const groupRef = useRef<Group>(null);
   const can1Ref = useRef<Group>(null);
+  const can3Ref = useRef<Group>(null);
+  const can4Ref = useRef<Group>(null);
 
   const configKey = breakpoint.toUpperCase() as keyof typeof CONFIG;
   const config = CONFIG[configKey];
@@ -144,6 +146,8 @@ function Scene() {
         scrollAnimations &&
         groupRef.current &&
         can1Ref.current &&
+        can3Ref.current &&
+        can4Ref.current &&
         heroElement
       ) {
         const scrollTL = gsap.timeline({
@@ -152,7 +156,7 @@ function Scene() {
             start: "top top",
             end: "bottom 10%",
             scrub: 1,
-            markers: true
+            markers: true,
           },
         });
 
@@ -189,6 +193,36 @@ function Scene() {
             0
           );
         }
+
+        if (scrollAnimations.can3?.position) {
+          scrollTL.to(
+            can3Ref.current.position,
+            scrollAnimations.can3.position,
+            0
+          );
+        }
+        if (scrollAnimations.can3?.rotation) {
+          scrollTL.to(
+            can3Ref.current.rotation,
+            scrollAnimations.can3.rotation,
+            0
+          );
+        }
+
+        if (scrollAnimations.can4?.position) {
+          scrollTL.to(
+            can4Ref.current.position,
+            scrollAnimations.can4.position,
+            0
+          );
+        }
+        if (scrollAnimations.can4?.rotation) {
+          scrollTL.to(
+            can4Ref.current.rotation,
+            scrollAnimations.can4.rotation,
+            0
+          );
+        }
       }
     },
     { dependencies: [breakpoint, isReady] }
@@ -199,7 +233,8 @@ function Scene() {
   return (
     <group ref={groupRef}>
       <FloatingCan ref={can1Ref} flavor="original" floatSpeed={FLOAT_SPEED} />
-
+      <FloatingCan ref={can3Ref} flavor="zero" floatSpeed={FLOAT_SPEED} />
+      <FloatingCan ref={can4Ref}  flavor="cherry" floatSpeed={FLOAT_SPEED} />
       <directionalLight position={[0, 0, 5]} intensity={0.7} castShadow />
       <ambientLight intensity={12} />
       <pointLight position={[0, 1, 3]} intensity={6} />
