@@ -163,7 +163,8 @@ export type Transform = {
 
 export type BreakpointConfig = {
   initial: {
-    can1: Transform;
+    can3: Transform;
+    can4: Transform;
   };
   intro: {
     can1: { from: Transform; to: Transform };
@@ -195,7 +196,8 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
 
   SM: {
     initial: {
-      can1: { position: { x: 0, y: -0.5 }, scale: { x: 0.55, y: 0.55, z: 0.55 } },
+      can3: { position: { x: 0, y: -0.4, z: -0.5 } },
+      can4: { position: { x: -0.25, y: -0.38, z: -0.4 } }
     },
     intro: {
       can1: { from: { position: { x: 5 }, rotation: { z: 1 } }, to: { position: { x: 0 }, rotation: { z: 0 } } },
@@ -214,7 +216,8 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
 
   MD: {
     initial: {
-      can1: { position: { x: 0, y: -0.7 }, scale: { x: 0.65, y: 0.65, z: 0.65 } },
+      can3: { position: { x: 0, y: -0.4, z: -0.5 } },
+      can4: { position: { x: -0.25, y: -0.38, z: -0.4 } }
     },
     intro: {
       can1: { from: { position: { x: 5 }, rotation: { z: 1 } }, to: { position: { x: 0 }, rotation: { z: 0 } } },
@@ -233,7 +236,8 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
 
   LG: {
     initial: {
-      can1: { position: { x: 0, y: -0.65 }, scale: { x: 0.68, y: 0.68, z: 0.68 } },
+      can3: { position: { x: 0, y: -0.4, z: -0.5 } },
+      can4: { position: { x: -0.25, y: -0.38, z: -0.4 } }
     },
     intro: {
       can1: { from: { position: { x: 5 }, rotation: { z: 1 } }, to: { position: { x: 0 }, rotation: { z: 0 } } },
@@ -252,7 +256,8 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
 
   XL: {
     initial: {
-      can1: { position: { x: 1.7, y: -0.1 }, rotation: { z: -0.1 }, scale: { x: 0.82, y: 0.82, z: 0.82 } },
+      can3: { position: { x: 0, y: -0.4, z: -0.5 } },
+      can4: { position: { x: -0.25, y: -0.38, z: -0.4 } }
     },
     intro: {
       can1: { from: { position: { y: 5, x: 1 }, rotation: { z: 3 } }, to: { position: { y: -0.1, x: 1 }, rotation: { z: -0.1 } } },
@@ -271,7 +276,8 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
 
   XXL: {
     initial: {
-      can1: { position: { y: -0.2, x: 1.2 }, rotation: { z: -0.1 }, scale: { x: 0.9, y: 0.9, z: 0.9 } },
+      can3: { position: { x: 0, y: -0.4, z: -0.5 } },
+      can4: { position: { x: -0.25, y: -0.38, z: -0.4 } }
     },
     intro: {
       can1: { from: { position: { y: 0, x: 2 }, rotation: { y: -Math.PI * 2 } }, to: { position: { y: -0.2, x: 1.2 }, rotation: { y: -0.1 } } },
@@ -290,7 +296,8 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
 
   XXXL: {
     initial: {
-      can1: { position: { y: -0.1, x: 1.7 }, scale: { x: 1, y: 1, z: 1 } },
+      can3: { position: { x: 0, y: -0.4, z: -0.5 } },
+      can4: { position: { x: -0.25, y: -0.38, z: -0.4 } }
     },
     intro: {
       can1: { from: { position: { y: 0, x: 3.2 }, rotation: { z: 3 } }, to: { position: { y: -0.1, x: 1.7 }, rotation: { z: -0.1 } } },
