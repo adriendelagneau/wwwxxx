@@ -131,8 +131,21 @@ function Scene() {
       }
 
 
-
-
+      // ✅ Scroll animations
+      const scrollTL = gsap.timeline({
+        defaults: {
+          duration: 2,
+        },
+        scrollTrigger: {
+          trigger: ".hero",
+          start: "top top",
+          end: "bottom bottom",
+          scrub: 1.5,
+        },
+      });
+      const { scroll } = config;
+      
+      
       
     },
     { dependencies: [breakpoint, isReady], scope: groupRef }
