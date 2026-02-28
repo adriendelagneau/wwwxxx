@@ -23,6 +23,7 @@ function Scene() {
   const breakpoint = useResponsiveStore((state) => state.breakpoint);
   const isReady = useResponsiveStore((state) => state.isReady);
 
+  console.log(breakpoint)
   const getIntroTimeline = useAnimationStore((state) => state.getIntroTimeline);
 
   const can1Ref = useRef<Group>(null);

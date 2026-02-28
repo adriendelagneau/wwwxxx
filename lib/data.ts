@@ -274,8 +274,8 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
     },
     intro: {
       can1: {
-        from: { position: { y: 3, x: 1 }, rotation: { z: 3 } },
-        to: { position: { y: -0.2, x: 1.2 }, rotation: { z: -0.1 } },
+        from: { position: { y: 0, x: 2 }, rotation: { y: -Math.PI*2 } },
+        to: { position: { y: -0.2, x: 1.2 }, rotation: { y: -0.1 } },
       },
     },
     final: {
@@ -289,19 +289,19 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
   XXXL: {
     initial: {
       can1: {
-        position: { y: -0.1, x: 1.7 }, rotation: { z: -0.1 },
+        position: { y: -0.1, x: 1.7 },
         scale: { x: 1, y: 1, z: 1 },
       },
     },
     intro: {
       can1: {
         from: { position: { y: 0, x: 3.2 }, rotation: { z: 3 } },
-        to: { position: { y: -0.1, x: 1.7 }, rotation: { z: -0.1 } },
+        to: { position: { y: -0.1, x: 1.7 } },
       },
     },
     final: {
       can1: {
-        position: { y: -0.1, x: 1.7 }, rotation: { z: -0.1 },
+        position: { y: -0.1, x: 1.7 },
         scale: { x: 1, y: 1, z: 1 },
       },
     },
