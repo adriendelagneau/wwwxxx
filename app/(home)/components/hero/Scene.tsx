@@ -1,7 +1,6 @@
 "use client";
 
 import FloatingCan from "@/components/cans/FloatingCan";
-import { useAnimationStore } from "@/store/useAnimationStore";
 import { useMeshStore } from "@/store/useMeshStore";
 import { useResponsiveStore } from "@/store/useResponsiveStore";
 import { CONFIG } from "@/lib/data";
@@ -28,29 +27,25 @@ function Scene() {
 
   const FLOAT_SPEED = 4;
 
-  /* ================= INTRO ================= */
-
+  /* ================= GSAP INTRO ================= */
   useGSAP(
     () => {
-      if (!isReady) return;
-      if (!config) return;
-      if (!can1Ref.current) return;
-      if (!can1GroupRef.current) return;
+      if (!isReady || !config || !can1Ref.current || !can1GroupRef.current)
+        return;
 
       setMeshReady();
 
       const intro = config.intro?.can1;
       const final = config.final?.can1;
 
-      // Check if already played
+      // Check sessionStorage - do this fresh each render
       const hasPlayedBefore =
         typeof window !== "undefined" &&
         sessionStorage.getItem("introPlayed") === "true";
 
-      /* ================= FIRST VISIT - PLAY INTRO ================= */
-
+      // FIRST VISIT - play intro animation
       if (!hasPlayedBefore) {
-        // Set initial position from "intro.from"
+        // Set initial position
         if (intro?.from?.position) {
           gsap.set(can1GroupRef.current.position, {
             x: intro.from.position.x ?? 0,
@@ -84,10 +79,6 @@ function Scene() {
             duration: 1.2,
             ease: "back.out(1.4)",
             delay: 1.6,
-            onComplete: () => {
-              // Mark intro as complete in sessionStorage
-              sessionStorage.setItem("introPlayed", "true");
-            },
           });
         }
 
@@ -110,40 +101,37 @@ function Scene() {
             duration: 0.8,
             ease: "back.out(2)",
             delay: 1.7,
+            onComplete: () => {
+              sessionStorage.setItem("introPlayed", "true");
+            },
           });
         }
-      } else if (hasPlayedBefore) {
-
-      /* ================= RETURNING VISITOR - DIRECT TO FINAL ================= */
-        if (final) {
-          gsap.set(can1Ref.current.position, {
-            x: final.position?.x ?? 0,
-            y: final.position?.y ?? 0,
-            z: final.position?.z ?? 0,
-          });
-
-          gsap.set(can1Ref.current.rotation, {
-            x: final.rotation?.x ?? 0,
-            y: final.rotation?.y ?? 0,
-            z: final.rotation?.z ?? 0,
-          });
-
-          gsap.set(can1Ref.current.scale, {
-            x: final.scale?.x ?? 1,
-            y: final.scale?.y ?? 1,
-            z: final.scale?.z ?? 1,
-          });
-
-          gsap.set(can1GroupRef.current.position, { x: 0, y: 0, z: 0 });
-          gsap.set(can1GroupRef.current.rotation, { x: 0, y: 0, z: 0 });
-        }
+      }
+      // RETURNING VISITOR - go directly to final
+      else if (final) {
+        gsap.set(can1Ref.current.position, {
+          x: final.position?.x ?? 0,
+          y: final.position?.y ?? 0,
+          z: final.position?.z ?? 0,
+        });
+        gsap.set(can1Ref.current.rotation, {
+          x: final.rotation?.x ?? 0,
+          y: final.rotation?.y ?? 0,
+          z: final.rotation?.z ?? 0,
+        });
+        gsap.set(can1Ref.current.scale, {
+          x: final.scale?.x ?? 1,
+          y: final.scale?.y ?? 1,
+          z: final.scale?.z ?? 1,
+        });
+        gsap.set(can1GroupRef.current.position, { x: 0, y: 0, z: 0 });
+        gsap.set(can1GroupRef.current.rotation, { x: 0, y: 0, z: 0 });
       }
     },
     { dependencies: [breakpoint, isReady], scope: groupRef }
   );
 
   /* ================= JSX ================= */
-
   return (
     <group ref={groupRef}>
       <group ref={can1GroupRef}>
