@@ -289,7 +289,7 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
   XXXL: {
     initial: {
       can1: {
-        position: { y: -0.1, x: 1.7 },
+        position: { y: -0.1, x: 4.7 },
         scale: { x: 1, y: 1, z: 1 },
       },
     },

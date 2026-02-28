@@ -25,7 +25,10 @@ function Scene() {
   const can1Ref = useRef<Group>(null);
   const can1GroupRef = useRef<Group>(null);
 
-  const introPlayedRef = useRef(false);
+  const introPlayedRef = useRef(
+    typeof window !== "undefined" &&
+      sessionStorage.getItem("introPlayed") === "true"
+  );
 
   const configKey = breakpoint.toUpperCase() as keyof typeof CONFIG;
   const config = CONFIG[configKey];
@@ -62,7 +65,6 @@ function Scene() {
 
     gsap.set(can1GroupRef.current.position, { x: 0, y: 0, z: 0 });
     gsap.set(can1GroupRef.current.rotation, { x: 0, y: 0, z: 0 });
-
   }, [breakpoint, config]);
 
   /* ================= INTRO ================= */
@@ -77,7 +79,6 @@ function Scene() {
       setMeshReady();
 
       const introTimeline = getIntroTimeline();
-      if (!introTimeline) return;
 
       const initial = config.initial?.can1;
       const intro = config.intro?.can1;
@@ -110,86 +111,83 @@ function Scene() {
 
       /* ================= INTRO PLAY ================= */
 
-      if (!introPlayedRef.current) {
-        introPlayedRef.current = true;
+      // if (!introPlayedRef.current && introTimeline) {
+      //   introPlayedRef.current = true;
 
-        if (intro?.from?.position) {
-          introTimeline.fromTo(
-            can1GroupRef.current.position,
-            {
-              x: intro.from.position.x ?? 0,
-              y: intro.from.position.y ?? 0,
-              z: intro.from.position.z ?? 0,
-            },
-            {
-              x: 0,
-              y: 0,
-              z: 0,
-              duration: 1.2,
-              ease: "back.out(1.4)",
-            },
-            1.6
-          );
-        }
+      //   if (intro?.from?.position) {
+      //     introTimeline?.fromTo(
+      //       can1GroupRef.current.position,
+      //       {
+      //         x: intro.from.position.x ?? 0,
+      //         y: intro.from.position.y ?? 0,
+      //         z: intro.from.position.z ?? 0,
+      //       },
+      //       {
+      //         x: 0,
+      //         y: 0,
+      //         z: 0,
+      //         duration: 1.2,
+      //         ease: "back.out(1.4)",
+      //       },
+      //       1.6
+      //     );
+      //   }
 
-        if (intro?.from?.rotation || intro?.to?.rotation) {
-          introTimeline.fromTo(
-            can1Ref.current.rotation,
-            {
-              x: intro.from?.rotation?.x ?? 0,
-              y: intro.from?.rotation?.y ?? 0,
-              z: intro.from?.rotation?.z ?? 0,
-            },
-            {
-              x: intro.to?.rotation?.x ?? final?.rotation?.x ?? 0,
-              y: intro.to?.rotation?.y ?? final?.rotation?.y ?? 0,
-              z: intro.to?.rotation?.z ?? final?.rotation?.z ?? 0,
-              duration: 1.2,
-              ease: "back.out(1.4)",
-            },
-            1.6
-          );
-        }
+      //   if (intro?.from?.rotation || intro?.to?.rotation) {
+      //     introTimeline.fromTo(
+      //       can1Ref.current.rotation,
+      //       {
+      //         x: intro.from?.rotation?.x ?? 0,
+      //         y: intro.from?.rotation?.y ?? 0,
+      //         z: intro.from?.rotation?.z ?? 0,
+      //       },
+      //       {
+      //         x: intro.to?.rotation?.x ?? final?.rotation?.x ?? 0,
+      //         y: intro.to?.rotation?.y ?? final?.rotation?.y ?? 0,
+      //         z: intro.to?.rotation?.z ?? final?.rotation?.z ?? 0,
+      //         duration: 1.2,
+      //         ease: "back.out(1.4)",
+      //       },
+      //       1.6
+      //     );
+      //   }
 
-        if (intro?.to?.scale) {
-          introTimeline.to(
-            can1Ref.current.scale,
-            {
-              x: intro.to.scale.x,
-              y: intro.to.scale.y,
-              z: intro.to.scale.z,
-              duration: 0.8,
-              ease: "back.out(2)",
-            },
-            1.7
-          );
-        }
-      }
+      //   if (intro?.to?.scale) {
+      //     introTimeline.to(
+      //       can1Ref.current.scale,
+      //       {
+      //         x: intro.to.scale.x,
+      //         y: intro.to.scale.y,
+      //         z: intro.to.scale.z,
+      //         duration: 0.8,
+      //         ease: "back.out(2)",
+      //       },
+      //       1.7
+      //     );
+      //   }
+      // } else {
+      //   /* ================= FINAL STATE IF INTRO ALREADY PLAYED ================= */
+      //   gsap.set(can1Ref.current.position, {
+      //     x: final?.position?.x ?? 0,
+      //     y: final?.position?.y ?? 0,
+      //     z: final?.position?.z ?? 0,
+      //   });
 
-      /* ================= FINAL STATE IF INTRO ALREADY PLAYED ================= */
+      //   gsap.set(can1Ref.current.rotation, {
+      //     x: final?.rotation?.x ?? 0,
+      //     y: final?.rotation?.y ?? 0,
+      //     z: final?.rotation?.z ?? 0,
+      //   });
 
-      else {
-        gsap.set(can1Ref.current.position, {
-          x: final?.position?.x ?? 0,
-          y: final?.position?.y ?? 0,
-          z: final?.position?.z ?? 0,
-        });
+      //   gsap.set(can1Ref.current.scale, {
+      //     x: final?.scale?.x ?? 1,
+      //     y: final?.scale?.y ?? 1,
+      //     z: final?.scale?.z ?? 1,
+      //   });
 
-        gsap.set(can1Ref.current.rotation, {
-          x: final?.rotation?.x ?? 0,
-          y: final?.rotation?.y ?? 0,
-          z: final?.rotation?.z ?? 0,
-        });
-
-        gsap.set(can1Ref.current.scale, {
-          x: final?.scale?.x ?? 1,
-          y: final?.scale?.y ?? 1,
-          z: final?.scale?.z ?? 1,
-        });
-
-        gsap.set(can1GroupRef.current.position, { x: 0, y: 0, z: 0 });
-        gsap.set(can1GroupRef.current.rotation, { x: 0, y: 0, z: 0 });
-      }
+      //   gsap.set(can1GroupRef.current.position, { x: 0, y: 0, z: 0 });
+      //   gsap.set(can1GroupRef.current.rotation, { x: 0, y: 0, z: 0 });
+      // }
     },
     { dependencies: [breakpoint, isReady], scope: groupRef }
   );
@@ -199,21 +197,14 @@ function Scene() {
   return (
     <group ref={groupRef}>
       <group ref={can1GroupRef}>
-        <FloatingCan
-          ref={can1Ref}
-          flavor="original"
-          floatSpeed={FLOAT_SPEED}
-        />
+        <FloatingCan ref={can1Ref} flavor="original" floatSpeed={FLOAT_SPEED} />
       </group>
 
       <directionalLight position={[0, 0, 5]} intensity={0.7} castShadow />
       <ambientLight intensity={12} />
       <pointLight position={[0, 1, 3]} intensity={6} />
 
-      <Environment
-        files={"/hdr/pursky.hdr"}
-        environmentIntensity={0.6}
-      />
+      <Environment files={"/hdr/pursky.hdr"} environmentIntensity={0.6} />
     </group>
   );
 }
