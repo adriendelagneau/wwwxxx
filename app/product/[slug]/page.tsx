@@ -1,3 +1,4 @@
+import Carousel from "./components/carousel/Carousel";
 import HeroSingle from "./components/HeroSingle";
 
 interface PageProps {
@@ -15,7 +16,7 @@ const Page = async ({ params }: PageProps) => {
   return (
     <div className="relative z-5 pt-24">
       <HeroSingle variant={slug} />
-
+      <Carousel />
     </div>
   );
 };

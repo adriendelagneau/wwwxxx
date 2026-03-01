@@ -167,6 +167,13 @@ export type ResponsiveConfig = {
   scaleTo: { x: number; y: number; z: number };
 };
 
+export type CarouselConfig = {
+  radiusX: number;
+  radiusZ: number;
+  scaleRange: [number, number];
+  duration: number;
+};
+
 export type BreakpointConfig = {
   hero: {
     intro: {
@@ -191,7 +198,8 @@ export type BreakpointConfig = {
   };
   zero: ResponsiveConfig;
   cherry: ResponsiveConfig;
-  single: {}
+  single: {},
+  carousel: CarouselConfig
 };
 
 
@@ -227,7 +235,13 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
       scaleFrom: { x: 0, y: 0, z: 0 },
       scaleTo: { x: 0.65, y: 0.65, z: 0.65 },
     },
-    single: {}
+    single: {},
+    carousel: {
+      radiusX: 1.3,
+      radiusZ: 0.75,
+      scaleRange: [0.55, 0.7],
+      duration: 0.9,
+    }
   },
 
   MD: {
@@ -256,7 +270,13 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
       scaleFrom: { x: 0, y: 0, z: 0 },
       scaleTo: { x: 0.75, y: 0.75, z: 0.75 },
     },
-    single: {}
+    single: {},
+    carousel: {
+      radiusX: 1.5,
+      radiusZ: 0.85,
+      scaleRange: [0.6, 0.75],
+      duration: 1,
+    }
   },
 
   LG: {
@@ -286,7 +306,13 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
       scaleFrom: { x: 0, y: 0, z: 0 },
       scaleTo: { x: 0.85, y: 0.85, z: 0.85 },
     },
-    single: {}
+    single: {},
+    carousel: {
+      radiusX: 1.6,
+      radiusZ: 0.9,
+      scaleRange: [0.6, 0.8],
+      duration: 1,
+    }
   },
 
   XL: {
@@ -316,7 +342,13 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
       scaleFrom: { x: 0, y: 0, z: 0 },
       scaleTo: { x: 0.95, y: 0.95, z: 0.95 },
     },
-    single: {}
+    single: {},
+    carousel: {
+      radiusX: 1.7,
+      radiusZ: 0.95,
+      scaleRange: [0.65, 0.85],
+      duration: 1,
+    }
   },
 
   XXL: {
@@ -345,7 +377,13 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
       scaleFrom: { x: 0, y: 0, z: 0 },
       scaleTo: { x: 1, y: 1, z: 1 },
     },
-    single: {}
+    single: {},
+    carousel: {
+      radiusX: 1.8,
+      radiusZ: 1,
+      scaleRange: [0.7, 0.9],
+      duration: 1,
+    }
   },
 
   XXXL: {
@@ -374,7 +412,13 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
       scaleFrom: { x: 0, y: 0, z: 0 },
       scaleTo: { x: 1, y: 1, z: 1 },
     },
-    single: {}
+    single: {},
+    carousel: {
+      radiusX: 1.9,
+      radiusZ: 1.05,
+      scaleRange: [0.75, 0.95],
+      duration: 1,
+    }
   }
 };
 
