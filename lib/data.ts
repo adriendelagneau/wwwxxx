@@ -249,23 +249,23 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
 
   XL: {
     hero: {
-  
+
       intro: {
         can1: { from: { position: { y: 5, x: 1 }, rotation: { z: 3 } }, to: { position: { y: -0.1, x: 1 }, rotation: { z: -0.1 } } },
       },
-    final: {
-      can1: { position: { x: 1.7, y: -0.1 }, rotation: { z: -0.1 }, scale: { x: 0.82, y: 0.82, z: 0.82 } },
-    },
-    scroll: {
-      groupRotation: { y: Math.PI * 2 },
-      can1: { position: { x: 0.1 }, rotation: { z: 0 } },
-      can3: { from: { position: { x: 0, y: -0.4, z: -0.5 } }, to: { position: { x: 0.8, y: 0, z: -0.8 }, rotation: { z: -0.3 } } },
-      can4: { from: { position: { x: -0.25, y: -0.38, z: -0.4 } }, to: { position: { x: -0.5, y: 0, z: -0.5 }, rotation: { z: 0.3 } } },
-      groupPosition: { x: 0, y: -0.4, duration: 3, ease: "sine.inOut" },
+      final: {
+        can1: { position: { x: 1.7, y: -0.1 }, rotation: { z: -0.1 }, scale: { x: 0.82, y: 0.82, z: 0.82 } },
+      },
+      scroll: {
+        groupRotation: { y: Math.PI * 2 },
+        can1: { position: { x: 0.1 }, rotation: { z: 0 } },
+        can3: { from: { position: { x: 0, y: -0.4, z: -0.5 } }, to: { position: { x: 0.8, y: 0, z: -0.8 }, rotation: { z: -0.3 } } },
+        can4: { from: { position: { x: -0.25, y: -0.38, z: -0.4 } }, to: { position: { x: -0.5, y: 0, z: -0.5 }, rotation: { z: 0.3 } } },
+        groupPosition: { x: 0, y: -0.4, duration: 3, ease: "sine.inOut" },
+      },
     },
   },
-},
-  
+
   XXL: {
     hero: {
       intro: {

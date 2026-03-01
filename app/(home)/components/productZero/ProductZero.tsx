@@ -7,7 +7,7 @@ import Link from "next/link";
 import React, { useRef } from "react";
 
 import MagneticButtons from "@/components/MagneticButtons";
-
+import Scene from "./Scene";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -25,8 +25,11 @@ const ProductZero = () => {
   return (
     <div
       ref={sectionZeroRef}
-      className="product-zero relative z-20 top-0 left-0 flex min-h-screen w-full flex-col items-start px-6  overflow-hidden xl:items-start xl:pl-6"
+      className="product-zero relative top-0 left-0 z-20 flex min-h-screen w-full flex-col items-start overflow-hidden px-6 xl:items-start xl:pl-6"
     >
+      <View className="pointer-events-none absolute top-0 z-30 h-screen w-full">
+        <Scene flavor="zero" />
+      </View>
       <div
         className="relative top-[77vh] left-30 h-31.25 w-62.5 sm:top-[57vh] sm:left-32 sm:h-25 sm:w-50 md:top-[64vh] md:left-44 md:h-31.25 md:w-62.5 xl:top-[50vh] xl:left-[56vw] xl:h-50 xl:w-75 2xl:h-45 2xl:w-90"
         ref={buttonRef}
