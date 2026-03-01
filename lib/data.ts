@@ -161,6 +161,12 @@ export type Transform = {
   scale?: Vec3;
 };
 
+export type ResponsiveConfig = {
+  position: { x: number; y: number; z: number };
+  scaleFrom: { x: number; y: number; z: number };
+  scaleTo: { x: number; y: number; z: number };
+};
+
 export type BreakpointConfig = {
   hero: {
     intro: {
@@ -183,6 +189,9 @@ export type BreakpointConfig = {
       };
     };
   };
+  zero: ResponsiveConfig;
+  cherry: {};
+  single: {}
 };
 
 
@@ -208,6 +217,13 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
         groupPosition: { x: 0, y: 0, duration: 2, ease: "sine.inOut" },
       },
     },
+    zero: {
+      position: { x: 0, y: -0.4, z: 0 },
+      scaleFrom: { x: 0, y: 0, z: 0 },
+      scaleTo: { x: 0.65, y: 0.65, z: 0.65 },
+    },
+    cherry: {},
+    single: {}
   },
 
   MD: {
@@ -226,6 +242,13 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
         groupPosition: { x: 0, y: -0.3, duration: 2, ease: "sine.inOut" },
       },
     },
+    zero: {
+      position: { x: 0.9, y: -0.2, z: 0 },
+      scaleFrom: { x: 0, y: 0, z: 0 },
+      scaleTo: { x: 0.75, y: 0.75, z: 0.75 },
+    },
+    cherry: {},
+    single: {}
   },
 
   LG: {
@@ -245,6 +268,13 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
         groupPosition: { x: 0, y: -0.35, duration: 2, ease: "sine.inOut" },
       },
     },
+    zero: {
+      position: { x: 1.2, y: -0.1, z: 0 },
+      scaleFrom: { x: 0, y: 0, z: 0 },
+      scaleTo: { x: 0.85, y: 0.85, z: 0.85 },
+    },
+    cherry: {},
+    single: {}
   },
 
   XL: {
@@ -264,6 +294,13 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
         groupPosition: { x: 0, y: -0.4, duration: 3, ease: "sine.inOut" },
       },
     },
+    zero: {
+      position: { x: 1.4, y: 0, z: 0 },
+      scaleFrom: { x: 0, y: 0, z: 0 },
+      scaleTo: { x: 0.95, y: 0.95, z: 0.95 },
+    },
+    cherry: {},
+    single: {}
   },
 
   XXL: {
@@ -282,6 +319,13 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
         groupPosition: { x: 1, duration: 3, ease: "sine.inOut" },
       },
     },
+    zero: {
+      position: { x: 1.6, y: 0, z: 0 },
+      scaleFrom: { x: 0, y: 0, z: 0 },
+      scaleTo: { x: 1, y: 1, z: 1 },
+    },
+    cherry: {},
+    single: {}
   },
 
   XXXL: {
@@ -300,6 +344,13 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
         groupPosition: { x: 1.5, duration: 3, ease: "sine.inOut" },
       },
     },
+    zero: {
+      position: { x: 1.6, y: 0, z: 0 },
+      scaleFrom: { x: 0, y: 0, z: 0 },
+      scaleTo: { x: 1, y: 1, z: 1 },
+    },
+    cherry: {},
+    single: {}
   }
 };
 
