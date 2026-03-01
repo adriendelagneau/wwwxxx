@@ -190,7 +190,7 @@ export type BreakpointConfig = {
     };
   };
   zero: ResponsiveConfig;
-  cherry: {};
+  cherry: ResponsiveConfig;
   single: {}
 };
 
@@ -222,7 +222,11 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
       scaleFrom: { x: 0, y: 0, z: 0 },
       scaleTo: { x: 0.65, y: 0.65, z: 0.65 },
     },
-    cherry: {},
+    cherry: {
+      position: { x: 0, y: -0.4, z: 0 },
+      scaleFrom: { x: 0, y: 0, z: 0 },
+      scaleTo: { x: 0.65, y: 0.65, z: 0.65 },
+    },
     single: {}
   },
 
@@ -247,7 +251,11 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
       scaleFrom: { x: 0, y: 0, z: 0 },
       scaleTo: { x: 0.75, y: 0.75, z: 0.75 },
     },
-    cherry: {},
+    cherry: {
+      position: { x: 0.9, y: -0.2, z: 0 },
+      scaleFrom: { x: 0, y: 0, z: 0 },
+      scaleTo: { x: 0.75, y: 0.75, z: 0.75 },
+    },
     single: {}
   },
 
@@ -273,7 +281,11 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
       scaleFrom: { x: 0, y: 0, z: 0 },
       scaleTo: { x: 0.85, y: 0.85, z: 0.85 },
     },
-    cherry: {},
+    cherry: {
+      position: { x: 1.2, y: -0.1, z: 0 },
+      scaleFrom: { x: 0, y: 0, z: 0 },
+      scaleTo: { x: 0.85, y: 0.85, z: 0.85 },
+    },
     single: {}
   },
 
@@ -299,7 +311,11 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
       scaleFrom: { x: 0, y: 0, z: 0 },
       scaleTo: { x: 0.95, y: 0.95, z: 0.95 },
     },
-    cherry: {},
+    cherry: {
+      position: { x: 1.4, y: 0, z: 0 },
+      scaleFrom: { x: 0, y: 0, z: 0 },
+      scaleTo: { x: 0.95, y: 0.95, z: 0.95 },
+    },
     single: {}
   },
 
@@ -324,7 +340,11 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
       scaleFrom: { x: 0, y: 0, z: 0 },
       scaleTo: { x: 1, y: 1, z: 1 },
     },
-    cherry: {},
+    cherry: {
+      position: { x: 1.6, y: 0, z: 0 },
+      scaleFrom: { x: 0, y: 0, z: 0 },
+      scaleTo: { x: 1, y: 1, z: 1 },
+    },
     single: {}
   },
 
@@ -349,7 +369,11 @@ export const CONFIG: Record<"SM" | "MD" | "LG" | "XL" | "XXL" | "XXXL", Breakpoi
       scaleFrom: { x: 0, y: 0, z: 0 },
       scaleTo: { x: 1, y: 1, z: 1 },
     },
-    cherry: {},
+    cherry: {
+      position: { x: 1.6, y: 0, z: 0 },
+      scaleFrom: { x: 0, y: 0, z: 0 },
+      scaleTo: { x: 1, y: 1, z: 1 },
+    },
     single: {}
   }
 };

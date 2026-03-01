@@ -1,6 +1,7 @@
 "use client";
 
 import FloatingCan from "@/components/cans/FloatingCan";
+import { CONFIG, ResponsiveConfig } from "@/lib/data";
 import { useResponsiveStore } from "@/store/useResponsiveStore";
 import { useGSAP } from "@gsap/react";
 import { Environment } from "@react-three/drei";
@@ -17,49 +18,7 @@ type SceneProps = {
   flavor: "original" | "cherry" | "zero" | "lime" | "coffee";
 };
 
-type Breakpoint =  "sm" | "md" | "lg" | "xl" | "xxl" | "xxxl";
-
-type ResponsiveConfig = {
-  position: { x: number; y: number; z: number };
-  scaleFrom: { x: number; y: number; z: number };
-  scaleTo: { x: number; y: number; z: number };
-};
-
-/* ================= RESPONSIVE CONFIG ================= */
-
-const CHERRY_CONFIG: Record<Breakpoint, ResponsiveConfig> = {
-
-  sm: {
-    position: { x: 0, y: -0.4, z: 0 },
-    scaleFrom: { x: 0, y: 0, z: 0 },
-    scaleTo: { x: 0.65, y: 0.65, z: 0.65 },
-  },
-  md: {
-    position: { x: 0.9, y: -0.2, z: 0 },
-    scaleFrom: { x: 0, y: 0, z: 0 },
-    scaleTo: { x: 0.75, y: 0.75, z: 0.75 },
-  },
-  lg: {
-    position: { x: 1.2, y: -0.1, z: 0 },
-    scaleFrom: { x: 0, y: 0, z: 0 },
-    scaleTo: { x: 0.85, y: 0.85, z: 0.85 },
-  },
-  xl: {
-    position: { x: 1.4, y: 0, z: 0 },
-    scaleFrom: { x: 0, y: 0, z: 0 },
-    scaleTo: { x: 0.95, y: 0.95, z: 0.95 },
-  },
-  xxl: {
-    position: { x: 1.6, y: 0, z: 0 },
-    scaleFrom: { x: 0, y: 0, z: 0 },
-    scaleTo: { x: 1, y: 1, z: 1 },
-  },
-    xxxl: {
-    position: { x: 1.6, y: 0, z: 0 },
-    scaleFrom: { x: 0, y: 0, z: 0 },
-    scaleTo: { x: 1, y: 1, z: 1 },
-  },
-};
+type BreakpointKey = "sm" | "md" | "lg" | "xl" | "xxl" | "xxxl";
 
 /* ================= COMPONENT ================= */
 
@@ -73,8 +32,15 @@ const Scene = ({ flavor }: SceneProps) => {
     () => {
       if (!canRef.current || !isReady) return;
 
-      const config = CHERRY_CONFIG[breakpoint];
+      const breakpointKey =
+        breakpoint.toUpperCase() as Uppercase<BreakpointKey>;
+      const config: ResponsiveConfig = CONFIG[breakpointKey].cherry;
       if (!config) return;
+
+      // Check if animation has already played this session
+      const hasPlayedBefore =
+        typeof window !== "undefined" &&
+        sessionStorage.getItem("productCherryAnimPlayed") === "true";
 
       // Kill only this section's triggers
       ScrollTrigger.getAll().forEach((t) => {
@@ -94,11 +60,20 @@ const Scene = ({ flavor }: SceneProps) => {
         },
       });
 
-      scrollTL.fromTo(canRef.current.scale, config.scaleFrom, {
-        ...config.scaleTo,
-        duration: 0.4,
-        ease: "back.out(1.7)",
-      });
+      if (!hasPlayedBefore) {
+        // First visit - animate scale from zero
+        scrollTL.fromTo(canRef.current.scale, config.scaleFrom, {
+          ...config.scaleTo,
+          duration: 0.4,
+          ease: "back.out(1.7)",
+          onComplete: () => {
+            sessionStorage.setItem("productCherryAnimPlayed", "true");
+          },
+        });
+      } else {
+        // Return visit - set directly to final scale
+        gsap.set(canRef.current.scale, config.scaleTo);
+      }
     },
     { dependencies: [breakpoint, isReady] }
   );
