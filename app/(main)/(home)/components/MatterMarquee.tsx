@@ -20,11 +20,13 @@ const MatterMarquee: React.FC = () => {
   const isFiringRef = useRef(false);
 
   const [loaded, setLoaded] = useState(false);
+  const [fireCount, setFireCount] = useState(0);
 
   // Get responsive breakpoint from global state
   const breakpoint = useResponsiveStore((s) => s.breakpoint);
 
   const sponsorImages = [
+    // Round 1 - Music sponsors (8 images)
     "/sponsorts/music/t1.png",
     "/sponsorts/music/t2.png",
     "/sponsorts/music/t3.png",
@@ -33,7 +35,24 @@ const MatterMarquee: React.FC = () => {
     "/sponsorts/music/t6.png",
     "/sponsorts/music/t7.png",
     "/sponsorts/music/t8.png",
+    // Round 2 - Sport sponsors part 1 (8 images)
     "/sponsorts/sport/t10.png",
+    "/sponsorts/sport/AFFLogos205X197-150x150.png",
+    "/sponsorts/sport/club-de-vannes-150x150.jpg",
+    "/sponsorts/sport/fl-lorient-150x150.jpg",
+    "/sponsorts/sport/GDVHLogos205X197-150x150.png",
+    "/sponsorts/sport/guingamp-150x150.jpg",
+    "/sponsorts/sport/leton-tregor-basket-150x150.jpg",
+    "/sponsorts/sport/ligue-de-basket-de-bretagne-150x150.jpg",
+    // Round 3 - Sport sponsors part 2 (8 images)
+    "/sponsorts/sport/LMVLogos205X197-150x150.png",
+    "/sponsorts/sport/MCILogos205X197-150x150.png",
+    "/sponsorts/sport/MRTLogos205X197-150x150.png",
+    "/sponsorts/sport/MVLogos205X197-150x150.png",
+    "/sponsorts/sport/OFACLogos205X197-150x150.png",
+    "/sponsorts/sport/Open-de-Rennes-150x150.png",
+    "/sponsorts/sport/prix-de-plumelec-150x150.jpg",
+    "/sponsorts/sport/Pro-Am-de-Bretagne-138x150.png",
   ];
 
   const originalImageSize = 200;
@@ -116,7 +135,13 @@ const MatterMarquee: React.FC = () => {
     )
       return;
 
+    // Check if we've already fired 3 times
+    if (fireCount >= 3) {
+      return;
+    }
+
     isFiringRef.current = true;
+    setFireCount((prev) => prev + 1);
 
     const engine = engineRef.current;
     const scene = sceneRef.current;
@@ -128,13 +153,20 @@ const MatterMarquee: React.FC = () => {
     const baseX = rect.left - sceneRect.left + rect.width / 2;
     const baseY = rect.top - sceneRect.top + 10; // Offset slightly from the top of the can
 
-    const total = 9;
+    const total = 8;
     const spreadDeg = 25;
     const baseAngleDeg = -90;
     const speedFactor = Math.min(scene.offsetWidth, scene.offsetHeight) * 0.012;
     const radius =
       Math.min(scene.offsetWidth, scene.offsetHeight) *
       getRadiusMultiplier(breakpoint);
+
+    // Get the 8 images for this round based on fireCount
+    const roundStartIndex = fireCount * 8;
+    const roundImages = sponsorImages.slice(
+      roundStartIndex,
+      roundStartIndex + 8
+    );
 
     let count = 0;
 
@@ -157,8 +189,7 @@ const MatterMarquee: React.FC = () => {
         y: Math.sin(angleRad) * speedFactor,
       };
 
-      const image =
-        sponsorImages[Math.floor(Math.random() * sponsorImages.length)];
+      const image = roundImages[Math.floor(Math.random() * roundImages.length)];
 
       const circle = Matter.Bodies.circle(baseX, baseY, radius, {
         restitution: 0.6,
@@ -470,11 +501,11 @@ const MatterMarquee: React.FC = () => {
       {/* BUTTON RIGHT */}
       <button
         ref={buttonRightRef}
-        disabled={!loaded}
+        disabled={!loaded || fireCount >= 3}
         className={`text-secondary bg-primary font-poppins border-secondary absolute top-[34%] right-[10%] z-50 -skew-x-3 rounded-md border-2 p-3 text-xl font-semibold uppercase transition-opacity xl:right-[15%] ${!loaded ? "opacity-50" : "opacity-100"}`}
         onClick={fireCannon}
       >
-        {loaded ? "Ouvrir !" : "Loading..."}
+        {loaded ? (fireCount >= 3 ? "vide" : "Ouvrir !") : "Loading..."}
       </button>
 
       {/* MATTER SCENE */}
