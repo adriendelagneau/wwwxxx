@@ -1,0 +1,54 @@
+"use client";
+
+import { useRef, useEffect } from "react";
+import { Group } from "three";
+import gsap from "gsap";
+
+
+import { Environment } from "@react-three/drei";
+import FloatingCan from "@/components/cans/FloatingCan";
+import { useSidebarCanStore } from "@/store/useMenuStore";
+
+const SPACING = 4; // distance between cans in world units
+
+export default function SidebarScene() {
+  const containerRef = useRef<Group>(null);
+
+  const activeCan = useSidebarCanStore((s) => s.activeCan);
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    gsap.to(containerRef.current.position, {
+      y: -activeCan * SPACING,
+      duration: 1.2,
+      ease: "power4.out",
+    });
+  }, [activeCan]);
+
+  return (
+    <>
+      <group ref={containerRef}>
+        <FloatingCan floatSpeed={4.5} scale={1.4} flavor="original" position={[0, 0, 0]} />
+
+        <FloatingCan floatSpeed={4.5} scale={1.4} flavor="zero" position={[0, SPACING, 0]} />
+
+        <FloatingCan floatSpeed={4.5}
+          scale={1.4}
+          flavor="cherry"
+          position={[0, SPACING * 2, 0]}
+        />
+
+        <FloatingCan floatSpeed={4.5} scale={1.4} flavor="lime" position={[0, SPACING * 3, 0]} />
+        <FloatingCan floatSpeed={4.5} scale={1.4} flavor="coffee" position={[0, SPACING * 4, 0]} />
+
+      </group>
+
+      <directionalLight position={[0, 0, 5]} intensity={0.7} castShadow />
+      <ambientLight intensity={12} />
+      <pointLight position={[0, 1, 3]} intensity={6} />
+
+      <Environment files={"/hdr/pursky.hdr"} environmentIntensity={0.6} />
+    </>
+  );
+}
