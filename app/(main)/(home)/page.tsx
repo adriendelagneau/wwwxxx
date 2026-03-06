@@ -2,6 +2,8 @@ import Marquee from "@/components/Marquee";
 import Hero from "./components/hero/Hero";
 import ProductCherry from "./components/productCherry/ProductCherry";
 import ProductLime from "./components/productLime/ProductLime";
+import Chronos from "./components/chronos/Chronos";
+import MatterMarquee from "./components/MatterMarquee";
 
 
 export default function Home() {
@@ -35,6 +37,8 @@ export default function Home() {
         speed={1.1}
         sentence="Notre histoire s’inscrit dans le temps avec constance et ambition : chaque année, chaque étape, chaque image révèle une évolution portée par l’audace et la passion."
       />
+      <Chronos />
+      <MatterMarquee />
     </div>
   );
 }
