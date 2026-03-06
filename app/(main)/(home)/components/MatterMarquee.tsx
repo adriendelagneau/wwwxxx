@@ -2,6 +2,7 @@
 
 import React, { useRef, useEffect, useState, useCallback } from "react";
 import Matter from "matter-js";
+import { useResponsiveStore } from "@/store/useResponsiveStore";
 
 const MatterMarquee: React.FC = () => {
   const sceneRef = useRef<HTMLDivElement>(null);
@@ -20,6 +21,9 @@ const MatterMarquee: React.FC = () => {
 
   const [loaded, setLoaded] = useState(false);
 
+  // Get responsive breakpoint from global state
+  const breakpoint = useResponsiveStore((s) => s.breakpoint);
+
   const sponsorImages = [
     "/sponsorts/music/t1.png",
     "/sponsorts/music/t2.png",
@@ -29,9 +33,30 @@ const MatterMarquee: React.FC = () => {
     "/sponsorts/music/t6.png",
     "/sponsorts/music/t7.png",
     "/sponsorts/music/t8.png",
+    "/sponsorts/sport/t10.png",
   ];
 
   const originalImageSize = 200;
+
+  // Get radius multiplier based on breakpoint
+  const getRadiusMultiplier = (bp: string): number => {
+    switch (bp) {
+      case "xs":
+        return 0.055;
+      case "sm":
+        return 0.045;
+      case "md":
+        return 0.035;
+      case "lg":
+        return 0.035;
+      case "xl":
+        return 0.035;
+      case "xxl":
+        return 0.044;
+      default:
+        return 0.04;
+    }
+  };
 
   // 1. PRELOAD ALL ASSETS (Sponsors + Can) with error handling and timeout
   useEffect(() => {
@@ -103,11 +128,13 @@ const MatterMarquee: React.FC = () => {
     const baseX = rect.left - sceneRect.left + rect.width / 2;
     const baseY = rect.top - sceneRect.top + 10; // Offset slightly from the top of the can
 
-    const total = 8;
+    const total = 9;
     const spreadDeg = 25;
     const baseAngleDeg = -90;
     const speedFactor = Math.min(scene.offsetWidth, scene.offsetHeight) * 0.012;
-    const radius = Math.min(scene.offsetWidth, scene.offsetHeight) * 0.04;
+    const radius =
+      Math.min(scene.offsetWidth, scene.offsetHeight) *
+      getRadiusMultiplier(breakpoint);
 
     let count = 0;
 
@@ -167,7 +194,7 @@ const MatterMarquee: React.FC = () => {
 
       count++;
     }, 60);
-  }, [loaded]);
+  }, [loaded, breakpoint]);
 
   // 3. INIT MATTER ENGINE
   useEffect(() => {
@@ -439,9 +466,7 @@ const MatterMarquee: React.FC = () => {
   }, [loaded, fireCannon]);
 
   return (
-    <div className="relative z-999 flex h-[120vh] w-full justify-center overflow-hidden bg-transparent">
-
-
+    <div className="relative z-999 flex h-screen w-full justify-center overflow-hidden bg-transparent">
       {/* BUTTON RIGHT */}
       <button
         ref={buttonRightRef}
@@ -449,7 +474,7 @@ const MatterMarquee: React.FC = () => {
         className={`text-secondary bg-primary font-poppins border-secondary absolute top-[34%] right-[10%] z-50 -skew-x-3 rounded-md border-2 p-3 text-xl font-semibold uppercase transition-opacity xl:right-[15%] ${!loaded ? "opacity-50" : "opacity-100"}`}
         onClick={fireCannon}
       >
-        {loaded ? "Open can" : "Loading..."}
+        {loaded ? "Ouvrir !" : "Loading..."}
       </button>
 
       {/* MATTER SCENE */}
@@ -465,7 +490,7 @@ const MatterMarquee: React.FC = () => {
       >
         <img
           src="/can2.png"
-          className="block w-32 xl:w-64"
+          className="block w-32 sm:w-36 md:w-42 lg:w-52 xl:w-58 2xl:w-64"
           alt="can"
           onLoad={() => {
             // Backup trigger to ensure layout if browser cache was weird
