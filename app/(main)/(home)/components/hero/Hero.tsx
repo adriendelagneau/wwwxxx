@@ -6,9 +6,7 @@ import gsap from "gsap";
 import React, { useRef, useEffect, useState } from "react";
 
 import PinnedReveal from "./pin-reveal";
-import Scene from "./Scene";
 import { useAnimationStore } from "@/store/useAnimationStore";
-import { useMeshStore } from "@/store/useMeshStore";
 import { HERO } from "@/lib/data";
 
 // Loading component while 3D scene loads
