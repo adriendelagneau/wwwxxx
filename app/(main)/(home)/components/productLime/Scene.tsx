@@ -18,7 +18,7 @@ type SceneProps = {
   flavor: "original" | "cherry" | "zero" | "lime" | "coffee";
 };
 
-type BreakpointKey = "xs" | "sm" | "md" | "lg" | "xl" | "xxl" ;
+type BreakpointKey = "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
 
 /* ================= COMPONENT ================= */
 
@@ -99,7 +99,7 @@ const Scene = ({ flavor }: SceneProps) => {
       <ambientLight intensity={10} />
       <pointLight position={[0, 1, 3]} intensity={6} />
 
-      <Environment files="/hdr/studio.hdr" environmentIntensity={0.5} />
+      <Environment preset="studio" environmentIntensity={0.3} />
     </group>
   );
 };

@@ -124,7 +124,7 @@ function Scene() {
             z: intro.to.position.z ?? 0,
             duration: 1.2,
             ease: "back.out(1.4)",
-            delay: 1.6,
+            delay: 0.3, // Reduced from 1.6 - starts sooner after page load
           });
         }
 
@@ -135,7 +135,7 @@ function Scene() {
             z: intro.to.rotation.z ?? final?.rotation?.z ?? 0,
             duration: 1.2,
             ease: "back.out(1.4)",
-            delay: 1.6,
+            delay: 0.3, // Reduced from 1.6
           });
         }
 
@@ -146,7 +146,7 @@ function Scene() {
             z: intro.to.scale.z,
             duration: 0.8,
             ease: "back.out()",
-            delay: 1.7,
+            delay: 0.4, // Reduced from 1.7
             onComplete: () => {
               sessionStorage.setItem("introPlayed", "true");
             },
@@ -345,7 +345,8 @@ function Scene() {
       <ambientLight intensity={12} />
       <pointLight position={[0, 1, 3]} intensity={6} />
 
-      <Environment files={"/hdr/pursky.hdr"} environmentIntensity={0.6} />
+      {/* Using simpler lighting instead of heavy HDR - much faster initial load */}
+      <Environment preset="studio" environmentIntensity={0.3} />
     </group>
   );
 }

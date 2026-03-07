@@ -32,8 +32,8 @@ const Scene = ({ flavor }: SceneProps) => {
     | "MD"
     | "LG"
     | "XL"
-    | "XXL"
-  
+    | "XXL";
+
   const config = CONFIG[configKey]?.single;
 
   useGSAP(
@@ -66,9 +66,9 @@ const Scene = ({ flavor }: SceneProps) => {
 
       scrollTL
         .to(canRef.current.rotation, { y: Math.PI * 2 })
-        .to(canRef.current.position, config.scrollAnimations2.position )
-        // .to(canRef.current.position, config.scrollAnimations.position)
-        // .to(canRef.current.rotation, { y: Math.PI * 2 }, 2 )
+        .to(canRef.current.position, config.scrollAnimations2.position);
+      // .to(canRef.current.position, config.scrollAnimations.position)
+      // .to(canRef.current.rotation, { y: Math.PI * 2 }, 2 )
     },
     { dependencies: [breakpoint, isReady, config] }
   );
@@ -93,7 +93,7 @@ const Scene = ({ flavor }: SceneProps) => {
       />
       <ambientLight intensity={10} />
       <pointLight position={[-0, 1, 3]} intensity={6} />
-      <Environment files={"/hdr/studio.hdr"} environmentIntensity={0.5} />
+      <Environment preset="studio" environmentIntensity={0.3} />
     </>
   );
 };

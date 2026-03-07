@@ -89,7 +89,7 @@ const CarouselScene = ({
       <pointLight position={[0, 1, 3]} intensity={0.5} />
 
       {/* HDR ENVIRONMENT */}
-      <Environment files={"/hdr/studio.hdr"} environmentIntensity={0.6} />
+      <Environment preset="studio" environmentIntensity={0.4} />
     </>
   );
 };
@@ -153,33 +153,33 @@ const Carousel = () => {
   return (
     <div>
       {/* <h3 className="text-4xl font-semibold">Tout le monde a son préféré.</h3> */}
-    <div
-      ref={containerRef}
-      className="carousel relative z-40 flex w-full items-center justify-center my-24"
-    >
-      {/* UI Buttons */}
-      <NavigationArrow
-        direction="left"
-        onClick={() => rotateBy(-1)}
-        disabled={isAnimating}
-        className="absolute top-1/2 left-4 -translate-y-1/2 md:left-12 lg:left-24"
-      />
+      <div
+        ref={containerRef}
+        className="carousel relative z-40 my-24 flex w-full items-center justify-center"
+      >
+        {/* UI Buttons */}
+        <NavigationArrow
+          direction="left"
+          onClick={() => rotateBy(-1)}
+          disabled={isAnimating}
+          className="absolute top-1/2 left-4 -translate-y-1/2 md:left-12 lg:left-24"
+        />
 
-      <NavigationArrow
-        direction="right"
-        onClick={() => rotateBy(1)}
-        disabled={isAnimating}
-        className="absolute top-1/2 right-4 -translate-y-1/2 md:right-12 lg:right-24"
-      />
+        <NavigationArrow
+          direction="right"
+          onClick={() => rotateBy(1)}
+          disabled={isAnimating}
+          className="absolute top-1/2 right-4 -translate-y-1/2 md:right-12 lg:right-24"
+        />
 
-      <div className="relative z-30 flex w-full items-center justify-center">
-        {/* The View component acts as the bridge to the Canvas */}
-        <View className="h-80 xl:h-[600px] w-full">
-          <CarouselScene angleRef={angleRef} config={config} />
-        </View>
+        <div className="relative z-30 flex w-full items-center justify-center">
+          {/* The View component acts as the bridge to the Canvas */}
+          <View className="h-80 w-full xl:h-[600px]">
+            <CarouselScene angleRef={angleRef} config={config} />
+          </View>
+        </div>
       </div>
     </div>
-        </div>
   );
 };
 

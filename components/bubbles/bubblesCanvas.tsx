@@ -37,7 +37,7 @@ export const BubblesCanvas = () => {
         />
         <ambientLight intensity={8} />
         <pointLight position={[-0, 1, 3]} intensity={3.4} />
-        <Environment files={"/hdr/studio.hdr"} environmentIntensity={0.3} />
+        <Environment preset="studio" environmentIntensity={0.2} />
         <Bubbles />
       </Suspense>
     </Canvas>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useGSAP } from "@gsap/react";
-import { View } from "@react-three/drei";
+import { View, Preload } from "@react-three/drei";
 import gsap from "gsap";
 import React, { useRef } from "react";
 
@@ -10,6 +10,20 @@ import Scene from "./Scene";
 import { useAnimationStore } from "@/store/useAnimationStore";
 import { useMeshStore } from "@/store/useMeshStore";
 import { HERO } from "@/lib/data";
+
+// Loading component while 3D scene loads
+function HeroLoader() {
+  return (
+    <div className="absolute inset-0 flex items-center justify-center bg-transparent">
+      <div className="flex flex-col items-center gap-4">
+        <div className="border-primary h-12 w-12 animate-spin rounded-full border-4 border-t-transparent" />
+        <span className="font-poppins text-primary text-sm tracking-widest uppercase">
+          Chargement...
+        </span>
+      </div>
+    </div>
+  );
+}
 
 const Hero = () => {
   const createIntroTimeline = useAnimationStore((s) => s.createIntroTimeline);
@@ -41,7 +55,7 @@ const Hero = () => {
     tl.to(
       titleRefs.current,
       { y: 0, stagger: 0.15, duration: 1, ease: "power4.out" },
-      0.8 // start at 0
+      0.3 // start at 0.3 to sync with 3D can animation
     );
 
     playIntro();
@@ -58,6 +72,7 @@ const Hero = () => {
       {/* THREE SCENE */}
       <View className="hero-scene pointer-events-none sticky top-0 z-10 -mt-[100vh] h-screen w-full">
         <Scene />
+        <Preload all />
       </View>
 
       {/* HERO TEXT */}
@@ -73,7 +88,7 @@ const Hero = () => {
               <div
                 key={`line1-${index}`}
                 ref={addTitleRef}
-                className={`inline translate-y-full pr-4 text-5xl tracking-wider sm:text-6xl md:text-7xl xl:text-8xl 2xl:text-[140px] ${
+                className={`hero-text inline translate-y-full pr-4 text-5xl tracking-wider sm:text-6xl md:text-7xl xl:text-8xl 2xl:text-[140px] ${
                   index === 1 ? "text-stroke-secondary text-primary" : ""
                 }`}
               >
@@ -88,7 +103,7 @@ const Hero = () => {
               <div
                 key={`line2-${index}`}
                 ref={addTitleRef}
-                className={`flex translate-y-full items-center text-5xl tracking-wider sm:text-6xl md:text-7xl xl:text-8xl 2xl:text-[140px] ${
+                className={`hero-text flex translate-y-full items-center text-5xl tracking-wider sm:text-6xl md:text-7xl xl:text-8xl 2xl:text-[140px] ${
                   word === "cola" ? "text-stroke-secondary text-primary" : ""
                 } ${index === 0 ? "mr-4" : index === 2 ? "pl-4" : ""}`}
               >
@@ -103,7 +118,7 @@ const Hero = () => {
               <div
                 key={`line3-${index}`}
                 ref={addTitleRef}
-                className={`inline translate-y-full pr-4 text-5xl tracking-wider sm:text-6xl md:text-7xl xl:text-8xl 2xl:text-[140px] ${
+                className={`hero-text inline translate-y-full pr-4 text-5xl tracking-wider sm:text-6xl md:text-7xl xl:text-8xl 2xl:text-[140px] ${
                   index === 1 ? "text-stroke-secondary text-primary" : ""
                 }`}
               >
