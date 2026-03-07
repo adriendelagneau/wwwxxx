@@ -28,23 +28,19 @@ export default function Sidebar() {
     {
       href: "/product/original",
       label: "original",
-      color: "group-hover:text-primary",
     },
-    { href: "/product/zero", label: "zero", color: "group-hover:text-black" },
+    { href: "/product/zero", label: "zero" },
     {
       href: "/product/cherry",
       label: "cherry",
-      color: "group-hover:text-fuchsia-900",
     },
     {
       href: "/product/lime",
       label: "lime",
-      color: "group-hover:text-lime-800",
     },
     {
       href: "/product/coffee",
       label: "café",
-      color: "group-hover:text-yellow-900",
     },
   ];
 
@@ -140,12 +136,15 @@ export default function Sidebar() {
       className="bg-secondary text-primary fixed inset-0 z-999 flex -translate-x-full flex-col"
     >
       {/* HEADER */}
-      <div className="relative flex items-center justify-center pt-5 h-20">
+      <div className="relative flex h-20 items-center justify-center pt-5">
         <button onClick={closeMenu} className="absolute top-6 left-2 text-2xl">
           <XIcon size={28} />
         </button>
 
-        <MenuLink href="/" className="font-cream-cake absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center text-4xl sm:text-5xl capitalize md:text-6xl">
+        <MenuLink
+          href="/"
+          className="font-cream-cake absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center text-4xl capitalize sm:text-5xl md:text-6xl"
+        >
           Breizh Cola
         </MenuLink>
       </div>
@@ -183,7 +182,7 @@ export default function Sidebar() {
               <MenuLink
                 href={item.href}
                 onMouseEnter={() => setActiveCan(index)}
-                className="menu-link font-cream-cake group block translate-y-full text-5xl sm:text-6xl lg:text-7xl 2xl:text-[80px] "
+                className="menu-link font-cream-cake group block translate-y-full text-5xl sm:text-6xl lg:text-7xl 2xl:text-[80px]"
               >
                 Breizh{" "}
                 <span

@@ -2,10 +2,8 @@
 
 import { useGLTF, useTexture } from "@react-three/drei";
 import * as THREE from "three";
-import { useMemo } from "react";
 
-// GLTF will be loaded lazily by React Three Fiber - no preload needed
-// This prevents blocking the main thread on initial page load
+useGLTF.preload("/Soda-can.gltf");
 
 const flavorTextures = {
   original: "/labels/bz1origibal.png",
@@ -15,20 +13,11 @@ const flavorTextures = {
   coffee: "/labels/bz1coffee.png",
 };
 
-// Memoize metal material to avoid recreation on every render
 const metalMaterial = new THREE.MeshStandardMaterial({
   roughness: 0.3,
   metalness: 1,
   color: "#bbbbbb",
 });
-
-// Memoize the default material for labels
-const createLabelMaterial = (map: THREE.Texture) =>
-  new THREE.MeshStandardMaterial({
-    roughness: 0.2,
-    metalness: 0.9,
-    map,
-  });
 
 export type SodaCanProps = {
   flavor?: keyof typeof flavorTextures;
@@ -42,11 +31,16 @@ export function SodaCan({
 }: SodaCanProps) {
   const { nodes } = useGLTF("/Soda-can.gltf");
 
-  // Only load the texture for the specific flavor being used - lazy loads only what's needed
-  const label = useTexture(flavorTextures[flavor]);
+  const labels = useTexture(flavorTextures);
 
-  // Memoize the label material
-  const labelMaterial = useMemo(() => createLabelMaterial(label), [label]);
+  // Fixes upside down labels
+  labels.cherry.flipY = false;
+  labels.original.flipY = false;
+  labels.zero.flipY = false;
+  labels.lime.flipY = false;
+  labels.coffee.flipY = false;
+
+  const label = labels[flavor];
 
   return (
     <group
@@ -65,8 +59,14 @@ export function SodaCan({
         castShadow
         receiveShadow
         geometry={(nodes.cylinder_1 as THREE.Mesh).geometry}
-        material={labelMaterial}
-      />
+      >
+        <meshStandardMaterial
+          roughness={0.2}
+          metalness={0.9}
+          map={label}
+
+        />
+      </mesh>
       <mesh
         castShadow
         receiveShadow
