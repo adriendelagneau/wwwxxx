@@ -122,7 +122,7 @@ function Scene() {
             x: intro.to.position.x ?? 0,
             y: intro.to.position.y ?? 0,
             z: intro.to.position.z ?? 0,
-            duration: 1.2,
+            duration: 0.7,
             ease: "back.out(1.4)",
             delay: 1.8,
           });
