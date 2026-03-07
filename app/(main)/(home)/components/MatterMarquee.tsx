@@ -27,6 +27,7 @@ const MatterMarquee: React.FC = () => {
 
   const sponsorImages = [
     // Round 1 - Music sponsors (8 images)
+
     "/sponsorts/music/t1.png",
     "/sponsorts/music/t2.png",
     "/sponsorts/music/t3.png",
@@ -34,9 +35,10 @@ const MatterMarquee: React.FC = () => {
     "/sponsorts/music/t5.png",
     "/sponsorts/music/t6.png",
     "/sponsorts/music/t7.png",
-    "/sponsorts/music/t8.png",
-    // Round 2 - Sport sponsors part 1 (8 images)
     "/sponsorts/sport/t10.png",
+    
+    // Round 2 - Sport sponsors part 1 (8 images)
+    "/sponsorts/music/t8.png",
     "/sponsorts/sport/AFFLogos205X197-150x150.png",
     "/sponsorts/sport/club-de-vannes-150x150.jpg",
     "/sponsorts/sport/fl-lorient-150x150.jpg",
@@ -192,10 +194,10 @@ const MatterMarquee: React.FC = () => {
       const image = roundImages[Math.floor(Math.random() * roundImages.length)];
 
       const circle = Matter.Bodies.circle(baseX, baseY, radius, {
-        restitution: 0.6,
-        friction: 0.05,
+        restitution: 0.7,
+        friction: 0.01,
         frictionAir: 0.03,
-        density: 0.05,
+        density: 0.04,
         render: {
           sprite: {
             texture: image,

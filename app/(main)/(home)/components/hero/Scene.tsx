@@ -23,8 +23,8 @@ function Scene() {
 
   const groupRef = useRef<Group>(null);
   const can1Ref = useRef<Group>(null);
+  const can2Ref = useRef<Group>(null);
   const can3Ref = useRef<Group>(null);
-  const can4Ref = useRef<Group>(null);
 
   const configKey = breakpoint.toUpperCase() as keyof typeof CONFIG;
   const config = CONFIG[configKey];
@@ -54,9 +54,25 @@ function Scene() {
         typeof window !== "undefined" &&
         sessionStorage.getItem("introPlayed") === "true";
 
-      /* ================= SET INITIAL POSITIONS FOR CAN3 & CAN4 ================= */
+      /* ================= SET INITIAL POSITIONS FOR can2 & can3 ================= */
 
       // Always set initial positions and scale from config (works on both first visit and refresh)
+      if (can2Ref.current && scrollAnimations?.can2?.from.position) {
+        gsap.set(can2Ref.current.position, {
+          x: scrollAnimations.can2.from.position.x ?? 0,
+          y: scrollAnimations.can2.from.position.y ?? 0,
+          z: scrollAnimations.can2.from.position.z ?? 0,
+        });
+        // Set initial scale for can2
+        if (scrollAnimations.can2.from.scale) {
+          gsap.set(can2Ref.current.scale, {
+            x: scrollAnimations.can2.from.scale.x ?? 1,
+            y: scrollAnimations.can2.from.scale.y ?? 1,
+            z: scrollAnimations.can2.from.scale.z ?? 1,
+          });
+        }
+      }
+
       if (can3Ref.current && scrollAnimations?.can3?.from.position) {
         gsap.set(can3Ref.current.position, {
           x: scrollAnimations.can3.from.position.x ?? 0,
@@ -69,22 +85,6 @@ function Scene() {
             x: scrollAnimations.can3.from.scale.x ?? 1,
             y: scrollAnimations.can3.from.scale.y ?? 1,
             z: scrollAnimations.can3.from.scale.z ?? 1,
-          });
-        }
-      }
-
-      if (can4Ref.current && scrollAnimations?.can4?.from.position) {
-        gsap.set(can4Ref.current.position, {
-          x: scrollAnimations.can4.from.position.x ?? 0,
-          y: scrollAnimations.can4.from.position.y ?? 0,
-          z: scrollAnimations.can4.from.position.z ?? 0,
-        });
-        // Set initial scale for can4
-        if (scrollAnimations.can4.from.scale) {
-          gsap.set(can4Ref.current.scale, {
-            x: scrollAnimations.can4.from.scale.x ?? 1,
-            y: scrollAnimations.can4.from.scale.y ?? 1,
-            z: scrollAnimations.can4.from.scale.z ?? 1,
           });
         }
       }
@@ -181,8 +181,8 @@ function Scene() {
         scrollAnimations &&
         groupRef.current &&
         can1Ref.current &&
+        can2Ref.current &&
         can3Ref.current &&
-        can4Ref.current &&
         heroElement
       ) {
         const scrollTL = gsap.timeline({
@@ -223,6 +223,56 @@ function Scene() {
               x: scrollAnimations.can1.rotation.x ?? 0,
               y: scrollAnimations.can1.rotation.y ?? 0,
               z: scrollAnimations.can1.rotation.z ?? 0,
+            },
+            0
+          );
+        }
+
+        if (scrollAnimations.can2?.from?.position) {
+          gsap.set(can2Ref.current.position, {
+            x: scrollAnimations.can2.from.position.x ?? 0,
+            y: scrollAnimations.can2.from.position.y ?? 0,
+            z: scrollAnimations.can2.from.position.z ?? 0,
+          });
+        }
+        // Set scale for can2 from config
+        if (scrollAnimations.can2?.from?.scale) {
+          gsap.set(can2Ref.current.scale, {
+            x: scrollAnimations.can2.from.scale.x ?? 1,
+            y: scrollAnimations.can2.from.scale.y ?? 1,
+            z: scrollAnimations.can2.from.scale.z ?? 1,
+          });
+        }
+        if (scrollAnimations.can2?.to?.position) {
+          scrollTL.to(
+            can2Ref.current.position,
+            {
+              x: scrollAnimations.can2.to.position.x ?? 0,
+              y: scrollAnimations.can2.to.position.y ?? 0,
+              z: scrollAnimations.can2.to.position.z ?? 0,
+            },
+            0
+          );
+        }
+        if (scrollAnimations.can2?.to?.rotation) {
+          scrollTL.to(
+            can2Ref.current.rotation,
+            {
+              x: scrollAnimations.can2.to.rotation.x ?? 0,
+              y: scrollAnimations.can2.to.rotation.y ?? 0,
+              z: scrollAnimations.can2.to.rotation.z ?? 0,
+            },
+            0
+          );
+        }
+        // Add scale animation for can2
+        if (scrollAnimations.can2?.to?.scale) {
+          scrollTL.to(
+            can2Ref.current.scale,
+            {
+              x: scrollAnimations.can2.to.scale.x ?? 1,
+              y: scrollAnimations.can2.to.scale.y ?? 1,
+              z: scrollAnimations.can2.to.scale.z ?? 1,
             },
             0
           );
@@ -277,56 +327,6 @@ function Scene() {
             0
           );
         }
-
-        if (scrollAnimations.can4?.from?.position) {
-          gsap.set(can4Ref.current.position, {
-            x: scrollAnimations.can4.from.position.x ?? 0,
-            y: scrollAnimations.can4.from.position.y ?? 0,
-            z: scrollAnimations.can4.from.position.z ?? 0,
-          });
-        }
-        // Set scale for can4 from config
-        if (scrollAnimations.can4?.from?.scale) {
-          gsap.set(can4Ref.current.scale, {
-            x: scrollAnimations.can4.from.scale.x ?? 1,
-            y: scrollAnimations.can4.from.scale.y ?? 1,
-            z: scrollAnimations.can4.from.scale.z ?? 1,
-          });
-        }
-        if (scrollAnimations.can4?.to?.position) {
-          scrollTL.to(
-            can4Ref.current.position,
-            {
-              x: scrollAnimations.can4.to.position.x ?? 0,
-              y: scrollAnimations.can4.to.position.y ?? 0,
-              z: scrollAnimations.can4.to.position.z ?? 0,
-            },
-            0
-          );
-        }
-        if (scrollAnimations.can4?.to?.rotation) {
-          scrollTL.to(
-            can4Ref.current.rotation,
-            {
-              x: scrollAnimations.can4.to.rotation.x ?? 0,
-              y: scrollAnimations.can4.to.rotation.y ?? 0,
-              z: scrollAnimations.can4.to.rotation.z ?? 0,
-            },
-            0
-          );
-        }
-        // Add scale animation for can4
-        if (scrollAnimations.can4?.to?.scale) {
-          scrollTL.to(
-            can4Ref.current.scale,
-            {
-              x: scrollAnimations.can4.to.scale.x ?? 1,
-              y: scrollAnimations.can4.to.scale.y ?? 1,
-              z: scrollAnimations.can4.to.scale.z ?? 1,
-            },
-            0
-          );
-        }
       }
     },
     { dependencies: [breakpoint, isReady] }
@@ -337,9 +337,9 @@ function Scene() {
   return (
     <group ref={groupRef}>
       <FloatingCan ref={can1Ref} flavor="original" floatSpeed={FLOAT_SPEED} />
-      <FloatingCan ref={can3Ref} flavor="zero" floatSpeed={FLOAT_SPEED} />
+      <FloatingCan ref={can2Ref} flavor="zero" floatSpeed={FLOAT_SPEED} />
 
-      <FloatingCan ref={can4Ref} flavor="coffee" floatSpeed={FLOAT_SPEED} />
+      <FloatingCan ref={can3Ref} flavor="coffee" floatSpeed={FLOAT_SPEED} />
 
       <directionalLight position={[0, 0, 5]} intensity={0.7} castShadow />
       <ambientLight intensity={12} />

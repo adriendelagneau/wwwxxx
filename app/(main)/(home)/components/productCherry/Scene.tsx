@@ -57,7 +57,6 @@ const Scene = ({ flavor }: SceneProps) => {
         scrollTrigger: {
           trigger: ".product-cherry",
           start: "top 15%",
-          markers: true,
         },
       });
 

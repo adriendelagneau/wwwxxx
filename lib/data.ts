@@ -198,8 +198,8 @@ export type BreakpointConfig = {
     scroll: {
       groupRotation: Vec3;
       can1: Transform;
+      can2: { from: Transform; to: Transform };
       can3: { from: Transform; to: Transform };
-      can4: { from: Transform; to: Transform };
     };
   };
   lime: ResponsiveConfig;
@@ -226,8 +226,8 @@ export const CONFIG: Record<"XS" | "SM" | "MD" | "LG" | "XL" | "XXL", Breakpoint
       scroll: {
         groupRotation: { y: Math.PI * 2 },
         can1: { position: { x: 0, y: -0.7 }, rotation: { z: 0 } },
-        can3: { from: { position: { x: 0, y: -4, z: -0.5 }, scale: { x: 0.5, y: 0.5, z: 0.5 } }, to: { position: { x: 0.25, y: -0.78, z: -0.5 }, rotation: { z: -0.3 }, scale: { x: 0.5, y: 0.5, z: 0.5 } } },
-        can4: { from: { position: { x: -0.25, y: 4, z: -0.4 }, scale: { x: 0.5, y: 0.5, z: 0.5 } }, to: { position: { x: -0.25, y: -0.74, z: -0.4 }, rotation: { z: 0.3 }, scale: { x: 0.5, y: 0.5, z: 0.5 } } },
+        can2: { from: { position: { x: 0, y: -4, z: -0.5 }, scale: { x: 0.5, y: 0.5, z: 0.5 } }, to: { position: { x: 0.25, y: -0.78, z: -0.5 }, rotation: { z: -0.3 }, scale: { x: 0.5, y: 0.5, z: 0.5 } } },
+        can3: { from: { position: { x: -0.25, y: 4, z: -0.4 }, scale: { x: 0.5, y: 0.5, z: 0.5 } }, to: { position: { x: -0.25, y: -0.74, z: -0.4 }, rotation: { z: 0.3 }, scale: { x: 0.5, y: 0.5, z: 0.5 } } },
 
       },
     },
@@ -252,9 +252,9 @@ export const CONFIG: Record<"XS" | "SM" | "MD" | "LG" | "XL" | "XXL", Breakpoint
       },
     },
     carousel: {
-      radiusX: 0.9,
+      radiusX: 1.1,
       radiusZ: 0.65,
-      scaleRange: [0.4, 0.6],
+      scaleRange: [0.5, 0.8],
       duration: 0.9,
     }
   },
@@ -270,8 +270,8 @@ export const CONFIG: Record<"XS" | "SM" | "MD" | "LG" | "XL" | "XXL", Breakpoint
       scroll: {
         groupRotation: { y: Math.PI * 2 },
         can1: { position: { x: 0, y: -0.65 }, rotation: { z: 0 } },
-        can3: { from: { position: { x: 0, y: -4, z: -0.5 }, scale: { x: 0.57, y: 0.57, z: 0.57 } }, to: { position: { x: 0.33, y: -0.78, z: -0.5 }, rotation: { z: -0.3 }, scale: { x: 0.57, y: 0.57, z: 0.57 } } },
-        can4: { from: { position: { x: -0.25, y: 4, z: -0.4 }, scale: { x: 0.57, y: 0.57, z: 0.57 } }, to: { position: { x: -0.33, y: -0.74, z: -0.4 }, rotation: { z: 0.3 }, scale: { x: 0.57, y: 0.57, z: 0.57 } } },
+        can2: { from: { position: { x: 0, y: -4, z: -0.5 }, scale: { x: 0.57, y: 0.57, z: 0.57 } }, to: { position: { x: 0.33, y: -0.78, z: -0.5 }, rotation: { z: -0.3 }, scale: { x: 0.57, y: 0.57, z: 0.57 } } },
+        can3: { from: { position: { x: -0.25, y: 4, z: -0.4 }, scale: { x: 0.57, y: 0.57, z: 0.57 } }, to: { position: { x: -0.33, y: -0.74, z: -0.4 }, rotation: { z: 0.3 }, scale: { x: 0.57, y: 0.57, z: 0.57 } } },
 
       },
     },
@@ -298,7 +298,7 @@ export const CONFIG: Record<"XS" | "SM" | "MD" | "LG" | "XL" | "XXL", Breakpoint
     carousel: {
       radiusX: 1.5,
       radiusZ: 0.85,
-      scaleRange: [0.6, 0.75],
+      scaleRange: [0.7, 0.8],
       duration: 1,
     }
   },
@@ -315,8 +315,8 @@ export const CONFIG: Record<"XS" | "SM" | "MD" | "LG" | "XL" | "XXL", Breakpoint
       scroll: {
         groupRotation: { y: Math.PI * 2 },
         can1: { position: { x: 0, y: -0.6 }, rotation: { z: 0 } },
-        can3: { from: { position: { x: 0, y: -4, z: -0.5 }, scale: { x: 0.6, y: 0.6, z: 0.6 } }, to: { position: { x: 0.43, y: -0.78, z: -0.5 }, rotation: { z: -0.3 }, scale: { x: 0.6, y: 0.6, z: 0.6 } } },
-        can4: { from: { position: { x: -0.25, y: 4, z: -0.4 }, scale: { x: 0.6, y: 0.6, z: 0.6 } }, to: { position: { x: -0.40, y: -0.74, z: -0.4 }, rotation: { z: 0.3 }, scale: { x: 0.6, y: 0.6, z: 0.6 } } },
+        can2: { from: { position: { x: 0, y: -4, z: -0.5 }, scale: { x: 0.6, y: 0.6, z: 0.6 } }, to: { position: { x: 0.43, y: -0.78, z: -0.5 }, rotation: { z: -0.3 }, scale: { x: 0.6, y: 0.6, z: 0.6 } } },
+        can3: { from: { position: { x: -0.25, y: 4, z: -0.4 }, scale: { x: 0.6, y: 0.6, z: 0.6 } }, to: { position: { x: -0.40, y: -0.74, z: -0.4 }, rotation: { z: 0.3 }, scale: { x: 0.6, y: 0.6, z: 0.6 } } },
 
       },
     },
@@ -341,9 +341,9 @@ export const CONFIG: Record<"XS" | "SM" | "MD" | "LG" | "XL" | "XXL", Breakpoint
       },
     },
     carousel: {
-      radiusX: 1.6,
+      radiusX: 2,
       radiusZ: 0.9,
-      scaleRange: [0.6, 0.8],
+      scaleRange: [0.9, 1],
       duration: 1,
     }
   },
@@ -360,8 +360,8 @@ export const CONFIG: Record<"XS" | "SM" | "MD" | "LG" | "XL" | "XXL", Breakpoint
       scroll: {
         groupRotation: { y: Math.PI * 2 },
         can1: { position: { x: 0, y: -0.6 }, rotation: { z: 0 } },
-        can3: { from: { position: { x: 0, y: -4, z: -0.5 }, scale: { x: 0.6, y: 0.6, z: 0.6 } }, to: { position: { x: 0.43, y: -0.78, z: -0.5 }, rotation: { z: -0.3 }, scale: { x: 0.6, y: 0.6, z: 0.6 } } },
-        can4: { from: { position: { x: -0.25, y: 4, z: -0.4 }, scale: { x: 0.6, y: 0.6, z: 0.6 } }, to: { position: { x: -0.40, y: -0.74, z: -0.4 }, rotation: { z: 0.3 }, scale: { x: 0.6, y: 0.6, z: 0.6 } } },
+        can2: { from: { position: { x: 0, y: -4, z: -0.5 }, scale: { x: 0.6, y: 0.6, z: 0.6 } }, to: { position: { x: 0.43, y: -0.78, z: -0.5 }, rotation: { z: -0.3 }, scale: { x: 0.6, y: 0.6, z: 0.6 } } },
+        can3: { from: { position: { x: -0.25, y: 4, z: -0.4 }, scale: { x: 0.6, y: 0.6, z: 0.6 } }, to: { position: { x: -0.40, y: -0.74, z: -0.4 }, rotation: { z: 0.3 }, scale: { x: 0.6, y: 0.6, z: 0.6 } } },
 
       },
     },
@@ -386,9 +386,9 @@ export const CONFIG: Record<"XS" | "SM" | "MD" | "LG" | "XL" | "XXL", Breakpoint
       },
     },
     carousel: {
-      radiusX: 1.7,
+      radiusX: 2.7,
       radiusZ: 0.95,
-      scaleRange: [0.65, 0.85],
+      scaleRange: [1, 1.2],
       duration: 1,
     }
   },
@@ -396,7 +396,7 @@ export const CONFIG: Record<"XS" | "SM" | "MD" | "LG" | "XL" | "XXL", Breakpoint
   XL: {
     hero: {
       intro: {
-        can1: { from: { position: { y: 0, x: 4 }, rotation: { y: -Math.PI * 2 }, scale: { x: 0.85, y: 0.85, z: 0.85 }  }, to: { position: { y: -0.2, x: 1.2 }, rotation: { y: -0.1 } } },
+        can1: { from: { position: { y: 0, x: 4 }, rotation: { y: -Math.PI * 2 }, scale: { x: 0.85, y: 0.85, z: 0.85 } }, to: { position: { y: -0.2, x: 1.2 }, rotation: { y: -0.1 } } },
       },
       final: {
         can1: { position: { y: -0.2, x: 1.2 }, rotation: { z: -0.1 }, scale: { x: 0.85, y: 0.85, z: 0.85 } },
@@ -404,8 +404,8 @@ export const CONFIG: Record<"XS" | "SM" | "MD" | "LG" | "XL" | "XXL", Breakpoint
       scroll: {
         groupRotation: { y: Math.PI * 2 },
         can1: { position: { x: 1.1 }, rotation: { z: 0 } },
-        can3: { from: { position: { x: 0, y: -4, z: -0.5 }, scale: { x: 0.8, y: 0.8, z: 0.8 } }, to: { position: { x: 1.9, y: 0, z: -0.8 }, rotation: { z: -0.3 }, scale: { x: 0.8, y: 0.8, z: 0.8 } } },
-        can4: { from: { position: { x: -1.5, y: 4, z: -0.4 }, scale: { x: 0.8, y: 0.8, z: 0.8 } }, to: { position: { x: 0.6, y: 0, z: -0.5 }, rotation: { z: 0.3 }, scale: { x: 0.8, y: 0.8, z: 0.8 } } },
+        can2: { from: { position: { x: 0, y: -4, z: -0.5 }, scale: { x: 0.8, y: 0.8, z: 0.8 } }, to: { position: { x: 1.9, y: 0, z: -0.8 }, rotation: { z: -0.3 }, scale: { x: 0.8, y: 0.8, z: 0.8 } } },
+        can3: { from: { position: { x: -1.5, y: 4, z: -0.4 }, scale: { x: 0.8, y: 0.8, z: 0.8 } }, to: { position: { x: 0.6, y: 0, z: -0.5 }, rotation: { z: 0.3 }, scale: { x: 0.8, y: 0.8, z: 0.8 } } },
 
       },
     },
@@ -429,10 +429,10 @@ export const CONFIG: Record<"XS" | "SM" | "MD" | "LG" | "XL" | "XXL", Breakpoint
         position: { y: -0.3, x: 0 },
       },
     },
-    carousel: {
-      radiusX: 1.8,
-      radiusZ: 1,
-      scaleRange: [0.7, 0.9],
+  carousel: {
+      radiusX: 1.7,
+      radiusZ: 0.95,
+      scaleRange: [0.7, 1],
       duration: 1,
     }
   },
@@ -448,20 +448,20 @@ export const CONFIG: Record<"XS" | "SM" | "MD" | "LG" | "XL" | "XXL", Breakpoint
       scroll: {
         groupRotation: { y: Math.PI * 2 },
         can1: { position: { x: 1 }, rotation: { z: 0 } },
-        can3: { from: { position: { x: 0, y: -4, z: -0.5 }, scale: { x: 0.85, y: 0.85, z: 0.85 } }, to: { position: { x: 1.8, y: 0, z: -0.8 }, rotation: { z: -0.3 }, scale: { x: 0.85, y: 0.85, z: 0.85 } } },
-        can4: { from: { position: { x: -1.5, y: 4, z: -0.4 }, scale: { x: 0.85, y: 0.85, z: 0.85 } }, to: { position: { x: 0.5, y: 0, z: -0.5 }, rotation: { z: 0.3 }, scale: { x: 0.85, y: 0.85, z: 0.85 } } },
+        can2: { from: { position: { x: 0, y: -4, z: -0.5 }, scale: { x: 0.85, y: 0.85, z: 0.85 } }, to: { position: { x: 1.8, y: 0, z: -0.8 }, rotation: { z: -0.3 }, scale: { x: 0.85, y: 0.85, z: 0.85 } } },
+        can3: { from: { position: { x: -1.5, y: 4, z: -0.4 }, scale: { x: 0.85, y: 0.85, z: 0.85 } }, to: { position: { x: 0.5, y: 0, z: -0.5 }, rotation: { z: 0.3 }, scale: { x: 0.85, y: 0.85, z: 0.85 } } },
 
       },
     },
     lime: {
       position: { x: 1.6, y: 0, z: 0 },
       scaleFrom: { x: 0, y: 0, z: 0 },
-      scaleTo: { x: 1, y: 1, z: 1 },
+      scaleTo: { x: 0.95, y: 0.95, z: 0.95 },
     },
     cherry: {
       position: { x: 1.6, y: 0, z: 0 },
       scaleFrom: { x: 0, y: 0, z: 0 },
-      scaleTo: { x: 1, y: 1, z: 1 },
+      scaleTo: { x: 0.95, y: 0.95, z: 0.95 },
     },
     single: {
       position: { x: 0, y: -0.2, z: 0 },
@@ -473,10 +473,10 @@ export const CONFIG: Record<"XS" | "SM" | "MD" | "LG" | "XL" | "XXL", Breakpoint
         position: { y: -0.2, x: 1.5 },
       },
     },
-    carousel: {
-      radiusX: 1.9,
-      radiusZ: 1.05,
-      scaleRange: [0.75, 0.95],
+  carousel: {
+      radiusX: 2,
+      radiusZ: 0.95,
+      scaleRange: [0.8, 1],
       duration: 1,
     }
   }
