@@ -50,11 +50,6 @@ const Header = () => {
       { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" },
       1.8 // start after text animation
     );
-
-    // Add bubbles start at the end of can animation (position ~3.8)
-    tl.add(() => {
-      startBubbles(true);
-    }, 3.8);
   }, [introPlayed]);
 
   /* ================= SCROLL SHOW / HIDE ================= */

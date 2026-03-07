@@ -4,6 +4,7 @@ import FloatingCan from "@/components/cans/FloatingCan";
 import { useMeshStore } from "@/store/useMeshStore";
 import { useAnimationStore } from "@/store/useAnimationStore";
 import { useResponsiveStore } from "@/store/useResponsiveStore";
+import { useBubbleStore } from "@/store/useBubbleStore";
 import { CONFIG } from "@/lib/data";
 
 import { useGSAP } from "@gsap/react";
@@ -20,6 +21,7 @@ gsap.registerPlugin(ScrollTrigger);
 function Scene() {
   const setMeshReady = useMeshStore((state) => state.isReady);
   const getIntroTimeline = useAnimationStore((state) => state.getIntroTimeline);
+  const startBubbles = useBubbleStore((state) => state.setPlaying);
   const breakpoint = useResponsiveStore((state) => state.breakpoint);
   const isReady = useResponsiveStore((state) => state.isReady);
 
@@ -166,11 +168,13 @@ function Scene() {
           );
         }
 
-        // Mark intro as complete when can animation ends
+        // Mark intro as complete when can animation ends & trigger sidebar mount + bubbles
         if (masterTl) {
           masterTl.call(
             () => {
               sessionStorage.setItem("introPlayed", "true");
+              // Start bubbles after sidebar is mounted
+              startBubbles(true);
             },
             undefined,
             canStartPos + 1.2
