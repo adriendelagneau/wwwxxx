@@ -16,7 +16,7 @@ export default function Layout({
       <ViewCanvas />
       <BubblesCanvas />
       <Header />
-      <Sidebar />
+      {/* <Sidebar /> */}
       <div>{children}</div>
       <Social />
       <Footer />
