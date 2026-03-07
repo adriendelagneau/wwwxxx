@@ -1,3 +1,4 @@
+import ViewCanvas from "@/components/cans/ViewCanvas";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 
@@ -10,8 +11,7 @@ export default function Layout({
 }>) {
   return (
     <>
-
-
+      <ViewCanvas />
       <Header />
 
       <div>{children}</div>
