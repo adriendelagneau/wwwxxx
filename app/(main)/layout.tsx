@@ -1,3 +1,4 @@
+import { BubblesCanvas } from "@/components/bubbles/bubblesCanvas";
 import ViewCanvas from "@/components/cans/ViewCanvas";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
@@ -13,6 +14,7 @@ export default function Layout({
   return (
     <>
       <ViewCanvas />
+      <BubblesCanvas />
       <Header />
       <Sidebar />
       <div>{children}</div>
