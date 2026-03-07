@@ -2,6 +2,7 @@
 
 import FloatingCan from "@/components/cans/FloatingCan";
 import { useMeshStore } from "@/store/useMeshStore";
+import { useAnimationStore } from "@/store/useAnimationStore";
 import { useResponsiveStore } from "@/store/useResponsiveStore";
 import { CONFIG } from "@/lib/data";
 
@@ -18,6 +19,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 function Scene() {
   const setMeshReady = useMeshStore((state) => state.isReady);
+  const getIntroTimeline = useAnimationStore((state) => state.getIntroTimeline);
   const breakpoint = useResponsiveStore((state) => state.breakpoint);
   const isReady = useResponsiveStore((state) => state.isReady);
 
@@ -89,6 +91,9 @@ function Scene() {
         }
       }
 
+      // Get the master timeline for chaining
+      const masterTl = getIntroTimeline();
+
       /* ================= FIRST VISIT ================= */
 
       if (!hasPlayedBefore) {
@@ -116,41 +121,60 @@ function Scene() {
           });
         }
 
-        // animate to intro target
-        if (intro?.to?.position) {
-          gsap.to(can1Ref.current.position, {
-            x: intro.to.position.x ?? 0,
-            y: intro.to.position.y ?? 0,
-            z: intro.to.position.z ?? 0,
-            duration: 0.7,
-            ease: "back.out(1.4)",
-            delay: 1.8,
-          });
+        // Chain can animation after header ends (position 2.6 in timeline)
+        const canStartPos = 2.6;
+
+        if (masterTl && intro?.to?.position) {
+          masterTl.to(
+            can1Ref.current.position,
+            {
+              x: intro.to.position.x ?? 0,
+              y: intro.to.position.y ?? 0,
+              z: intro.to.position.z ?? 0,
+              duration: 0.7,
+              ease: "back.out(1.4)",
+            },
+            canStartPos
+          );
         }
 
-        if (intro?.to?.rotation) {
-          gsap.to(can1Ref.current.rotation, {
-            x: intro.to.rotation.x ?? final?.rotation?.x ?? 0,
-            y: intro.to.rotation.y ?? final?.rotation?.y ?? 0,
-            z: intro.to.rotation.z ?? final?.rotation?.z ?? 0,
-            duration: 1.2,
-            ease: "back.out(1.4)",
-            delay: 1.8,
-          });
+        if (masterTl && intro?.to?.rotation) {
+          masterTl.to(
+            can1Ref.current.rotation,
+            {
+              x: intro.to.rotation.x ?? final?.rotation?.x ?? 0,
+              y: intro.to.rotation.y ?? final?.rotation?.y ?? 0,
+              z: intro.to.rotation.z ?? final?.rotation?.z ?? 0,
+              duration: 1.2,
+              ease: "back.out(1.4)",
+            },
+            canStartPos
+          );
         }
 
-        if (intro?.to?.scale) {
-          gsap.to(can1Ref.current.scale, {
-            x: intro.to.scale.x,
-            y: intro.to.scale.y,
-            z: intro.to.scale.z,
-            duration: 0.8,
-            ease: "back.out(2)",
-            delay: 1.8,
-            onComplete: () => {
+        if (masterTl && intro?.to?.scale) {
+          masterTl.to(
+            can1Ref.current.scale,
+            {
+              x: intro.to.scale.x,
+              y: intro.to.scale.y,
+              z: intro.to.scale.z,
+              duration: 0.8,
+              ease: "back.out(2)",
+            },
+            canStartPos
+          );
+        }
+
+        // Mark intro as complete when can animation ends
+        if (masterTl) {
+          masterTl.call(
+            () => {
               sessionStorage.setItem("introPlayed", "true");
             },
-          });
+            undefined,
+            canStartPos + 1.2
+          );
         }
       } else if (final) {
         /* ================= RETURN VISIT ================= */

@@ -51,10 +51,10 @@ const Header = () => {
       1.8 // start after text animation
     );
 
-    // Add bubbles start at the end of navbar animation
+    // Add bubbles start at the end of can animation (position ~3.8)
     tl.add(() => {
       startBubbles(true);
-    }, 3); // adjust to sync with navbar
+    }, 3.8);
   }, [introPlayed]);
 
   /* ================= SCROLL SHOW / HIDE ================= */
@@ -102,7 +102,7 @@ const Header = () => {
         </div>
 
         {/* Desktop Nav */}
-        <ul className=" hidden gap-3 text-xl font-bold uppercase lg:flex">
+        <ul className="hidden gap-3 text-xl font-bold uppercase lg:flex">
           <li
             className="underline-effect cursor-pointer"
             onClick={() => {
