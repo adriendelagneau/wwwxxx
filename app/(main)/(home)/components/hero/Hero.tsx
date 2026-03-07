@@ -1,12 +1,14 @@
 "use client";
 
 import { useGSAP } from "@gsap/react";
-import { View, Preload } from "@react-three/drei";
+import { View } from "@react-three/drei";
 import gsap from "gsap";
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef } from "react";
 
 import PinnedReveal from "./pin-reveal";
+import Scene from "./Scene";
 import { useAnimationStore } from "@/store/useAnimationStore";
+import { useMeshStore } from "@/store/useMeshStore";
 import { HERO } from "@/lib/data";
 
 const Hero = () => {
@@ -14,26 +16,13 @@ const Hero = () => {
   const getIntroTimeline = useAnimationStore((s) => s.getIntroTimeline);
   const playIntro = useAnimationStore((s) => s.playIntro);
   const introPlayed = useAnimationStore((s) => s.introPlayed);
-  const [fontsLoaded, setFontsLoaded] = useState(false);
-  // const meshReady = useMeshStore((s) => s.ready);
+  const meshReady = useMeshStore((s) => s.ready);
 
   const titleRefs = useRef<HTMLDivElement[]>([]);
 
-  // Wait for fonts to be loaded before starting animations
-  useEffect(() => {
-    // Check if fonts are already loaded
-    if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(() => setFontsLoaded(true));
-    } else {
-      // Fallback for older browsers - wait a bit
-      const timer = setTimeout(() => setFontsLoaded(true), 100);
-      return () => clearTimeout(timer);
-    }
-  }, []);
-
   useGSAP(() => {
-    // Wait for fonts to be loaded before starting animation
-    if (!fontsLoaded) return;
+    // Wait for mesh to be ready before starting timeline
+    if (!meshReady) return;
 
     // Get or create the master timeline
     let tl = getIntroTimeline();
@@ -52,11 +41,11 @@ const Hero = () => {
     tl.to(
       titleRefs.current,
       { y: 0, stagger: 0.15, duration: 1, ease: "power4.out" },
-      0.3 // start at 0.3 to sync with 3D can animation
+      0.8 // start at 0
     );
 
     playIntro();
-  }, [fontsLoaded]);
+  }, [meshReady]);
 
   const addTitleRef = (el: HTMLDivElement) => {
     if (el && !titleRefs.current.includes(el)) titleRefs.current.push(el);
@@ -67,9 +56,9 @@ const Hero = () => {
   return (
     <div className="w-full">
       {/* THREE SCENE */}
-      {/* <View className="hero-scene pointer-events-none sticky top-0 z-10 -mt-[100vh] h-screen w-full">
+      <View className="hero-scene pointer-events-none sticky top-0 z-10 -mt-[100vh] h-screen w-full">
         <Scene />
-      </View> */}
+      </View>
 
       {/* HERO TEXT */}
       <div className="hero relative tracking-wider">
@@ -84,7 +73,7 @@ const Hero = () => {
               <div
                 key={`line1-${index}`}
                 ref={addTitleRef}
-                className={`hero-text inline translate-y-full pr-4 text-5xl tracking-wider sm:text-6xl md:text-7xl xl:text-8xl 2xl:text-[140px] ${
+                className={`inline translate-y-full pr-4 text-5xl tracking-wider sm:text-6xl md:text-7xl xl:text-8xl 2xl:text-[140px] ${
                   index === 1 ? "text-stroke-secondary text-primary" : ""
                 }`}
               >
@@ -94,12 +83,12 @@ const Hero = () => {
           </div>
 
           {/* LINE 2 */}
-          <div className="flex -skew-y-3 overflow-hidden pt-6">
+          <div className="flex -skew-y-3 overflow-hidden pt-12">
             {HERO.lines[1].words.map((word, index) => (
               <div
                 key={`line2-${index}`}
                 ref={addTitleRef}
-                className={`hero-text flex translate-y-full items-center text-5xl tracking-wider sm:text-6xl md:text-7xl xl:text-8xl 2xl:text-[140px] ${
+                className={`flex translate-y-full items-center text-5xl tracking-wider sm:text-6xl md:text-7xl xl:text-8xl 2xl:text-[140px] ${
                   word === "cola" ? "text-stroke-secondary text-primary" : ""
                 } ${index === 0 ? "mr-4" : index === 2 ? "pl-4" : ""}`}
               >
@@ -114,7 +103,7 @@ const Hero = () => {
               <div
                 key={`line3-${index}`}
                 ref={addTitleRef}
-                className={`hero-text inline translate-y-full pr-4 text-5xl tracking-wider sm:text-6xl md:text-7xl xl:text-8xl 2xl:text-[140px] ${
+                className={`inline translate-y-full pr-4 text-5xl tracking-wider sm:text-6xl md:text-7xl xl:text-8xl 2xl:text-[140px] ${
                   index === 1 ? "text-stroke-secondary text-primary" : ""
                 }`}
               >

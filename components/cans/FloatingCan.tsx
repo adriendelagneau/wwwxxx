@@ -25,7 +25,7 @@ const FloatingCan = forwardRef<Group, FloatingCanProps>(
     {
       flavor = "original",
       floatSpeed = 1.5,
-      rotationIntensity = 1,
+      rotationIntensity = 0,
       floatIntensity = 1,
       floatingRange = [-0.1, 0.1],
       scale = 1,

@@ -48,13 +48,13 @@ const Header = () => {
       navbarRef.current,
       { y: -100, opacity: 0 },
       { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" },
-      2.4 // start after text animation
+      3 // start after text animation
     );
 
     // Add bubbles start at the end of navbar animation
     tl.add(() => {
       startBubbles(true);
-    }, 2.7); // adjust to sync with navbar
+    }, 3.3); // adjust to sync with navbar
   }, [introPlayed]);
 
   /* ================= SCROLL SHOW / HIDE ================= */

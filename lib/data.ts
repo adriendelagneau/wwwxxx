@@ -429,7 +429,7 @@ export const CONFIG: Record<"XS" | "SM" | "MD" | "LG" | "XL" | "XXL", Breakpoint
         position: { y: -0.3, x: 0 },
       },
     },
-  carousel: {
+    carousel: {
       radiusX: 1.7,
       radiusZ: 0.95,
       scaleRange: [0.7, 1],
@@ -440,7 +440,7 @@ export const CONFIG: Record<"XS" | "SM" | "MD" | "LG" | "XL" | "XXL", Breakpoint
   XXL: {
     hero: {
       intro: {
-        can1: { from: { position: { y: 0, x: 3.2 }, rotation: { z: 3 } }, to: { position: { y: -0.1, x: 1.7 }, rotation: { z: -0.1 } } },
+        can1: { from: { position: { y: -0.1, x: 3.2 } }, to: { position: { y: -0.1, x: 1.7 } } },
       },
       final: {
         can1: { position: { y: -0.1, x: 1.7 }, scale: { x: 1, y: 1, z: 1 } },
@@ -473,7 +473,7 @@ export const CONFIG: Record<"XS" | "SM" | "MD" | "LG" | "XL" | "XXL", Breakpoint
         position: { y: -0.2, x: 1.5 },
       },
     },
-  carousel: {
+    carousel: {
       radiusX: 2,
       radiusZ: 0.95,
       scaleRange: [0.8, 1],
