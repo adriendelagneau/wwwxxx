@@ -124,7 +124,7 @@ function Scene() {
             z: intro.to.position.z ?? 0,
             duration: 1.2,
             ease: "back.out(1.4)",
-            delay: 3,
+            delay: 1.8,
           });
         }
 
@@ -135,7 +135,7 @@ function Scene() {
             z: intro.to.rotation.z ?? final?.rotation?.z ?? 0,
             duration: 1.2,
             ease: "back.out(1.4)",
-            delay: 1.6,
+            delay: 1.8,
           });
         }
 
@@ -146,7 +146,7 @@ function Scene() {
             z: intro.to.scale.z,
             duration: 0.8,
             ease: "back.out(2)",
-            delay: 1.7,
+            delay: 1.8,
             onComplete: () => {
               sessionStorage.setItem("introPlayed", "true");
             },
