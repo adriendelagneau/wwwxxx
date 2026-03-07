@@ -9,20 +9,6 @@ import PinnedReveal from "./pin-reveal";
 import { useAnimationStore } from "@/store/useAnimationStore";
 import { HERO } from "@/lib/data";
 
-// Loading component while 3D scene loads
-function HeroLoader() {
-  return (
-    <div className="absolute inset-0 flex items-center justify-center bg-transparent">
-      <div className="flex flex-col items-center gap-4">
-        <div className="border-primary h-12 w-12 animate-spin rounded-full border-4 border-t-transparent" />
-        <span className="font-poppins text-primary text-sm tracking-widest uppercase">
-          Chargement...
-        </span>
-      </div>
-    </div>
-  );
-}
-
 const Hero = () => {
   const createIntroTimeline = useAnimationStore((s) => s.createIntroTimeline);
   const getIntroTimeline = useAnimationStore((s) => s.getIntroTimeline);
