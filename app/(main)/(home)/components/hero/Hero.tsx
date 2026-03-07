@@ -3,7 +3,7 @@
 import { useGSAP } from "@gsap/react";
 import { View, Preload } from "@react-three/drei";
 import gsap from "gsap";
-import React, { useRef } from "react";
+import React, { useRef, useEffect, useState } from "react";
 
 import PinnedReveal from "./pin-reveal";
 import Scene from "./Scene";
@@ -30,13 +30,26 @@ const Hero = () => {
   const getIntroTimeline = useAnimationStore((s) => s.getIntroTimeline);
   const playIntro = useAnimationStore((s) => s.playIntro);
   const introPlayed = useAnimationStore((s) => s.introPlayed);
-  const meshReady = useMeshStore((s) => s.ready);
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+  // const meshReady = useMeshStore((s) => s.ready);
 
   const titleRefs = useRef<HTMLDivElement[]>([]);
 
+  // Wait for fonts to be loaded before starting animations
+  useEffect(() => {
+    // Check if fonts are already loaded
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => setFontsLoaded(true));
+    } else {
+      // Fallback for older browsers - wait a bit
+      const timer = setTimeout(() => setFontsLoaded(true), 100);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
   useGSAP(() => {
-    // Wait for mesh to be ready before starting timeline
-    if (!meshReady) return;
+    // Wait for fonts to be loaded before starting animation
+    if (!fontsLoaded) return;
 
     // Get or create the master timeline
     let tl = getIntroTimeline();
@@ -59,7 +72,7 @@ const Hero = () => {
     );
 
     playIntro();
-  }, [meshReady]);
+  }, [fontsLoaded]);
 
   const addTitleRef = (el: HTMLDivElement) => {
     if (el && !titleRefs.current.includes(el)) titleRefs.current.push(el);
@@ -70,10 +83,9 @@ const Hero = () => {
   return (
     <div className="w-full">
       {/* THREE SCENE */}
-      <View className="hero-scene pointer-events-none sticky top-0 z-10 -mt-[100vh] h-screen w-full">
+      {/* <View className="hero-scene pointer-events-none sticky top-0 z-10 -mt-[100vh] h-screen w-full">
         <Scene />
-        <Preload all />
-      </View>
+      </View> */}
 
       {/* HERO TEXT */}
       <div className="hero relative tracking-wider">
