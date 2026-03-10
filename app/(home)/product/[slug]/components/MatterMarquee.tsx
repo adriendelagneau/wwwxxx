@@ -102,6 +102,12 @@ const MatterMarquee: React.FC = () => {
     const rect = can.getBoundingClientRect();
     const sceneRect = scene.getBoundingClientRect();
 
+    // Debug: Log positions to diagnose coordinate issues
+    console.log("FireCannon - can rect:", rect);
+    console.log("FireCannon - scene rect:", sceneRect);
+    console.log("FireCannon - can ref:", can);
+    console.log("FireCannon - scene ref:", scene);
+
     // Ensure we have valid dimensions - wait for can image if not loaded
     if (rect.width === 0 || rect.height === 0) {
       console.warn("Can not ready, waiting...");
@@ -111,6 +117,8 @@ const MatterMarquee: React.FC = () => {
 
     const baseX = rect.left - sceneRect.left + rect.width / 2;
     const baseY = rect.top - sceneRect.top + 10; // Offset slightly from the top of the can
+
+    console.log("FireCannon - calculated baseX:", baseX, "baseY:", baseY);
 
     const total = 8;
     const spreadDeg = 25;
@@ -196,6 +204,14 @@ const MatterMarquee: React.FC = () => {
         const height = scene.offsetHeight;
         const sceneRect = scene.getBoundingClientRect();
 
+        console.log(
+          "InitMatter - scene offsetWidth:",
+          width,
+          "offsetHeight:",
+          height
+        );
+        console.log("InitMatter - scene rect:", sceneRect);
+
         // CLEANUP
         if (engineRef.current) {
           Matter.Render.stop(renderRef.current!);
@@ -255,10 +271,14 @@ const MatterMarquee: React.FC = () => {
 
         // CAN COLLIDER - Ensure rect is caught after image is loaded
         const rectCan = can.getBoundingClientRect();
+        console.log("InitMatter - can rect:", rectCan);
         if (rectCan.width > 0) {
+          const canBodyX = rectCan.left - sceneRect.left + rectCan.width / 2;
+          const canBodyY = rectCan.top - sceneRect.top + rectCan.height / 2;
+          console.log("InitMatter - canBody position:", canBodyX, canBodyY);
           const canBody = Matter.Bodies.rectangle(
-            rectCan.left - sceneRect.left + rectCan.width / 2,
-            rectCan.top - sceneRect.top + rectCan.height / 2,
+            canBodyX,
+            canBodyY,
             rectCan.width,
             rectCan.height,
             { isStatic: true, render: { visible: false } }
