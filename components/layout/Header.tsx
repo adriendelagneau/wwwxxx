@@ -64,7 +64,7 @@ const Header = () => {
       const st = window.scrollY;
       if (!navbarRef.current) return;
 
-      if (st > lastScrollTop.current && st > 100) {
+      if (st > lastScrollTop.current && st > 80) {
         // scrolling down → hide
         gsap.to(navbarRef.current, {
           y: -100,

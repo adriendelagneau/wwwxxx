@@ -51,7 +51,7 @@ const ProductTitle = ({ name = "original" }: { name?: string }) => {
             start: "top 12%",
             end: "bottom 99%",
             toggleActions: "play none none reverse",
-            markers: true
+            // markers: true
           },
         });
       });

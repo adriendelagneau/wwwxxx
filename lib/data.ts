@@ -288,10 +288,10 @@ export const CONFIG: Record<"XS" | "SM" | "MD" | "LG" | "XL" | "XXL", Breakpoint
       position: { x: 0, y: -0.4, z: 0 },
       scale: { x: 0.65, y: 0.65, z: 0.65 },
       scrollAnimations: {
-        position: { y: -0.3, x: 0 },
+        position: { y: -1.3, x: 0 },
       },
       scrollAnimations2: {
-        position: { y: -0.3, x: 0 },
+        position: { y: -0.6, x: 0 },
       },
     },
     carousel: {
@@ -336,7 +336,7 @@ export const CONFIG: Record<"XS" | "SM" | "MD" | "LG" | "XL" | "XXL", Breakpoint
         position: { y: -0.3, x: 0 },
       },
       scrollAnimations2: {
-        position: { y: -0.3, x: 0 },
+        position: { y: -0.6, x: 0 },
       },
     },
     carousel: {
@@ -381,7 +381,7 @@ export const CONFIG: Record<"XS" | "SM" | "MD" | "LG" | "XL" | "XXL", Breakpoint
         position: { y: -0.3, x: 0 },
       },
       scrollAnimations2: {
-        position: { y: -0.3, x: 0 },
+        position: { y: -0.6, x: 0 },
       },
     },
     carousel: {
@@ -422,10 +422,10 @@ export const CONFIG: Record<"XS" | "SM" | "MD" | "LG" | "XL" | "XXL", Breakpoint
       position: { x: 0, y: -0.4, z: 0 },
       scale: { x: 0.85, y: 0.85, z: 0.85 },
       scrollAnimations: {
-        position: { y: -0.3, x: 0 },
+        position: { y: -0.2, x: 0 },
       },
       scrollAnimations2: {
-        position: { y: -0.3, x: 0 },
+        position: { y: -0.2, x: 1.3 },
       },
     },
     carousel: {
