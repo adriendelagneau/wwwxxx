@@ -1,0 +1,41 @@
+import Marquee from "@/components/Marquee";
+import HeroSingle from "./components/HeroSingle";
+import MatterMarquee from "./components/MatterMarquee";
+import Chronos from "./components/chronos/Chronos";
+import Nutriments from "./components/Nutriments";
+
+interface PageProps {
+  params: Promise<{ slug: string }>;
+}
+
+const Page = async ({ params }: PageProps) => {
+  const slug = (await params).slug as
+    | "original"
+    | "cherry"
+    | "zero"
+    | "lime"
+    | "coffee";
+
+  return (
+    <div className="relative z-5 pt-24">
+      <HeroSingle variant={slug} />
+            <div className="h-screen w-full">
+        <Nutriments variant={slug} />
+      </div>
+     <Marquee
+        initialDirection={-1}
+        speed={1.1}
+        sentence="Notre histoire s’inscrit dans le temps avec constance et ambition : chaque année, chaque étape, chaque image révèle une évolution portée par l’audace et la passion."
+        />
+      <Chronos />
+     <Marquee
+        initialDirection={1}
+        speed={1.1}
+        sentence="Notre histoire s’inscrit dans le temps avec constance et ambition : chaque année, chaque étape, chaque image révèle une évolution portée par l’audace et la passion."
+        />
+      <MatterMarquee />
+    </div>
+  );
+};
+
+export default Page;
