@@ -2,6 +2,35 @@
 
 import React, { useRef, useEffect, useState, useCallback } from "react";
 import Matter from "matter-js";
+import { useResponsiveStore } from "@/store/useResponsiveStore";
+
+// Responsive radius scale factors by breakpoint
+const RADIUS_SCALE_FACTORS: Record<string, number> = {
+  xs: 10,
+  sm: 8,
+  md: 6,
+  lg: 6,
+  xl: 5.5,
+  xxl: 4,
+};
+
+// Custom hook for responsive values
+const useResponsive = () => {
+  const breakpoint = useResponsiveStore((s) => s.breakpoint);
+  const isReady = useResponsiveStore((s) => s.isReady);
+  const resizeCount = useResponsiveStore((s) => s.resizeCount);
+
+  const getRadiusScale = useCallback(() => {
+    return RADIUS_SCALE_FACTORS[breakpoint] || RADIUS_SCALE_FACTORS.sm;
+  }, [breakpoint]);
+
+  return {
+    breakpoint,
+    isReady,
+    resizeCount,
+    getRadiusScale,
+  };
+};
 
 const MatterMarquee: React.FC = () => {
   const sceneRef = useRef<HTMLDivElement>(null);
@@ -19,6 +48,12 @@ const MatterMarquee: React.FC = () => {
   const isFiringRef = useRef(false);
 
   const [loaded, setLoaded] = useState(false);
+
+  const {
+    breakpoint,
+    isReady: responsiveReady,
+    getRadiusScale,
+  } = useResponsive();
 
   const sponsorImages = [
     "/sponsorts/music/t1.png",
@@ -107,7 +142,8 @@ const MatterMarquee: React.FC = () => {
     const spreadDeg = 25;
     const baseAngleDeg = -90;
     const speedFactor = Math.min(scene.offsetWidth, scene.offsetHeight) * 0.012;
-    const radius = Math.min(scene.offsetWidth, scene.offsetHeight) * 0.045;
+    const radiusScale = getRadiusScale();
+    const radius = Math.min(scene.offsetWidth) * 0.007 * radiusScale;
 
     let count = 0;
 
@@ -167,7 +203,7 @@ const MatterMarquee: React.FC = () => {
 
       count++;
     }, 60);
-  }, [loaded]);
+  }, [loaded, getRadiusScale]);
 
   // 3. INIT MATTER ENGINE
   useEffect(() => {
@@ -436,7 +472,7 @@ const MatterMarquee: React.FC = () => {
         renderRef.current?.canvas.remove();
       }
     };
-  }, [loaded, fireCannon]);
+  }, [loaded, fireCannon, getRadiusScale]);
 
   return (
     <div className="relative z-999 flex h-[120vh] w-full justify-center overflow-hidden bg-transparent">
@@ -473,7 +509,7 @@ const MatterMarquee: React.FC = () => {
       >
         <img
           src="/can2.png"
-          className="block w-28 xl:w-64"
+          className="block w-28 sm:w-40 lg:w-52 xl:w-58 2xl:w-60"
           alt="can"
           onLoad={() => {
             // Backup trigger to ensure layout if browser cache was weird
