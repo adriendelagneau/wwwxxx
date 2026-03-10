@@ -19,7 +19,6 @@ const MatterMarquee: React.FC = () => {
   const isFiringRef = useRef(false);
 
   const [loaded, setLoaded] = useState(false);
-  const [canLoaded, setCanLoaded] = useState(false);
 
   const sponsorImages = [
     "/sponsorts/music/t1.png",
@@ -88,8 +87,7 @@ const MatterMarquee: React.FC = () => {
       !engineRef.current ||
       !sceneRef.current ||
       !canRef.current ||
-      !loaded ||
-      !canLoaded
+      !loaded
     )
       return;
 
@@ -102,23 +100,8 @@ const MatterMarquee: React.FC = () => {
     const rect = can.getBoundingClientRect();
     const sceneRect = scene.getBoundingClientRect();
 
-    // Debug: Log positions to diagnose coordinate issues
-    console.log("FireCannon - can rect:", rect);
-    console.log("FireCannon - scene rect:", sceneRect);
-    console.log("FireCannon - can ref:", can);
-    console.log("FireCannon - scene ref:", scene);
-
-    // Ensure we have valid dimensions - wait for can image if not loaded
-    if (rect.width === 0 || rect.height === 0) {
-      console.warn("Can not ready, waiting...");
-      isFiringRef.current = false;
-      return;
-    }
-
     const baseX = rect.left - sceneRect.left + rect.width / 2;
     const baseY = rect.top - sceneRect.top + 10; // Offset slightly from the top of the can
-
-    console.log("FireCannon - calculated baseX:", baseX, "baseY:", baseY);
 
     const total = 8;
     const spreadDeg = 25;
@@ -204,14 +187,6 @@ const MatterMarquee: React.FC = () => {
         const height = scene.offsetHeight;
         const sceneRect = scene.getBoundingClientRect();
 
-        console.log(
-          "InitMatter - scene offsetWidth:",
-          width,
-          "offsetHeight:",
-          height
-        );
-        console.log("InitMatter - scene rect:", sceneRect);
-
         // CLEANUP
         if (engineRef.current) {
           Matter.Render.stop(renderRef.current!);
@@ -271,14 +246,10 @@ const MatterMarquee: React.FC = () => {
 
         // CAN COLLIDER - Ensure rect is caught after image is loaded
         const rectCan = can.getBoundingClientRect();
-        console.log("InitMatter - can rect:", rectCan);
         if (rectCan.width > 0) {
-          const canBodyX = rectCan.left - sceneRect.left + rectCan.width / 2;
-          const canBodyY = rectCan.top - sceneRect.top + rectCan.height / 2;
-          console.log("InitMatter - canBody position:", canBodyX, canBodyY);
           const canBody = Matter.Bodies.rectangle(
-            canBodyX,
-            canBodyY,
+            rectCan.left - sceneRect.left + rectCan.width / 2,
+            rectCan.top - sceneRect.top + rectCan.height / 2,
             rectCan.width,
             rectCan.height,
             { isStatic: true, render: { visible: false } }
@@ -465,28 +436,28 @@ const MatterMarquee: React.FC = () => {
         renderRef.current?.canvas.remove();
       }
     };
-  }, [loaded, canLoaded]);
+  }, [loaded, fireCannon]);
 
   return (
     <div className="relative z-999 flex h-[120vh] w-full justify-center overflow-hidden bg-transparent">
       {/* BUTTON LEFT */}
       <button
         ref={buttonLeftRef}
-        disabled={!loaded || !canLoaded}
-        className={`text-secondary bg-primary font-poppins border-secondary absolute top-[40%] left-[10%] z-50 skew-x-3 rounded-md border-2 p-6 text-2xl font-semibold uppercase transition-opacity xl:left-[15%] ${!loaded || !canLoaded ? "opacity-50" : "opacity-100"}`}
+        disabled={!loaded}
+        className={`text-secondary bg-primary font-poppins border-secondary absolute top-[40%] left-[10%] z-50 skew-x-3 rounded-md border-2 p-6 text-2xl font-semibold uppercase transition-opacity xl:left-[15%] ${!loaded ? "opacity-50" : "opacity-100"}`}
         onClick={fireCannon}
       >
-        {!loaded ? "Loading..." : !canLoaded ? "Preparing..." : "Open can"}
+        {loaded ? "Open can" : "Loading..."}
       </button>
 
       {/* BUTTON RIGHT */}
       <button
         ref={buttonRightRef}
-        disabled={!loaded || !canLoaded}
-        className={`text-secondary bg-primary font-poppins border-secondary absolute top-[40%] right-[10%] z-50 -skew-x-3 rounded-md border-2 p-6 text-2xl font-semibold uppercase transition-opacity xl:right-[15%] ${!loaded || !canLoaded ? "opacity-50" : "opacity-100"}`}
+        disabled={!loaded}
+        className={`text-secondary bg-primary font-poppins border-secondary absolute top-[40%] right-[10%] z-50 -skew-x-3 rounded-md border-2 p-6 text-2xl font-semibold uppercase transition-opacity xl:right-[15%] ${!loaded ? "opacity-50" : "opacity-100"}`}
         onClick={fireCannon}
       >
-        {!loaded ? "Loading..." : !canLoaded ? "Preparing..." : "Open can"}
+        {loaded ? "Open can" : "Loading..."}
       </button>
 
       {/* MATTER SCENE */}
@@ -502,11 +473,13 @@ const MatterMarquee: React.FC = () => {
       >
         <img
           src="/can2.png"
-          className="block w-40 xl:w-64"
+          className="block w-28 xl:w-64"
           alt="can"
           onLoad={() => {
             // Backup trigger to ensure layout if browser cache was weird
-            setCanLoaded(true);
+            if (loaded) {
+              /* initMatter already handles dependencies */
+            }
           }}
         />
       </div>
