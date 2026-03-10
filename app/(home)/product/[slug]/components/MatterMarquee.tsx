@@ -6,7 +6,7 @@ import { useResponsiveStore } from "@/store/useResponsiveStore";
 
 // Responsive radius scale factors by breakpoint
 const RADIUS_SCALE_FACTORS: Record<string, number> = {
-  xs: 10,
+  xs: 8,
   sm: 8,
   md: 6,
   lg: 6,

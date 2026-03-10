@@ -4,7 +4,7 @@ import React from "react";
 const Footer = () => {
   return (
     <div
-      className="bg-secondary text-primary relative h-25 z-20"
+      className="bg-secondary text-primary relative h-25 z-30"
       style={{ clipPath: "polygon(0% 0, 100% 0%, 100% 100%, 0 100%)" }}
     >
       <div className="fixed bottom-0 flex h-25 w-full items-center justify-between px-3">
