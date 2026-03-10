@@ -464,7 +464,7 @@ export const CONFIG: Record<"XS" | "SM" | "MD" | "LG" | "XL" | "XXL", Breakpoint
     },
     single: {
       position: { x: 0, y: -0.2, z: 0 },
-      scale: { x: 0.85, y: 0.85, z: 0.85 },
+      scale: { x: 0.95, y: 0.95, z: 0.95 },
       scrollAnimations: {
         position: { y: 0, x: 0 },
       },

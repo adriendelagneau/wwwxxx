@@ -17,22 +17,20 @@ const Page = async ({ params }: PageProps) => {
     | "coffee";
 
   return (
-    <div className="relative z-5 pt-24">
+    <div className="relative z-5 pt-24 w-full min-h-screen">
       <HeroSingle variant={slug} />
-            <div className="h-screen w-full">
-        <Nutriments variant={slug} />
-      </div>
-     <Marquee
+      <Nutriments variant={slug} />
+      <Marquee
         initialDirection={-1}
         speed={1.1}
         sentence="Notre histoire s’inscrit dans le temps avec constance et ambition : chaque année, chaque étape, chaque image révèle une évolution portée par l’audace et la passion."
-        />
+      />
       <Chronos />
-     <Marquee
+      <Marquee
         initialDirection={1}
         speed={1.1}
         sentence="Notre histoire s’inscrit dans le temps avec constance et ambition : chaque année, chaque étape, chaque image révèle une évolution portée par l’audace et la passion."
-        />
+      />
       <MatterMarquee />
     </div>
   );
