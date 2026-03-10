@@ -36,7 +36,6 @@ const MatterMarquee: React.FC = () => {
   const sceneRef = useRef<HTMLDivElement>(null);
   const canRef = useRef<HTMLDivElement>(null);
   const buttonLeftRef = useRef<HTMLButtonElement>(null);
-  const buttonRightRef = useRef<HTMLButtonElement>(null);
 
   const engineRef = useRef<Matter.Engine | null>(null);
   const runnerRef = useRef<Matter.Runner | null>(null);
@@ -215,7 +214,6 @@ const MatterMarquee: React.FC = () => {
         const scene = sceneRef.current;
         const can = canRef.current;
         const btnLeft = buttonLeftRef.current;
-        const btnRight = buttonRightRef.current;
 
         if (!scene || !can) return;
 
@@ -275,7 +273,7 @@ const MatterMarquee: React.FC = () => {
             height,
             wallOptions
           ), // Right
-          Matter.Bodies.rectangle(width / 2, -1000, width, 50, wallOptions), // High Ceiling
+          Matter.Bodies.rectangle(width / 2, -25, width, 50, wallOptions), // Ceiling
         ];
         wallRefsRef.current = walls;
         Matter.World.add(engine.world, walls);
@@ -296,7 +294,7 @@ const MatterMarquee: React.FC = () => {
 
         // BUTTON COLLIDERS
         const buttonBodies: Matter.Body[] = [];
-        [btnLeft, btnRight].forEach((btn) => {
+        [btnLeft].forEach((btn) => {
           if (!btn) return;
           const rect = btn.getBoundingClientRect();
           const body = Matter.Bodies.rectangle(
@@ -368,7 +366,7 @@ const MatterMarquee: React.FC = () => {
           );
 
           // Ceiling - update position and width
-          Matter.Body.setPosition(ceiling, { x: width / 2, y: -1000 });
+          Matter.Body.setPosition(ceiling, { x: width / 2, y: -25 });
           Matter.Body.scale(
             ceiling,
             width / (ceiling.bounds.max.x - ceiling.bounds.min.x),
@@ -400,15 +398,10 @@ const MatterMarquee: React.FC = () => {
           });
         }
 
-        // Update button body positions AND dimensions
-        if (
-          buttonBodiesRef.current.length === 2 &&
-          buttonLeftRef.current &&
-          buttonRightRef.current
-        ) {
-          const [btnLeftBody, btnRightBody] = buttonBodiesRef.current;
+        // Update button body position AND dimensions
+        if (buttonBodiesRef.current.length === 1 && buttonLeftRef.current) {
+          const [btnLeftBody] = buttonBodiesRef.current;
           const btnLeft = buttonLeftRef.current;
-          const btnRight = buttonRightRef.current;
 
           // Left button
           const rectLeft = btnLeft.getBoundingClientRect();
@@ -430,28 +423,6 @@ const MatterMarquee: React.FC = () => {
           Matter.Body.setPosition(btnLeftBody, {
             x: rectLeft.left - sceneRect.left + rectLeft.width / 2,
             y: rectLeft.top - sceneRect.top + rectLeft.height / 2,
-          });
-
-          // Right button
-          const rectRight = btnRight.getBoundingClientRect();
-          const currentRightWidth =
-            btnRightBody.bounds.max.x - btnRightBody.bounds.min.x;
-          const currentRightHeight =
-            btnRightBody.bounds.max.y - btnRightBody.bounds.min.y;
-
-          if (
-            currentRightWidth !== rectRight.width ||
-            currentRightHeight !== rectRight.height
-          ) {
-            Matter.Body.scale(
-              btnRightBody,
-              rectRight.width / currentRightWidth,
-              rectRight.height / currentRightHeight
-            );
-          }
-          Matter.Body.setPosition(btnRightBody, {
-            x: rectRight.left - sceneRect.left + rectRight.width / 2,
-            y: rectRight.top - sceneRect.top + rectRight.height / 2,
           });
         }
       }, 250); // 250ms debounce
@@ -475,22 +446,12 @@ const MatterMarquee: React.FC = () => {
   }, [loaded, fireCannon, getRadiusScale]);
 
   return (
-    <div className="relative z-999 flex h-[120vh] w-full justify-center overflow-hidden bg-transparent">
-      {/* BUTTON LEFT */}
+    <div className="relative z-999 flex h-screen w-full justify-center overflow-hidden bg-transparent">
+      {/* BUTTON */}
       <button
         ref={buttonLeftRef}
         disabled={!loaded}
-        className={`text-secondary bg-primary font-poppins border-secondary absolute top-[40%] left-[10%] z-50 skew-x-3 rounded-md border-2 p-6 text-2xl font-semibold uppercase transition-opacity xl:left-[15%] ${!loaded ? "opacity-50" : "opacity-100"}`}
-        onClick={fireCannon}
-      >
-        {loaded ? "Open can" : "Loading..."}
-      </button>
-
-      {/* BUTTON RIGHT */}
-      <button
-        ref={buttonRightRef}
-        disabled={!loaded}
-        className={`text-secondary bg-primary font-poppins border-secondary absolute top-[40%] right-[10%] z-50 -skew-x-3 rounded-md border-2 p-6 text-2xl font-semibold uppercase transition-opacity xl:right-[15%] ${!loaded ? "opacity-50" : "opacity-100"}`}
+        className={`text-secondary bg-primary font-poppins border-secondary absolute top-[20%] left-3/4 z-50 -translate-x-1/2 skew-x-3 rounded-md border-2 p-6 text-2xl font-semibold uppercase transition-opacity ${!loaded ? "opacity-50" : "opacity-100"}`}
         onClick={fireCannon}
       >
         {loaded ? "Open can" : "Loading..."}
