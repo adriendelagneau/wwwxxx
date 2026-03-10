@@ -19,6 +19,7 @@ const MatterMarquee: React.FC = () => {
   const isFiringRef = useRef(false);
 
   const [loaded, setLoaded] = useState(false);
+  const [canLoaded, setCanLoaded] = useState(false);
 
   const sponsorImages = [
     "/sponsorts/music/t1.png",
@@ -87,7 +88,8 @@ const MatterMarquee: React.FC = () => {
       !engineRef.current ||
       !sceneRef.current ||
       !canRef.current ||
-      !loaded
+      !loaded ||
+      !canLoaded
     )
       return;
 
@@ -99,6 +101,13 @@ const MatterMarquee: React.FC = () => {
 
     const rect = can.getBoundingClientRect();
     const sceneRect = scene.getBoundingClientRect();
+
+    // Ensure we have valid dimensions - wait for can image if not loaded
+    if (rect.width === 0 || rect.height === 0) {
+      console.warn("Can not ready, waiting...");
+      isFiringRef.current = false;
+      return;
+    }
 
     const baseX = rect.left - sceneRect.left + rect.width / 2;
     const baseY = rect.top - sceneRect.top + 10; // Offset slightly from the top of the can
@@ -436,28 +445,28 @@ const MatterMarquee: React.FC = () => {
         renderRef.current?.canvas.remove();
       }
     };
-  }, [loaded, fireCannon]);
+  }, [loaded, canLoaded]);
 
   return (
     <div className="relative z-999 flex h-[120vh] w-full justify-center overflow-hidden bg-transparent">
       {/* BUTTON LEFT */}
       <button
         ref={buttonLeftRef}
-        disabled={!loaded}
-        className={`text-secondary bg-primary font-poppins border-secondary absolute top-[40%] left-[10%] z-50 skew-x-3 rounded-md border-2 p-6 text-2xl font-semibold uppercase transition-opacity xl:left-[15%] ${!loaded ? "opacity-50" : "opacity-100"}`}
+        disabled={!loaded || !canLoaded}
+        className={`text-secondary bg-primary font-poppins border-secondary absolute top-[40%] left-[10%] z-50 skew-x-3 rounded-md border-2 p-6 text-2xl font-semibold uppercase transition-opacity xl:left-[15%] ${!loaded || !canLoaded ? "opacity-50" : "opacity-100"}`}
         onClick={fireCannon}
       >
-        {loaded ? "Open can" : "Loading..."}
+        {!loaded ? "Loading..." : !canLoaded ? "Preparing..." : "Open can"}
       </button>
 
       {/* BUTTON RIGHT */}
       <button
         ref={buttonRightRef}
-        disabled={!loaded}
-        className={`text-secondary bg-primary font-poppins border-secondary absolute top-[40%] right-[10%] z-50 -skew-x-3 rounded-md border-2 p-6 text-2xl font-semibold uppercase transition-opacity xl:right-[15%] ${!loaded ? "opacity-50" : "opacity-100"}`}
+        disabled={!loaded || !canLoaded}
+        className={`text-secondary bg-primary font-poppins border-secondary absolute top-[40%] right-[10%] z-50 -skew-x-3 rounded-md border-2 p-6 text-2xl font-semibold uppercase transition-opacity xl:right-[15%] ${!loaded || !canLoaded ? "opacity-50" : "opacity-100"}`}
         onClick={fireCannon}
       >
-        {loaded ? "Open can" : "Loading..."}
+        {!loaded ? "Loading..." : !canLoaded ? "Preparing..." : "Open can"}
       </button>
 
       {/* MATTER SCENE */}
@@ -477,9 +486,7 @@ const MatterMarquee: React.FC = () => {
           alt="can"
           onLoad={() => {
             // Backup trigger to ensure layout if browser cache was weird
-            if (loaded) {
-              /* initMatter already handles dependencies */
-            }
+            setCanLoaded(true);
           }}
         />
       </div>
