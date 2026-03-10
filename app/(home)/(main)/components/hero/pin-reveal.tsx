@@ -19,23 +19,32 @@ const PinnedReveal: React.FC<PinnedRevealProps> = ({ text, className }) => {
   const letterRefs = useRef<HTMLSpanElement[]>([]);
   letterRefs.current = []; // clear to avoid duplicates in dev mode
 
-  useGSAP(() => {
-    gsap.set(letterRefs.current, { opacity: 0, y: 50 });
+ useGSAP(() => {
+  gsap.set(letterRefs.current, { opacity: 0, y: 50 });
 
-    gsap.to(letterRefs.current, {
-      opacity: 1,
-      y: 0,
-      stagger: 0.05,
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: pinSectionRef.current,
-        start: "top top",
-        end: "bottom top",
-        scrub: true,
-        pin: true,
-      },
-    });
-  }, []);
+  gsap.to(letterRefs.current, {
+    opacity: 1,
+    y: 0,
+    stagger: 0.05,
+    ease: "power2.out",
+    scrollTrigger: {
+      trigger: pinSectionRef.current,
+      start: "top top",
+      end: "bottom top",
+      scrub: true,
+      pin: true,
+      invalidateOnRefresh: true,
+    },
+  });
+
+  const handleResize = () => {
+    ScrollTrigger.refresh();
+  };
+
+  window.addEventListener("resize", handleResize);
+
+  return () => window.removeEventListener("resize", handleResize);
+}, []);
 
   return (
     <section
