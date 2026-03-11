@@ -4,6 +4,7 @@ import { View } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { Suspense, useEffect, useState } from "react";
 import Loader from "@/components/Loader";
+import Background from "@/components/shaders/Background";
 
 const ViewCanvas = () => {
   const [ready, setReady] = useState(false);
@@ -33,6 +34,7 @@ const ViewCanvas = () => {
       }}
     >
       <Suspense fallback={<Loader />}>
+        <Background />
         <View.Port />
       </Suspense>
     </Canvas>
