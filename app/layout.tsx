@@ -8,6 +8,7 @@ import Footer from "@/components/layout/Footer";
 import ViewCanvas from "@/components/cans/ViewCanvas";
 import { ResponsiveProvider } from "@/components/providers/ResponsiveProvider";
 import Social from "@/components/social/Social";
+import BackgroundCanvas from "@/components/layout/bg/BackgroundCanvas";
 
 const creamCake = localFont({
   variable: "--font-cream-cake",
@@ -106,7 +107,8 @@ export default function RootLayout({
       <body
         className={`${poppins.variable} ${creamCake.variable} scrollbar scrollbar-none bg-primary text-secondary overflow-x-hidden antialiased`}
       >
-        <ViewCanvas />
+     
+        <BackgroundCanvas />
         <ResponsiveProvider />
         <SmoothScrollProvider>
           <main className="bg-primary relative">{children}</main>

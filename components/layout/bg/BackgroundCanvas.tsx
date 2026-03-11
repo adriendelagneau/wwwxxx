@@ -1,9 +1,9 @@
 "use client";
 
-
 import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
 import ShaderBackground from "./shader-background";
+import Loader from "@/components/Loader";
 
 export default function BackgroundCanvas() {
   return (
@@ -26,7 +26,7 @@ export default function BackgroundCanvas() {
         fov: 30,
       }}
     >
-      <Suspense fallback={null}>
+      <Suspense fallback={<Loader />}>
         <ShaderBackground />
       </Suspense>
     </Canvas>
