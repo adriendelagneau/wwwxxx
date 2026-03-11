@@ -2,23 +2,24 @@
 
 import { Html } from "@react-three/drei";
 import { useAnimationStore } from "@/store/useAnimationStore";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import * as THREE from "three";
 
 export default function Loader() {
   // Use THREE.DefaultLoadingManager to track ALL loading across ALL Canvases
   const [progress, setProgress] = useState(0);
   const [active, setActive] = useState(false);
-  const [loaded, setLoaded] = useState(0);
-  const [total, setTotal] = useState(0);
+
+  // Use refs to track maximum progress (never go backwards)
+  const maxProgressRef = useRef(0);
+  const hasStartedRef = useRef(false);
 
   useEffect(() => {
     const manager = THREE.DefaultLoadingManager;
 
     const onStart = (url: string, itemsLoaded: number, itemsTotal: number) => {
       setActive(true);
-      setLoaded(itemsLoaded);
-      setTotal(itemsTotal);
+      hasStartedRef.current = true;
     };
 
     const onProgress = (
@@ -26,18 +27,23 @@ export default function Loader() {
       loadedItems: number,
       totalItems: number
     ) => {
-      setLoaded(loadedItems);
-      setTotal(totalItems);
       // Calculate percentage
       const percent = totalItems > 0 ? (loadedItems / totalItems) * 100 : 0;
-      setProgress(percent);
+
+      // Only update if this is higher than our max (never go backwards)
+      if (percent > maxProgressRef.current) {
+        maxProgressRef.current = percent;
+        setProgress(percent);
+      }
     };
 
     const onLoad = () => {
-      setActive(false);
-      setProgress(100);
-      setLoaded(1);
-      setTotal(1);
+      // Even if one canvas finishes, we might have others still loading
+      // Only mark complete if we've seen significant progress
+      if (maxProgressRef.current >= 99) {
+        setProgress(100);
+        setActive(false);
+      }
     };
 
     const onError = (url: string) => {
@@ -53,10 +59,11 @@ export default function Loader() {
     if ((manager as unknown as { itemsTotal: number }).itemsTotal > 0) {
       setProgress(100);
       setActive(false);
+      maxProgressRef.current = 100;
     }
 
     return () => {
-      // Reset handlers to no-op functions instead of undefined
+      // Reset handlers
       manager.onStart = () => {};
       manager.onProgress = () => {};
       manager.onLoad = () => {};
@@ -64,11 +71,11 @@ export default function Loader() {
     };
   }, []);
 
-  // Log for debugging (can be removed in production)
-  // console.log("Loader:", active, progress, loaded, total);
+  // Debug log
+  console.log("Loader:", progress, active);
 
   const introPlayed = useAnimationStore((state) => state.introPlayed);
-  const isReady = progress === 100 || introPlayed;
+  const isReady = progress >= 100 || introPlayed;
 
   return (
     <Html
@@ -95,7 +102,7 @@ export default function Loader() {
               width: `${progress}%`,
               height: "100%",
               background: "#f5ddd2",
-              transition: "width 0.2s ease-out",
+              transition: "width 0.3s ease-out",
             }}
           />
         </div>

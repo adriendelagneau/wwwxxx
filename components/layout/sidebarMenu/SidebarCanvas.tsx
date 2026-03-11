@@ -2,6 +2,7 @@
 
 import { Canvas } from "@react-three/fiber";
 import { Suspense, lazy, useState, useEffect, useMemo } from "react";
+import Loader from "@/components/Loader";
 
 // Lazy load the sidebar scene
 const SidebarScene = lazy(() => import("./SidebarScene"));
@@ -22,7 +23,7 @@ export default function SidebarCanvas() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setHasLoaded(true);
-    }, 1500);
+    }, 100);
     return () => clearTimeout(timer);
   }, []);
 
@@ -48,7 +49,7 @@ export default function SidebarCanvas() {
 
   return (
     <Canvas {...canvasConfig}>
-      <Suspense fallback={null}>
+      <Suspense fallback={<Loader />}>
         <SidebarScene />
       </Suspense>
     </Canvas>
